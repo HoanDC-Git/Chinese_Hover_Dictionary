@@ -1,0 +1,28 @@
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Extension packaging
+*.zip
+*.crx
+*.pem
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / JS
+node_modules/
+npm-debug.log
+
+# Python (nếu có sử dụng trong thư mục scripts/)
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
