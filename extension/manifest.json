@@ -1,16 +1,18 @@
 {
   "manifest_version": 3,
   "name": "Chinese Hover Dictionary",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Di chuột qua chữ Hán để tra nghĩa (Việt, Anh), Pinyin và phát âm Edge TTS.",
-  "permissions": [
-    "storage",
-    "declarativeNetRequest",
-    "offscreen"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "chinese-hover-dictionary@extension.local",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "permissions": ["storage", "declarativeNetRequest", "offscreen"],
+  "host_permissions": ["<all_urls>"],
   "commands": {
     "open_options": {
       "suggested_key": {
@@ -63,7 +65,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "data/dictionary.json",
+        "data/dictionary.dat",
         "fonts/FandolKai-Regular.otf",
         "icons/success_bg.png"
       ],

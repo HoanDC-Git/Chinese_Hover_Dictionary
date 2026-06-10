@@ -25,7 +25,7 @@ function updateUI(active) {
 // Load dictionary from extension resources in background (CSP safe)
 async function loadDictionary() {
   if (dictionary) return dictionary;
-  const url = chrome.runtime.getURL("data/dictionary.json");
+  const url = chrome.runtime.getURL("data/dictionary.dat");
   try {
     const response = await fetch(url);
     dictionary = await response.json();
@@ -69,7 +69,7 @@ async function initIndexedDB() {
 
     if (count === 0) {
       console.log("IndexedDB is empty. Populating 95k words...");
-      const url = chrome.runtime.getURL("data/dictionary.json");
+      const url = chrome.runtime.getURL("data/dictionary.dat");
       const response = await fetch(url);
       const jsonDict = await response.json();
       
