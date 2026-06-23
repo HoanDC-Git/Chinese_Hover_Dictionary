@@ -16,14 +16,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #121212; /* Pure dark gray */
-    --card-bg: #1e1e1e; /* Dark charcoal card */
+    --bg-color: #1a1d1e; /* Darker than card */
+    --card-bg: #242728; /* rgba(36, 39, 40) */
     --border-color: rgba(255, 255, 255, 0.08);
     --text-main: #b0b0b0; /* Dim white text to avoid glare */
     --text-sub: #757575; /* Dim grey description */
     --text-title: #e0e0e0;
     --accent-color: #3b82f6;
-    --input-bg: #121212;
+    --input-bg: #1a1d1e;
     --input-border: rgba(255, 255, 255, 0.15);
     --tip-bg: rgba(56, 189, 248, 0.08);
     --tip-border: rgba(56, 189, 248, 0.2);

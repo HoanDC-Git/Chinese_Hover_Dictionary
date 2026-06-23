@@ -54,7 +54,7 @@ function renderGuidePanelContent() {
     `;
   }
   const isMac = navigator.userAgent.toLowerCase().includes("mac");
-  const optionsKeyText = isMac ? "Option ⌥ + C" : "Alt + C";
+  const optionsKeyText = isMac ? "Option ⌥ + W" : "Alt + W";
 
   guideElement.innerHTML = `
     <div class="zh-guide-title">Tiện ích Tra Từ Chữ Hán</div>

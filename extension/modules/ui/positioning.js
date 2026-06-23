@@ -23,18 +23,21 @@ function positionPopup() {
     const charLeft = rect.left;
     const charRight = rect.right;
 
-    const offset = 4; // Distance between popup and character top/bottom edge
+    const offset = 4; // Giữ nguyên khoảng cách cũ là 4px
 
     // Check if popup fits below character bottom in the viewport
     const viewportBottom = window.innerHeight;
-    const fitBelow = rect.bottom + offset + popupHeight <= viewportBottom - 10;
+    const fitBelow = charBottom + offset + popupHeight <= viewportBottom - 10;
+    let tailClass = "";
 
     if (fitBelow) {
       // Normal: Top edge of popup is slightly below bottom edge of character
       top = charBottom + offset;
+      tailClass = "zh-tail-top-";
     } else {
       // Near viewport bottom: Bottom edge of popup is slightly above top edge of character
       top = charTop - offset - popupHeight;
+      tailClass = "zh-tail-bottom-";
     }
 
     // Position horizontally: prefer right, fallback to left if it overflows viewport right margin
@@ -42,14 +45,31 @@ function positionPopup() {
     if (viewportRight + 10 + popupWidth <= window.innerWidth) {
       // Place completely to the right of the character
       left = charRight - 8;
+      tailClass += "left";
     } else {
       // Place completely to the left of the character
-      left = charLeft - popupWidth - 4;
+      left = charLeft - popupWidth + 8;
+      tailClass += "right";
     }
+
+    // Clean up old tail classes
+    popupElement.classList.remove(
+      "zh-tail-top-left",
+      "zh-tail-top-right",
+      "zh-tail-bottom-left",
+      "zh-tail-bottom-right",
+    );
+    popupElement.classList.add(tailClass);
   } else {
     // Fallback to mouse coordinates if character rect is not available
     left = targetX + 15;
     top = targetY - popupHeight / 2;
+    popupElement.classList.remove(
+      "zh-tail-top-left",
+      "zh-tail-top-right",
+      "zh-tail-bottom-left",
+      "zh-tail-bottom-right",
+    );
   }
 
   // Prevent popup from extending beyond viewport left/right edges
@@ -80,4 +100,3 @@ function positionPopup() {
     document.activeElement.blur();
   }
 }
-

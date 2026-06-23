@@ -191,15 +191,72 @@ async function speakNativeFallback(text) {
       utterance.voice = zhVoice;
     }
     
-    // We resolve as soon as we queue the speech so the loading spinner stops
+    utterance.onend = resolve;
+    utterance.onerror = resolve;
+    
+    if (currentAudioResolve) {
+      currentAudioResolve();
+    }
+    currentAudioResolve = resolve;
+    
+    utterance.onstart = () => {
+      chrome.runtime.sendMessage({ action: "audio_started" });
+    };
+    
     window.speechSynthesis.speak(utterance);
-    resolve();
   });
+}
+
+let preloadedAudioBlobUrl = null;
+let preloadedText = null;
+let currentAudioResolve = null;
+
+async function preloadText(text) {
+  if (text === preloadedText) return;
+  try {
+    const audioChunks = await connectAndSpeak(text);
+    const blob = new Blob(audioChunks, { type: "audio/mpeg" });
+    if (preloadedAudioBlobUrl) URL.revokeObjectURL(preloadedAudioBlobUrl);
+    preloadedAudioBlobUrl = URL.createObjectURL(blob);
+    preloadedText = text;
+    console.log("Preloaded TTS for:", text);
+  } catch (e) {
+    console.warn("Preload failed", e);
+  }
 }
 
 // Function to synthesize and play text
 async function playText(text) {
   console.log("playText called with:", text);
+  
+  if (text === preloadedText && preloadedAudioBlobUrl) {
+    console.log("Playing preloaded audio...");
+    if (currentAudio) {
+      try { currentAudio.pause(); } catch (e) {}
+    }
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    
+    if (currentAudioResolve) {
+      currentAudioResolve();
+      currentAudioResolve = null;
+    }
+    
+    currentAudio = new Audio(preloadedAudioBlobUrl);
+    await currentAudio.play();
+    chrome.runtime.sendMessage({ action: "audio_started" });
+    await new Promise(resolve => {
+      currentAudioResolve = resolve;
+      currentAudio.onended = () => {
+        if (currentAudioResolve === resolve) {
+          currentAudioResolve();
+          currentAudioResolve = null;
+        }
+      };
+      currentAudio.onerror = currentAudio.onended;
+    });
+    return;
+  }
+  
   // Cancel previous WebSocket if any
   if (currentWs) {
     try {
@@ -216,6 +273,11 @@ async function playText(text) {
       currentAudio.pause();
     } catch (e) {}
     currentAudio = null;
+  }
+  
+  if (currentAudioResolve) {
+    currentAudioResolve();
+    currentAudioResolve = null;
   }
   
   // Also cancel native speech if any
@@ -239,6 +301,18 @@ async function playText(text) {
     console.log("Playing audio...");
     await currentAudio.play();
     console.log("Audio started playing successfully.");
+    chrome.runtime.sendMessage({ action: "audio_started" });
+    
+    await new Promise(resolve => {
+      currentAudioResolve = resolve;
+      currentAudio.onended = () => {
+        if (currentAudioResolve === resolve) {
+          currentAudioResolve();
+          currentAudioResolve = null;
+        }
+      };
+      currentAudio.onerror = currentAudio.onended;
+    });
   } catch (err) {
     if (err.message === "Aborted") {
       console.log("Speech request aborted due to a new incoming request.");
@@ -263,5 +337,57 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ success: false, error: err.message });
       });
     return true; // Keeps the message channel open for async response
+  }
+  
+  if (message.action === "preloadTTS_offscreen") {
+    preloadText(message.text);
+    sendResponse({ success: true });
+    return false;
+  }
+  
+  if (message.action === "pause_audio_offscreen") {
+    if (currentAudio && !currentAudio.paused) currentAudio.pause();
+    if (window.speechSynthesis) window.speechSynthesis.pause();
+    sendResponse({ success: true });
+    return false;
+  }
+  
+  if (message.action === "resume_audio_offscreen") {
+    if (currentAudio && currentAudio.paused) currentAudio.play();
+    if (window.speechSynthesis) window.speechSynthesis.resume();
+    sendResponse({ success: true });
+    return false;
+  }
+  
+  if (message.action === "seek_audio_offscreen") {
+    if (currentAudio) {
+      currentAudio.currentTime = Math.max(0, currentAudio.currentTime + message.seconds);
+    }
+    sendResponse({ success: true });
+    return false;
+  }
+  
+  if (message.action === "stop_audio_offscreen") {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    
+    if (currentAudio && !currentAudio.paused) {
+      const fadeOut = setInterval(() => {
+        if (!currentAudio) {
+          clearInterval(fadeOut);
+          return;
+        }
+        if (currentAudio.volume > 0.1) {
+          currentAudio.volume -= 0.1;
+        } else {
+          clearInterval(fadeOut);
+          currentAudio.pause();
+          currentAudio.volume = 1.0;
+        }
+      }, 50);
+    } else if (currentAudio) {
+      currentAudio.pause();
+    }
+    sendResponse({ success: true });
+    return false;
   }
 });

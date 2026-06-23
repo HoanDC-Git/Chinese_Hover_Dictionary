@@ -104,6 +104,17 @@ function bindEvents() {
     });
   }
 
+  // Bind Selection Translate switch change
+  const selectionCheckbox = document.getElementById("enableSelectionTranslate");
+  if (selectionCheckbox) {
+    selectionCheckbox.addEventListener("change", async () => {
+      await chrome.storage.local.set({
+        enableSelectionTranslate: selectionCheckbox.checked,
+      });
+      showToast();
+    });
+  }
+
   // Bind key capture events on regular key inputs
   keys.forEach((k) => {
     const input = document.getElementById(k);
@@ -265,21 +276,9 @@ function bindEvents() {
       });
     }
 
-    // --- Theme Picker and Mockup Live Updates ---
+  // --- Theme Picker and Mockup Live Updates ---
   const fontSelect = document.getElementById("fontFamily");
   const sizeSelect = document.getElementById("fontSize");
-
-  function updateMockups() {
-    if (!fontSelect || !sizeSelect) return;
-    const font = fontSelect.value;
-    const size = sizeSelect.value;
-    document.querySelectorAll(".theme-mockup").forEach((m) => {
-      m.className = `theme-mockup ${m.classList.contains("light-mockup") ? "light-mockup" : "dark-mockup"} size-${size}`;
-      m.querySelectorAll(".mockup-header").forEach((header) => {
-        header.className = `mockup-header ${font}`;
-      });
-    });
-  }
 
   if (fontSelect) fontSelect.addEventListener("change", updateMockups);
   if (sizeSelect) sizeSelect.addEventListener("change", updateMockups);
@@ -296,4 +295,19 @@ function bindEvents() {
   });
 
   updateMockups();
+}
+
+// Global update mockups function so main.js can call it after loading settings
+function updateMockups() {
+  const fontSelect = document.getElementById("fontFamily");
+  const sizeSelect = document.getElementById("fontSize");
+  if (!fontSelect || !sizeSelect) return;
+  const font = fontSelect.value;
+  const size = sizeSelect.value;
+  document.querySelectorAll(".theme-mockup").forEach((m) => {
+    m.className = `theme-mockup ${m.classList.contains("light-mockup") ? "light-mockup" : "dark-mockup"} size-${size}`;
+    m.querySelectorAll(".mockup-header").forEach((header) => {
+      header.className = `mockup-header ${font}`;
+    });
+  });
 }

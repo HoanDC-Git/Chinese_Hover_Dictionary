@@ -1,0 +1,96 @@
+/* Report Modal Overlay */
+.zh-report-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.zh-report-overlay.zh-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Box */
+.zh-report-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 700px;
+  height: 800px;
+  max-width: 95vw;
+  max-height: 95vh;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+  transform: scale(0.95);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.zh-report-overlay.zh-visible .zh-report-modal { transform: scale(1); }
+
+#zh-report-form-view { display: flex; flex-direction: column; height: 100%; }
+
+/* Dark Theme overrides for Modal */
+.zh-report-overlay.zh-theme-dark .zh-report-modal {
+  background: #1b1b1d;
+  color: #f8fafc;
+  border: 1px solid #333333;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.zh-report-header { padding: 16px 20px; font-weight: 600; font-size: 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; color: #0f172a; }
+.zh-report-overlay.zh-theme-dark .zh-report-header { border-bottom-color: #334155; color: #f8fafc; }
+
+.zh-report-close-btn { background: none; border: none; font-size: 20px; line-height: 1; cursor: pointer; color: #64748b; padding: 0 4px; }
+.zh-report-close-btn:hover { color: #f43f5e; }
+
+.zh-report-body { padding: 20px; font-size: 14px; color: #334155; flex: 1; min-height: 0; overflow-y: auto; }
+.zh-report-overlay.zh-theme-dark .zh-report-body { color: #cbd5e1; }
+.zh-report-body p { margin: 0 0 16px 0; line-height: 1.5; }
+
+.zh-report-options { display: flex; flex-direction: column; gap: 12px; }
+.zh-report-options label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; }
+.zh-report-options input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none; width: 16px; height: 16px; margin: 0;
+  background-color: #ffffff !important; border: 1px solid #94a3b8; border-radius: 3px;
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.zh-report-options input[type="checkbox"]:checked { background-color: #38bdf8 !important; border-color: #38bdf8; }
+.zh-report-options input[type="checkbox"]:checked::after {
+  content: ""; width: 4px; height: 8px; border: solid white; border-width: 0 2px 2px 0;
+  transform: rotate(45deg); margin-top: -2px;
+}
+
+.zh-report-textarea-container { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.zh-report-textarea-container.expanded { grid-template-rows: 1fr; }
+.zh-report-textarea-wrapper { overflow: hidden; }
+.zh-report-textarea { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; min-height: 60px; box-sizing: border-box; margin-top: 4px; background: #ffffff; color: #0f172a; }
+.zh-report-textarea:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
+.zh-report-overlay.zh-theme-dark .zh-report-textarea { background: #0f172a; border-color: #334155; color: #f8fafc; }
+
+.zh-report-footer { padding: 16px 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 12px; background: #f8fafc; }
+.zh-report-overlay.zh-theme-dark .zh-report-footer { border-top-color: #334155; background: #0f172a; }
+
+.zh-report-btn { padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; }
+.zh-report-btn:hover { background: #f1f5f9; }
+.zh-report-overlay.zh-theme-dark .zh-report-btn { background: #1e293b; border-color: #475569; color: #cbd5e1; }
+.zh-report-overlay.zh-theme-dark .zh-report-btn:hover { background: #334155; }
+
+.zh-report-submit-btn { background: #38bdf8; border-color: #38bdf8; color: #ffffff; }
+.zh-report-submit-btn:hover { background: #0284c7; }
+.zh-report-overlay.zh-theme-dark .zh-report-submit-btn { background: #0284c7; border-color: #0284c7; }
+.zh-report-overlay.zh-theme-dark .zh-report-submit-btn:hover { background: #0369a1; }
+.zh-report-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.zh-report-status { margin-top: 16px; font-size: 13px; font-weight: 500; }
+.zh-status-success { color: #10b981; }
+.zh-status-error { color: #ef4444; }

@@ -1,9 +1,11 @@
 // Load configurations from storage
 async function loadSettings() {
   const allKeys = [
+    "theme",
     "toggleActiveModifier",
     "enableNudge",
     "enableQuickActions",
+    "enableSelectionTranslate",
     ...keys,
     ...dropdowns,
   ];
@@ -19,6 +21,12 @@ async function loadSettings() {
   const quickCheckbox = document.getElementById("enableQuickActions");
   if (quickCheckbox) {
     quickCheckbox.checked = data["enableQuickActions"] !== false;
+  }
+
+  // Set enableSelectionTranslate switch state
+  const selectionCheckbox = document.getElementById("enableSelectionTranslate");
+  if (selectionCheckbox) {
+    selectionCheckbox.checked = data["enableSelectionTranslate"] !== false;
   }
 
   // Set toggleActiveModifier input value

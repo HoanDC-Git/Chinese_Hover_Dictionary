@@ -44,9 +44,9 @@
         </svg>
         <div>
           <b>Hướng dẫn nhanh:</b><br />
-          • Khi popup dịch đang hiển thị, bạn có thể dùng các phím
-          <b>W, A, S, D</b> để di chuyển popup, <b>C</b> để copy, hoặc
-          <b>1, 2, 3, 4</b> để nghe phát âm các thẻ tương ứng.<br />
+          • Khi popup đang hiển thị, bạn có thể dùng phím <b>C</b> để sao chép
+          chữ, <b>1, 2, 3, 4</b> để nghe phát âm các thẻ tương ứng hoặc
+          <b>W, A, S, D</b> để di chuyển popup.<br />
           • <b>Xem nét viết:</b> Trỏ chuột vào một Hán tự trong popup, hoạt hình
           vẽ nét sẽ xuất hiện.<br />
         </div>
@@ -168,13 +168,6 @@
         </div>
       </div>
 
-      <div
-        style="
-          height: 1px;
-          background: var(--border-color);
-          margin: 24px 0 12px 0;
-        "
-      ></div>
       <div class="key-row">
         <div class="key-info">
           <div
@@ -282,13 +275,26 @@
         </div>
       </div>
 
+      <div class="section-title">
+        <span>Tính năng bôi đen dịch câu</span>
+        <label class="switch">
+          <input type="checkbox" id="enableSelectionTranslate" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="key-row">
+        <div class="key-info">
+          <div class="key-desc">Hiện biểu tượng dịch nhanh khi bôi đen một câu hoặc cụm từ tiếng Trung.</div>
+        </div>
+      </div>
+
       <div class="section-title">Hệ Thống</div>
       <div class="key-row">
         <div class="key-info">
           <div class="key-label">Tốc độ xử lý</div>
-          <div class="key-desc">
-            Chuyển sang "Nhanh" nếu máy bạn yếu hoặc mở nhiều tab. Chọn "Siêu
-            nhanh" để tăng tốc độ tra từ.
+          <div class="key-desc" style="line-height: 1.5">
+            Chuyển sang "Siêu nhanh" để tăng tốc độ tra từ.<br />
+            Chọn "Nhanh" nếu cấu hình máy bạn yếu.
           </div>
         </div>
         <div class="key-input-container">

@@ -1,0 +1,171 @@
+/* Custom Font Families Configuration */
+.zh-font-system .zh-hover-word { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; }
+.zh-font-fandolkailocal .zh-hover-word { font-family: "FandolKaiLocal", "FandolKai", FandolKai, "KaiTi", KaiTi, "STKaiti", "Kaiti SC", serif !important; }
+.zh-font-kaiti .zh-hover-word { font-family: "KaiTi", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", serif !important; }
+.zh-font-serif .zh-hover-word { font-family: "SimSun", "Songti SC", "Songti TC", serif !important; }
+.zh-font-sans .zh-hover-word { font-family: "SimHei", "Heiti SC", "Heiti TC", sans-serif !important; }
+
+/* Font Size Classes */
+.zh-size-small { width: 300px !important; max-width: 320px !important; max-height: 280px !important; }
+.zh-size-small .zh-hover-word { font-size: 24px !important; }
+.zh-size-small .zh-hover-pinyin { font-size: 13px !important; }
+.zh-size-small .zh-hover-pos { font-size: 10px !important; padding: 1px 5px !important; }
+.zh-size-small .zh-hover-hsk { font-size: 9px !important; padding: 1px 5px !important; }
+.zh-size-small .zh-hover-speaker { padding: 0 6px !important; border-radius: 11px !important; height: 22px !important; gap: 3px !important; width: auto !important; }
+.zh-size-small .zh-hover-speaker svg { width: 12px !important; height: 12px !important; }
+.zh-size-small .zh-hover-speaker-key { font-size: 9px !important; }
+.zh-size-small .zh-hover-meanings { font-size: 13px !important; gap: 3px !important; }
+.zh-size-small .zh-hover-lang-label { font-size: 9px !important; padding: 1px 3px !important; min-width: 14px !important; line-height: 1 !important; }
+
+.zh-size-medium { width: 350px !important; max-width: 380px !important; max-height: 320px !important; }
+.zh-size-medium .zh-hover-word { font-size: 28px !important; }
+.zh-size-medium .zh-hover-pinyin { font-size: 16px !important; }
+.zh-size-medium .zh-hover-pos { font-size: 16px !important; padding: 2px 6px !important; }
+.zh-size-medium .zh-hover-hsk { font-size: 16px !important; padding: 2px 6px !important; }
+.zh-size-medium .zh-hover-speaker { padding: 0 8px !important; border-radius: 14px !important; height: 28px !important; gap: 4px !important; width: auto !important; }
+.zh-size-medium .zh-hover-speaker svg { width: 16px !important; height: 16px !important; }
+.zh-size-medium .zh-hover-speaker-key { font-size: 12px !important; }
+.zh-size-medium .zh-hover-meanings { font-size: 16px !important; gap: 4px !important; }
+.zh-size-medium .zh-hover-lang-label { font-size: 16px !important; padding: 2px 5px !important; min-width: 24px !important; line-height: 1.2 !important; }
+
+.zh-size-large { width: 400px !important; max-width: 420px !important; max-height: 360px !important; }
+.zh-size-large .zh-hover-word { font-size: 32px !important; }
+.zh-size-large .zh-hover-pinyin { font-size: 19px !important; }
+.zh-size-large .zh-hover-pos { font-size: 19px !important; padding: 3px 8px !important; }
+.zh-size-large .zh-hover-hsk { font-size: 19px !important; padding: 3px 8px !important; }
+.zh-size-large .zh-hover-speaker { padding: 0 10px !important; border-radius: 16px !important; height: 32px !important; gap: 5px !important; width: auto !important; }
+.zh-size-large .zh-hover-speaker svg { width: 20px !important; height: 20px !important; }
+.zh-size-large .zh-hover-speaker-key { font-size: 14px !important; }
+.zh-size-large .zh-hover-meanings { font-size: 19px !important; gap: 5px !important; }
+.zh-size-large .zh-hover-lang-label { font-size: 19px !important; padding: 3px 6px !important; min-width: 28px !important; line-height: 1.3 !important; }
+
+/* Tăng nhẹ cỡ chữ cho font FandolKai vì font này mặc định hiển thị nhỏ hơn */
+.zh-font-fandolkailocal.zh-size-small .zh-hover-word { font-size: 28px !important; }
+.zh-font-fandolkailocal.zh-size-medium .zh-hover-word { font-size: 32px !important; }
+.zh-font-fandolkailocal.zh-size-large .zh-hover-word { font-size: 36px !important; }
+
+/* Global Highlight Overlay */
+.zh-highlight-overlay {
+  position: fixed !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+  border-bottom: 2px solid #22c55e !important;
+  pointer-events: none !important;
+  z-index: 2147483646 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 4px rgba(34, 197, 94, 0.2) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  transform: none !important;
+}
+
+/* Copied Toast Notification */
+.zh-copied-toast {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #22c55e;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  z-index: 2147483647;
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.zh-copied-toast.zh-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Loading Spinner */
+.zh-spinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: zh-spinner-spin 1s linear infinite;
+  box-shadow: 
+    0 -18px 0 0 rgba(220, 38, 38, 1), 13px -13px 0 0 rgba(220, 38, 38, 0.8), 18px 0 0 0 rgba(220, 38, 38, 0.6), 13px 13px 0 0 rgba(220, 38, 38, 0.4),
+    0 18px 0 0 rgba(220, 38, 38, 0.2), -13px 13px 0 0 rgba(220, 38, 38, 0.1), -18px 0 0 0 rgba(220, 38, 38, 0.1), -13px -13px 0 0 rgba(220, 38, 38, 0.1);
+  margin: 18px auto;
+}
+@keyframes zh-spinner-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Audio Loader */
+.zh-audio-loader {
+  width: 30px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, currentColor 90%, #0000);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: zh-l3 1s infinite linear;
+}
+@keyframes zh-l3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+/* Custom Scrollbar (5px, visible on hover) */
+.zh-custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.zh-custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.zh-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 3px;
+}
+.zh-custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+}
+.zh-theme-dark .zh-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+}
+.zh-theme-dark .zh-custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects for utility buttons */
+.zh-copy-btn {
+  transition: all 0.2s ease;
+}
+.zh-copy-btn:hover {
+  background: rgba(148, 163, 184, 0.15) !important;
+  transform: scale(1.05);
+}
+.zh-copy-btn:active {
+  transform: scale(0.95);
+}
+.zh-theme-dark .zh-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.zh-sentence-tts {
+  transition: all 0.2s ease;
+}
+.zh-sentence-tts:hover {
+  color: #2563eb !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+  transform: scale(1.05);
+}
+.zh-sentence-tts:active {
+  transform: scale(0.95);
+}
+.zh-theme-dark .zh-sentence-tts:hover {
+  color: #60a5fa !important;
+  background: rgba(96, 165, 250, 0.15) !important;
+}

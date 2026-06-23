@@ -23,7 +23,7 @@ document.addEventListener("mousemove", (e) => {
     throttleTimer = setTimeout(() => {
       throttleTimer = null;
       onMouseMoveThrottled();
-    }, 100); // 100ms throttle for fast response and low CPU overhead
+    }, 200); // 200ms throttle for fast response and low CPU overhead
   }
 });
 
@@ -121,6 +121,20 @@ window.addEventListener("keydown", (e) => {
 
 // Handle throttled mouse move events
 function onMouseMoveThrottled() {
+  if (!active) return;
+  
+  const selection = window.getSelection();
+  const isTextSelected = selection && selection.toString().trim().length > 0;
+  const isDragging = lastEvent && lastEvent.buttons > 0;
+  const isSentenceModalOpen = document.querySelector(".zh-report-overlay.zh-visible") !== null;
+  const isDecompPanelOpen = document.querySelector(".zh-decomposition-panel") !== null;
+  
+  // Hover, popup của hover và highlight sẽ không hoạt động khi đang bôi đen (kéo chuột), có text được chọn, cửa sổ modal đang mở, hoặc panel chiết tự đang mở
+  if (isDragging || isTextSelected || isSentenceModalOpen || isDecompPanelOpen) {
+    startHideTimer(mouseX, mouseY);
+    return;
+  }
+
   // Check if mouse is hovering over the popup itself
   if (
     popupElement &&
@@ -129,9 +143,15 @@ function onMouseMoveThrottled() {
     return;
   }
 
+
   // Check if mouse is hovering over input, textarea, or contenteditable fields
   const elementUnderMouse = getElementUnderMousePiercingShadow(mouseX, mouseY);
   if (elementUnderMouse) {
+    if (elementUnderMouse.closest(".zh-sentence-popup") || elementUnderMouse.closest(".zh-report-overlay")) {
+      startHideTimer(mouseX, mouseY);
+      return;
+    }
+    
     const tagName = elementUnderMouse.tagName;
     if (
       tagName === "INPUT" ||
@@ -334,3 +354,71 @@ function isTypingInInput() {
     activeEl.closest?.("[contenteditable]")
   );
 }
+
+// Bind selection events
+document.addEventListener("mouseup", (e) => {
+  if (typeof handleMouseUpSelection === "function") {
+    // Add a slight delay to allow double-click selection to resolve
+    setTimeout(() => handleMouseUpSelection(e), 50);
+  }
+});
+document.addEventListener("selectionchange", () => {
+  const selection = window.getSelection();
+  
+  // 1. Hide normal dictionary popup immediately when user starts dragging/selecting
+  if (selection && !selection.isCollapsed) {
+    if (popupElement && popupElement.classList.contains("zh-visible")) {
+      popupElement.classList.remove("zh-visible");
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+    }
+  }
+
+  // 2. Hide selection icon if selection is lost
+  if (typeof hideSelectionIcon === "function") {
+    if (!selection || selection.isCollapsed) {
+      hideSelectionIcon();
+    }
+  }
+});
+
+// Hide popups and highlights when scrolling (works for both window scroll and inner element scroll)
+window.addEventListener("scroll", (e) => {
+  const target = e.target;
+  
+  // Ignore scroll events originating from inside our popups
+  if (target && target.nodeType === 1) {
+    if (target.closest(".zh-hover-popup") || 
+        target.closest(".zh-sentence-popup") || 
+        target.closest(".zh-report-overlay") || 
+        target.closest(".zh-stroke-popup") || 
+        target.closest(".zh-decomposition-panel") ||
+        target.closest(".zh-guide-overlay")) {
+      return;
+    }
+  }
+
+  if (typeof hidePopup === "function") {
+    hidePopup();
+  }
+  if (window.zhDecompositionPopup) {
+    window.zhDecompositionPopup.hidePanel();
+  }
+}, { passive: true, capture: true });
+
+// Click event for opening Decomposition Panel
+document.addEventListener("click", (e) => {
+  const charEl = e.target.closest('.zh-char');
+  if (charEl) {
+    const char = charEl.getAttribute('data-char');
+    if (char && window.zhDecompositionPopup) {
+      // Find the parent popup to use as reference for positioning
+      const popupEl = charEl.closest('.zh-hover-popup') || charEl.closest('.zh-sentence-popup') || charEl.closest('.zh-decomposition-panel');
+      if (popupEl) {
+        window.zhDecompositionPopup.showPanel(char, popupEl);
+      }
+    }
+  }
+});

@@ -29,6 +29,7 @@ async function loadDictionary() {
   try {
     const response = await fetch(url);
     dictionary = await response.json();
+
     console.log("Dictionary loaded and cached in background service worker.");
     return dictionary;
   } catch (err) {
@@ -39,8 +40,11 @@ async function loadDictionary() {
 
 // IndexedDB Database logic for "db" memoryMode
 const DB_NAME = "ChineseDictionaryDB";
-const DB_VERSION = 1;
+const DB_VERSION = 5; // Tăng version để lưu decomposition và variants
 const STORE_NAME = "words";
+const STORE_RADICALS = "radicals";
+const STORE_SPECIALS = "specials";
+const STORE_DECOMPOSITION = "decomposition";
 
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -51,6 +55,23 @@ function openDB() {
       const db = request.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         db.createObjectStore(STORE_NAME, { keyPath: "word" });
+      } else {
+        request.transaction.objectStore(STORE_NAME).clear();
+      }
+      if (!db.objectStoreNames.contains(STORE_RADICALS)) {
+        db.createObjectStore(STORE_RADICALS, { keyPath: "character" });
+      } else {
+        request.transaction.objectStore(STORE_RADICALS).clear();
+      }
+      if (!db.objectStoreNames.contains(STORE_SPECIALS)) {
+        db.createObjectStore(STORE_SPECIALS, { keyPath: "character" });
+      } else {
+        request.transaction.objectStore(STORE_SPECIALS).clear();
+      }
+      if (!db.objectStoreNames.contains(STORE_DECOMPOSITION)) {
+        db.createObjectStore(STORE_DECOMPOSITION, { keyPath: "character" });
+      } else {
+        request.transaction.objectStore(STORE_DECOMPOSITION).clear();
       }
     };
   });
@@ -68,16 +89,55 @@ async function initIndexedDB() {
     });
 
     if (count === 0) {
-      console.log("IndexedDB is empty. Populating 95k words...");
-      const url = chrome.runtime.getURL("data/dictionary.dat");
-      const response = await fetch(url);
-      const jsonDict = await response.json();
+      console.log("IndexedDB is empty or upgraded. Populating words and decomposition data...");
       
-      const tx = db.transaction(STORE_NAME, "readwrite");
-      const store = tx.objectStore(STORE_NAME);
-      for (const [word, defs] of Object.entries(jsonDict)) {
-        store.put({ word, defs });
+      const fetchWords = fetch(chrome.runtime.getURL("data/dictionary.dat")).then(r => r.json());
+      const fetchRadicals = fetch(chrome.runtime.getURL("data/decompostion/radicals.json")).then(r => r.json());
+      const fetchSpecials = fetch(chrome.runtime.getURL("data/decompostion/specials.json")).then(r => r.json());
+      const fetchDetails = fetch(chrome.runtime.getURL("data/decompostion/details.json")).then(r => r.json());
+
+      const [parsedDict, radicals, specials, details] = await Promise.all([fetchWords, fetchRadicals, fetchSpecials, fetchDetails]);
+      
+      const tx = db.transaction([STORE_NAME, STORE_RADICALS, STORE_SPECIALS, STORE_DECOMPOSITION], "readwrite");
+      
+      const storeWords = tx.objectStore(STORE_NAME);
+      storeWords.clear();
+      for (const [word, defs] of Object.entries(parsedDict)) {
+        storeWords.put({ word, defs });
       }
+
+      const storeRadicals = tx.objectStore(STORE_RADICALS);
+      storeRadicals.clear();
+      for (const rad of radicals) {
+        storeRadicals.put(rad);
+        if (rad.variants) {
+          const variants = rad.variants.split(',').map(v => v.trim()).filter(v => v);
+          for (const v of variants) {
+            if (v !== rad.character) {
+              storeRadicals.put({ ...rad, character: v, is_variant: true, original_character: rad.character });
+            }
+          }
+        }
+        if (rad.simplified && typeof rad.simplified === 'string') {
+          const simplified = rad.simplified.trim();
+          if (simplified && simplified !== rad.character) {
+            storeRadicals.put({ ...rad, character: simplified, is_simplified: true, original_character: rad.character });
+          }
+        }
+      }
+
+      const storeSpecials = tx.objectStore(STORE_SPECIALS);
+      storeSpecials.clear();
+      for (const sp of specials) {
+        storeSpecials.put(sp);
+      }
+
+      const storeDetails = tx.objectStore(STORE_DECOMPOSITION);
+      storeDetails.clear();
+      for (const detail of details) {
+        storeDetails.put(detail);
+      }
+
       await new Promise((resolve, reject) => {
         tx.oncomplete = resolve;
         tx.onerror = () => reject(tx.error);
@@ -186,6 +246,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     active: true,
     enableNudge: true,
     enableQuickActions: true,
+    enableSelectionTranslate: true,
     keyUp: "w",
     keyDown: "s",
     keyLeft: "a",
@@ -193,7 +254,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     keyCopy: "c",
     keySpeak: "v",
     keyStroke: "z",
-    keyToggleActive: "x",
+    keyToggleActive: "q",
     fontFamily: "system",
     fontSize: "medium",
     theme: "light",
@@ -300,8 +361,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     // Firefox fallback (no offscreen API support yet, but background scripts can play audio directly)
     if (!chrome.offscreen) {
       console.log("chrome.offscreen is undefined. Falling back to direct playback (Firefox).");
-      if (typeof playText === "function") {
-        playText(message.text)
+      if (typeof ff_playText === "function") {
+        ff_playText(message.text)
           .then(() => {
             console.log("Fallback speech finished playing.");
             sendResponse({ success: true });
@@ -312,8 +373,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           });
         return true;
       } else {
-        console.error("playText fallback function not found!");
-        sendResponse({ error: "playText fallback function not found." });
+        console.error("ff_playText fallback function not found!");
+        sendResponse({ error: "ff_playText fallback function not found." });
         return false;
       }
     }
@@ -332,6 +393,45 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ error: err.message });
       });
     return true; // Keep message channel open for asynchronous reply
+  }
+  
+  if (message.action === "preloadTTS") {
+    if (chrome.offscreen) {
+      setupOffscreen()
+        .then(() => sendMessageToOffscreen({
+          action: "preloadTTS_offscreen",
+          text: message.text
+        }))
+        .catch(err => console.warn("Background preload TTS failed:", err));
+    } else {
+      if (typeof ff_preloadText === "function") ff_preloadText(message.text);
+    }
+    return true;
+  }
+  
+  if (["pause_audio", "resume_audio", "seek_audio", "stop_audio"].includes(message.action)) {
+    if (chrome.offscreen) {
+      // Don't setup offscreen if it doesn't exist, just send if it might be there
+      sendMessageToOffscreen({ 
+        action: message.action + "_offscreen", 
+        seconds: message.seconds 
+      }).catch(err => console.warn(`Background ${message.action} failed:`, err));
+    } else {
+      if (message.action === "pause_audio" && typeof ff_pauseAudio === "function") ff_pauseAudio();
+      if (message.action === "resume_audio" && typeof ff_resumeAudio === "function") ff_resumeAudio();
+      if (message.action === "seek_audio" && typeof ff_seekAudio === "function") ff_seekAudio(message.seconds);
+      if (message.action === "stop_audio" && typeof ff_stopAudio === "function") ff_stopAudio();
+    }
+    return true;
+  }
+  
+  if (message.action === "audio_started") {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      if (tabs[0]) {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "audio_started"}).catch(() => {});
+      }
+    });
+    return true;
   }
   
   if (message.action === "lookup") {
@@ -374,6 +474,29 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true; // Keep message channel open for asynchronous reply
   }
   
+  if (message.action === "getDecomposition") {
+    openDB().then(db => {
+      const tx = db.transaction([STORE_DECOMPOSITION, STORE_RADICALS, STORE_SPECIALS], "readonly");
+      const getReq = (storeName, key) => new Promise((res) => {
+        const req = tx.objectStore(storeName).get(key);
+        req.onsuccess = () => res(req.result);
+        req.onerror = () => res(null);
+      });
+
+      Promise.all([
+        getReq(STORE_DECOMPOSITION, message.character),
+        getReq(STORE_RADICALS, message.character),
+        getReq(STORE_SPECIALS, message.character)
+      ]).then(([details, radical, special]) => {
+        sendResponse({ details, radical, special });
+      });
+    }).catch(err => {
+      console.error("Failed to get decomposition:", err);
+      sendResponse(null);
+    });
+    return true;
+  }
+
   if (message.action === "getDictionary") {
     chrome.storage.local.get("memoryMode", async (data) => {
       if (data.memoryMode === "db") {
@@ -390,3 +513,139 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true; // Keep message channel open for asynchronous reply
   }
 });
+
+// ==========================================
+// FIREFOX FALLBACK AUDIO LOGIC (NO OFFSCREEN)
+// ==========================================
+let ff_currentWs = null;
+let ff_currentAudio = null;
+let ff_preloadedAudioBlobUrl = null;
+let ff_preloadedText = null;
+let ff_currentAudioResolve = null;
+
+async function ff_sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
+function ff_generateHexId() {
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+
+async function ff_connectAndSpeak(text) {
+  const unixTime = BigInt(Math.floor(Date.now() / 1000));
+  const ticks = (unixTime + 11644473600n) * 10000000n;
+  const roundedTicks = ticks - (ticks % 3000000000n);
+  const gecInput = `${roundedTicks}6A5AA1D4EAFF4E9FB37E23D68491D6F4`;
+  const gec = await ff_sha256(gecInput);
+  const connId = ff_generateHexId();
+  
+  const wsUrl = `wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=${connId}&Sec-MS-GEC=${gec}&Sec-MS-GEC-Version=1-133.0.3065.51`;
+  
+  return new Promise((resolve, reject) => {
+    const ws = new WebSocket(wsUrl);
+    ff_currentWs = ws;
+    ws.binaryType = "arraybuffer";
+    let audioChunks = [];
+    let isFinished = false;
+    
+    ws.onopen = () => {
+      if (ff_currentWs !== ws) { ws.close(); return; }
+      const configPayload = "Content-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n" + JSON.stringify({context:{synthesis:{audio:{metadataoptions:{sentenceBoundaryEnabled:"false",wordBoundaryEnabled:"true"},outputFormat:"audio-24khz-48kbitrate-mono-mp3"}}}});
+      ws.send(configPayload);
+      const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='zh-CN'><voice name='zh-CN-XiaoxiaoNeural'><prosody pitch='+0Hz' rate='+0%' volume='+0%'>${text}</prosody></voice></speak>`;
+      const ssmlPayload = `X-RequestId:${ff_generateHexId()}\r\nContent-Type:application/ssml+xml\r\nX-Microsoft-OutputFormat:audio-24khz-48kbitrate-mono-mp3\r\nPath:ssml\r\n\r\n${ssml}`;
+      ws.send(ssmlPayload);
+    };
+    
+    const utf8Decoder = new TextDecoder("utf-8");
+    ws.onmessage = (event) => {
+      if (ff_currentWs !== ws) { ws.close(); return; }
+      if (typeof event.data === "string") {
+        if (event.data.includes("Path:turn.end")) {
+          isFinished = true; ws.close();
+          if (ff_currentWs === ws) ff_currentWs = null;
+          if (audioChunks.length === 0) reject(new Error("No audio")); else resolve(audioChunks);
+        }
+      } else if (event.data instanceof ArrayBuffer) {
+        const dataView = new DataView(event.data);
+        const headerLength = dataView.getUint16(0, false);
+        const headerBuffer = new Uint8Array(event.data, 2, headerLength);
+        if (utf8Decoder.decode(headerBuffer).includes("Path:audio")) {
+          audioChunks.push(new Uint8Array(event.data, 2 + headerLength));
+        }
+      }
+    };
+    ws.onerror = () => { if (ff_currentWs === ws) ff_currentWs = null; reject(new Error("WS error")); };
+    ws.onclose = () => {
+      const wasAborted = (ff_currentWs !== ws);
+      if (ff_currentWs === ws) ff_currentWs = null;
+      if (!isFinished) { if (wasAborted) reject(new Error("Aborted")); else if (audioChunks.length > 0) resolve(audioChunks); else reject(new Error("WS closed")); }
+    };
+  });
+}
+
+async function ff_preloadText(text) {
+  if (text === ff_preloadedText) return;
+  try {
+    const audioChunks = await ff_connectAndSpeak(text);
+    const blob = new Blob(audioChunks, { type: "audio/mpeg" });
+    if (ff_preloadedAudioBlobUrl) URL.revokeObjectURL(ff_preloadedAudioBlobUrl);
+    ff_preloadedAudioBlobUrl = URL.createObjectURL(blob);
+    ff_preloadedText = text;
+  } catch (e) {}
+}
+
+async function ff_playText(text) {
+  if (text === ff_preloadedText && ff_preloadedAudioBlobUrl) {
+    if (ff_currentAudio) { try { ff_currentAudio.pause(); } catch (e) {} }
+    if (ff_currentAudioResolve) { ff_currentAudioResolve(); ff_currentAudioResolve = null; }
+    ff_currentAudio = new Audio(ff_preloadedAudioBlobUrl);
+    await ff_currentAudio.play();
+    chrome.tabs.query({active: true, currentWindow: true}, t => { if (t[0]) chrome.tabs.sendMessage(t[0].id, {action: "audio_started"}).catch(()=>{}); });
+    await new Promise(resolve => {
+      ff_currentAudioResolve = resolve;
+      ff_currentAudio.onended = () => { if (ff_currentAudioResolve === resolve) { ff_currentAudioResolve(); ff_currentAudioResolve = null; } };
+      ff_currentAudio.onerror = ff_currentAudio.onended;
+    });
+    return;
+  }
+  
+  if (ff_currentWs) { try { ff_currentWs.close(); } catch (e) {} ff_currentWs = null; }
+  if (ff_currentAudio) { try { ff_currentAudio.pause(); } catch (e) {} ff_currentAudio = null; }
+  if (ff_currentAudioResolve) { ff_currentAudioResolve(); ff_currentAudioResolve = null; }
+  
+  const audioChunks = await Promise.race([
+    ff_connectAndSpeak(text),
+    new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))
+  ]);
+  const blob = new Blob(audioChunks, { type: "audio/mpeg" });
+  ff_currentAudio = new Audio(URL.createObjectURL(blob));
+  await ff_currentAudio.play();
+  chrome.tabs.query({active: true, currentWindow: true}, t => { if (t[0]) chrome.tabs.sendMessage(t[0].id, {action: "audio_started"}).catch(()=>{}); });
+  
+  await new Promise(resolve => {
+    ff_currentAudioResolve = resolve;
+    ff_currentAudio.onended = () => { if (ff_currentAudioResolve === resolve) { ff_currentAudioResolve(); ff_currentAudioResolve = null; } };
+    ff_currentAudio.onerror = ff_currentAudio.onended;
+  });
+}
+
+function ff_pauseAudio() { if (ff_currentAudio && !ff_currentAudio.paused) ff_currentAudio.pause(); }
+function ff_resumeAudio() { if (ff_currentAudio && ff_currentAudio.paused) ff_currentAudio.play(); }
+function ff_seekAudio(sec) { if (ff_currentAudio) ff_currentAudio.currentTime = Math.max(0, ff_currentAudio.currentTime + sec); }
+function ff_stopAudio() {
+  if (ff_currentAudio && !ff_currentAudio.paused) {
+    const fadeOut = setInterval(() => {
+      if (!ff_currentAudio) { clearInterval(fadeOut); return; }
+      if (ff_currentAudio.volume > 0.1) ff_currentAudio.volume -= 0.1;
+      else { clearInterval(fadeOut); ff_currentAudio.pause(); ff_currentAudio.volume = 1.0; }
+    }, 50);
+  } else if (ff_currentAudio) {
+    ff_currentAudio.pause();
+  }
+}

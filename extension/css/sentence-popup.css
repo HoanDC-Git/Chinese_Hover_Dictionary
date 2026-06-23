@@ -1,0 +1,80 @@
+/* Selection Icon */
+.zh-selection-icon {
+  position: absolute;
+  z-index: 2147483647;
+  width: 36px;
+  height: 36px;
+  background: #ffffff;
+  color: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px) scale(0.9);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.zh-selection-icon.zh-visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+.zh-selection-icon:hover { background: #f8fafc; transform: translateY(-2px) scale(1.05); }
+
+/* Sentence Popup */
+.zh-sentence-popup {
+  position: absolute;
+  z-index: 2147483646;
+  width: 420px;
+  max-width: 90vw;
+  background: var(--zh-bg-color, #ffffff);
+  color: var(--zh-text-color, #333333);
+  border: 1px solid var(--zh-border-color, #e5e7eb);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.zh-sentence-popup.zh-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.zh-sentence-popup.zh-theme-dark {
+  background: #1b1b1d;
+  color: #f1f5f9;
+  border-color: #333333;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.zh-sentence-loading { text-align: center; color: #64748b; font-size: 14px; padding: 12px 0; }
+.zh-sentence-error { color: #ef4444; font-size: 14px; padding: 8px 0; }
+
+.zh-sentence-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--zh-border-color, #e5e7eb);
+  padding-bottom: 8px;
+}
+.zh-sentence-popup.zh-theme-dark .zh-sentence-header { border-color: #334155; }
+
+.zh-sentence-pinyin { color: #64748b; font-size: 14px; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.zh-sentence-popup.zh-theme-dark .zh-sentence-pinyin { color: #94a3b8; }
+
+.zh-sentence-original { font-size: 18px; margin-bottom: 12px; color: var(--zh-title-color, #1e293b); word-wrap: break-word; }
+.zh-sentence-popup.zh-theme-dark .zh-sentence-original { color: #f8fafc; }
+
+.zh-sentence-char { cursor: pointer; transition: color 0.2s; }
+.zh-sentence-char:hover { color: #3b82f6; }
+
+.zh-sentence-translation { font-size: 15px; color: var(--zh-text-color, #333333); }
+.zh-sentence-popup.zh-theme-dark .zh-sentence-translation { color: #f1f5f9; }

@@ -7,6 +7,7 @@ let fontSize = "medium";
 let toggleActiveModifier = "alt";
 let enableNudge = true;
 let enableQuickActions = true;
+let enableSelectionTranslate = true;
 let activeHighlights = [];
 let hideTimer = null;
 let currentLongestMatch = ""; // Track the currently active longest match for shortcuts

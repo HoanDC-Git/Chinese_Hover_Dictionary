@@ -1,13 +1,9 @@
 // Helper utilities and text processing algorithms for Chinese Hover Dictionary
 
-// Format Pinyin by wrapping each syllable in alternating color classes
+// Format Pinyin
 function formatPinyin(pinyin) {
   if (!pinyin) return "";
-  const syllables = pinyin.split(/\s+/);
-  return syllables.map((syllable, idx) => {
-    const colorClass = `zh-pinyin-s${idx % 5}`;
-    return `<span class="${colorClass}">${syllable}</span>`;
-  }).join(" ");
+  return pinyin;
 }
 
 // Extract up to 5 non-whitespace characters to the right, traversing DOM siblings if necessary
@@ -88,3 +84,40 @@ function getNextTextNode(node) {
   }
   return null;
 }
+
+/**
+ * Fetch translation from Google Translate API
+ * @param {string} text - Chinese text to translate
+ * @param {string} targetLang - Target language code (vi, en)
+ * @returns {Promise<{translation: string, pinyin: string}>}
+ */
+async function translateSentence(text, targetLang = 'vi') {
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=${targetLang}&dt=t&dt=rm&q=${encodeURIComponent(text)}`;
+    const response = await fetch(url);
+    const json = await response.json();
+    
+    let translation = "";
+    let pinyin = "";
+    
+    if (json && json[0]) {
+      // Extract translation
+      translation = json[0]
+        .map(item => item[0])
+        .filter(item => typeof item === "string")
+        .join("");
+        
+      // Extract pinyin (usually the last array element in json[0] where index 0 is null and index 3 has pinyin string)
+      const pinyinItem = json[0].find(item => item[0] === null && typeof item[3] === "string");
+      if (pinyinItem) {
+        pinyin = pinyinItem[3];
+      }
+    }
+    
+    return { translation, pinyin };
+  } catch (err) {
+    console.error("Google Translate API error:", err);
+    throw err;
+  }
+}
+

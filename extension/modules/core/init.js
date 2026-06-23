@@ -59,6 +59,8 @@ function init() {
       if (data.enableNudge !== undefined) enableNudge = data.enableNudge;
       if (data.enableQuickActions !== undefined)
         enableQuickActions = data.enableQuickActions;
+      if (data.enableSelectionTranslate !== undefined)
+        enableSelectionTranslate = data.enableSelectionTranslate;
 
       // Update guide panel content if it is rendered
       renderGuidePanelContent();
@@ -122,6 +124,10 @@ function init() {
       enableQuickActions = changes.enableQuickActions.newValue !== false;
       keyChanged = true;
     }
+    if (changes.enableSelectionTranslate)
+      enableSelectionTranslate = changes.enableSelectionTranslate.newValue;
+
+    if (changes.strokeModifier) strokeModifier = changes.strokeModifier.newValue;
 
     // Sync font and theme preferences and update active popup styling dynamically
     let appearanceChanged = false;

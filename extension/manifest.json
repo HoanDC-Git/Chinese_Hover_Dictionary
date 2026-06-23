@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Chinese Hover Dictionary",
-  "version": "1.0.1",
+  "name": "VietZhong: Từ điển tiếng Trung",
+  "version": "1.0.4",
   "description": "Di chuột qua chữ Hán để tra nghĩa (Việt, Anh), Pinyin và phát âm Edge TTS.",
   "browser_specific_settings": {
     "gecko": {
@@ -16,8 +16,8 @@
   "commands": {
     "open_options": {
       "suggested_key": {
-        "default": "Alt+C",
-        "mac": "MacCtrl+C"
+        "default": "Alt+W",
+        "mac": "MacCtrl+W"
       },
       "description": "Mở trang Cài đặt"
     }
@@ -55,19 +55,32 @@
         "modules/ui/stroke-popup.js",
         "modules/ui/report-modal.js",
         "modules/ui/guide-panel.js",
+        "modules/ui/selection-popup.js",
         "modules/core/tts.js",
+        "modules/core/decomposition.js",
+        "modules/ui/decomposition-popup.js",
         "modules/core/events.js",
         "modules/core/init.js"
       ],
-      "css": ["content.css"]
+      "css": [
+        "css/common.css",
+        "css/hover-popup.css",
+        "css/stroke-popup.css",
+        "css/sentence-popup.css",
+        "css/report-modal.css",
+        "css/guide-panel.css",
+        "css/decomposition.css"
+      ]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": [
         "data/dictionary.dat",
+        "data/decompostion/*.json",
         "fonts/FandolKai-Regular.otf",
-        "icons/success_bg.png"
+        "icons/*.png",
+        "icons/*.svg"
       ],
       "matches": ["<all_urls>"]
     }
