@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "VietZhong: Từ điển tiếng Trung",
-  "version": "1.0.4",
-  "description": "Di chuột qua chữ Hán để tra nghĩa (Việt, Anh), Pinyin và phát âm Edge TTS.",
+  "version": "1.1.2.16",
+  "description": "Di chuột qua chữ Hán để tra nghĩa, Pinyin. Học phát âm, bộ thủ nhanh chóng.",
   "browser_specific_settings": {
     "gecko": {
       "id": "chinese-hover-dictionary@extension.local",
@@ -48,19 +48,19 @@
       "matches": ["<all_urls>"],
       "js": [
         "lib/hanzi-writer.min.js",
-        "modules/state.js",
-        "modules/utils.js",
-        "modules/ui/hover-popup.js",
-        "modules/ui/positioning.js",
-        "modules/ui/stroke-popup.js",
-        "modules/ui/report-modal.js",
-        "modules/ui/guide-panel.js",
-        "modules/ui/selection-popup.js",
-        "modules/core/tts.js",
-        "modules/core/decomposition.js",
-        "modules/ui/decomposition-popup.js",
-        "modules/core/events.js",
-        "modules/core/init.js"
+        "modules/config/state.js",
+        "modules/utils/dom-utils.js",
+        "modules/utils/text-utils.js",
+        "modules/services/dictionary.js",
+        "modules/services/translator.js",
+        "modules/services/tts.js",
+        "modules/ui/report/index.js",
+        "modules/ui/stroke/index.js",
+        "modules/ui/guide/index.js",
+        "modules/ui/decomposition/index.js",
+        "modules/ui/sentence/index.js",
+        "modules/ui/hover-popup/index.js",
+        "content.js"
       ],
       "css": [
         "css/common.css",
@@ -76,7 +76,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "data/dictionary.dat",
+        "data/dictionary.json",
         "data/decompostion/*.json",
         "fonts/FandolKai-Regular.otf",
         "icons/*.png",

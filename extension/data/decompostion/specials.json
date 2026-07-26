@@ -105,7 +105,7 @@
     "id": 18,
     "character": "",
     "hex_code": "U+E011",
-    "decomposition": "⿴且一"
+    "decomposition": "⿱目一"
   },
   {
     "id": 19,
@@ -135,7 +135,7 @@
     "id": 23,
     "character": "",
     "hex_code": "U+E016",
-    "decomposition": "⿻十月"
+    "decomposition": "⿻十用"
   },
   {
     "id": 24,
@@ -432,18 +432,6 @@
     "decomposition": "⿻丂丨"
   },
   {
-    "id": 73,
-    "character": "",
-    "hex_code": "U+E048",
-    "decomposition": "⿹𠃍コ"
-  },
-  {
-    "id": 74,
-    "character": "",
-    "hex_code": "U+E049",
-    "decomposition": "⿷匚匚"
-  },
-  {
     "id": 75,
     "character": "",
     "hex_code": "U+E04A",
@@ -496,12 +484,6 @@
     "character": "",
     "hex_code": "U+E052",
     "decomposition": "⿰〢又"
-  },
-  {
-    "id": 84,
-    "character": "",
-    "hex_code": "U+E053",
-    "decomposition": "⿱⑤一"
   },
   {
     "id": 85,
@@ -597,7 +579,7 @@
     "id": 100,
     "character": "",
     "hex_code": "U+E063",
-    "decomposition": "⿻亅"
+    "decomposition": "⿻⺕亅"
   },
   {
     "id": 101,
@@ -957,7 +939,7 @@
     "id": 160,
     "character": "",
     "hex_code": "U+E09F",
-    "decomposition": "⿻牛冂"
+    "decomposition": "⿻牛巾"
   },
   {
     "id": 161,
@@ -1102,5 +1084,137 @@
     "character": "",
     "hex_code": "U+E0B7",
     "decomposition": "⿻彐"
+  },
+  {
+    "id": 185,
+    "character": "",
+    "hex_code": "U+E0B8",
+    "decomposition": "⿱匕匕"
+  },
+  {
+    "id": 186,
+    "character": "",
+    "hex_code": "U+E0B9",
+    "decomposition": "⿻𠂇丨"
+  },
+  {
+    "id": 187,
+    "character": "",
+    "hex_code": "U+E0BA",
+    "decomposition": "⿱一口"
+  },
+  {
+    "id": 188,
+    "character": "",
+    "hex_code": "U+E0BB",
+    "decomposition": "𧘇"
+  },
+  {
+    "id": 189,
+    "character": "",
+    "hex_code": "U+E0BC",
+    "decomposition": "⿱罒冖"
+  },
+  {
+    "id": 190,
+    "character": "",
+    "hex_code": "U+E0BD",
+    "decomposition": "⿱⺍冖"
+  },
+  {
+    "id": 191,
+    "character": "",
+    "hex_code": "U+E0BE",
+    "decomposition": "⿰丨"
+  },
+  {
+    "id": 192,
+    "character": "",
+    "hex_code": "U+E0BF",
+    "decomposition": "⿺乚丶"
+  },
+  {
+    "id": 193,
+    "character": "",
+    "hex_code": "U+E0C0",
+    "decomposition": "⿱彐"
+  },
+  {
+    "id": 194,
+    "character": "",
+    "hex_code": "U+E0C1",
+    "decomposition": "⿱十贝"
+  },
+  {
+    "id": 195,
+    "character": "",
+    "hex_code": "U+E0C2",
+    "decomposition": "⿰丶丶"
+  },
+  {
+    "id": 196,
+    "character": "",
+    "hex_code": "U+E0C3",
+    "decomposition": "⿰月又"
+  },
+  {
+    "id": 197,
+    "character": "",
+    "hex_code": "U+E0C4",
+    "decomposition": "⿵冂虫"
+  },
+  {
+    "id": 198,
+    "character": "",
+    "hex_code": "U+E0C5",
+    "decomposition": "⿸尸二"
+  },
+  {
+    "id": 199,
+    "character": "",
+    "hex_code": "U+E0C6",
+    "decomposition": "⿳丷一八"
+  },
+  {
+    "id": 200,
+    "character": "",
+    "hex_code": "U+E0C7",
+    "decomposition": "⿳山一几"
+  },
+  {
+    "id": 201,
+    "character": "",
+    "hex_code": "U+E0C8",
+    "decomposition": "⿳一八"
+  },
+  {
+    "id": 202,
+    "character": "",
+    "hex_code": "U+E0C9",
+    "decomposition": "⿻乚㇆"
+  },
+  {
+    "id": 203,
+    "character": "",
+    "hex_code": "U+E0CA",
+    "decomposition": "⿻㇒㇗"
+  },
+  {
+    "id": 204,
+    "character": "",
+    "hex_code": "U+E0CB",
+    "decomposition": "⿻〢丷"
+  },
+  {
+    "id": 205,
+    "character": "",
+    "hex_code": "U+E0CC",
+    "decomposition": "⿱十目"
+  },
+  {
+    "id": 206,
+    "character": "",
+    "hex_code": "U+E0CD",
+    "decomposition": "⿻口一"
   }
 ]

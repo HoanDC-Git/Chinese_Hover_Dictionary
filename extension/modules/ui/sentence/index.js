@@ -1,10 +1,17 @@
-let selectionIcon = null;
-let sentencePopup = null;
-let sentenceModalOverlay = null;
-let currentSelection = "";
-let currentRange = null;
-let sentenceTargetLang = 'vi';
-let cachedTranslations = { vi: null, en: null, pinyin: null };
+window.VZ = window.VZ || {};
+window.VZ.ui = window.VZ.ui || {};
+
+window.VZ.ui.sentence = (function() {
+  const getCfg = () => window.VZ.config.get();
+
+  let selectionIcon = null;
+  let sentencePopup = null;
+  let sentenceModalOverlay = null;
+  let currentSelection = "";
+  let currentRange = null;
+  let sentenceTargetLang = 'vi';
+  let cachedTranslations = { vi: null, en: null, pinyin: null };
+
 
 chrome.storage.local.get(['sentenceTargetLang'], (result) => {
   if (result.sentenceTargetLang) {
@@ -15,7 +22,7 @@ chrome.storage.local.get(['sentenceTargetLang'], (result) => {
 function createSelectionIcon() {
   if (!selectionIcon) {
     selectionIcon = document.createElement("div");
-    selectionIcon.className = "zh-selection-icon zh-theme-" + (typeof theme !== 'undefined' ? theme : 'light');
+    selectionIcon.className = "zh-selection-icon zh-theme-" + (true ? getCfg().theme : 'light');
     selectionIcon.title = "Dịch đoạn văn này";
     selectionIcon.innerHTML = `<img src="${chrome.runtime.getURL('icons/icon48.png')}" width="24" height="24" style="pointer-events: none;">`;
     document.body.appendChild(selectionIcon);
@@ -43,7 +50,7 @@ function createSentencePopup() {
 function createSentenceModal() {
   if (sentenceModalOverlay) return;
   sentenceModalOverlay = document.createElement("div");
-  sentenceModalOverlay.className = "zh-report-overlay zh-theme-" + (typeof theme !== 'undefined' ? theme : 'light');
+  sentenceModalOverlay.className = "zh-report-overlay zh-theme-" + (true ? getCfg().theme : 'light');
   sentenceModalOverlay.innerHTML = `
     <div class="zh-report-modal" style="max-width: 900px; width: 95%; max-height: 85vh; display: flex; flex-direction: column;">
       <div class="zh-report-header">
@@ -73,13 +80,13 @@ function hideSentenceModal() {
 }
 
 function handleMouseUpSelection(e) {
-  if (typeof active === 'undefined' || !active || typeof enableSelectionTranslate === 'undefined' || !enableSelectionTranslate) return;
+  if (typeof getCfg().active === 'undefined' || !getCfg().active || typeof getCfg().enableSelectionTranslate === 'undefined' || !getCfg().enableSelectionTranslate) return;
   
   // If clicked inside popup, ignore
   if (e.target.closest(".zh-sentence-popup") || e.target.closest(".zh-selection-icon") || e.target.closest(".zh-report-overlay")) return;
 
   // Always hide stroke popup when clicking outside
-  if (typeof hideStrokePopup === "function") hideStrokePopup();
+  if (typeof VZ.ui.stroke.hide === "function") VZ.ui.stroke.hide();
 
   const selection = window.getSelection();
   const text = selection.toString().trim();
@@ -126,13 +133,13 @@ async function openSentencePopup() {
   if (isLongText) {
     createSentenceModal();
     if (sentencePopup) sentencePopup.classList.remove("zh-visible");
-    sentenceModalOverlay.className = "zh-report-overlay zh-theme-" + (typeof theme !== 'undefined' ? theme : 'light');
+    sentenceModalOverlay.className = "zh-report-overlay zh-theme-" + (true ? getCfg().theme : 'light');
     const contentDiv = sentenceModalOverlay.querySelector("#zh-sentence-modal-content");
     contentDiv.innerHTML = `<div class="zh-spinner" style="margin: 20px auto; border-color: #2563eb; border-top-color: transparent;"></div><div style="text-align: center; color: #64748b;">Đang dịch...</div>`;
     sentenceModalOverlay.classList.add("zh-visible");
   } else {
     createSentencePopup();
-    sentencePopup.className = "zh-sentence-popup zh-theme-" + (typeof theme !== 'undefined' ? theme : 'light');
+    sentencePopup.className = "zh-sentence-popup zh-theme-" + (true ? getCfg().theme : 'light');
     sentencePopup.innerHTML = `<div class="zh-sentence-loading">Đang dịch...</div>`;
     const rect = currentRange.getBoundingClientRect();
     let leftPos = rect.left + window.scrollX;
@@ -149,14 +156,14 @@ async function openSentencePopup() {
     // Reset cache
     cachedTranslations = { vi: null, en: null, pinyin: null };
     
-    const primaryResult = await translateSentence(currentSelection, primaryLang);
+    const primaryResult = await VZ.services.translator.translateSentence(currentSelection, primaryLang);
     cachedTranslations[primaryLang] = primaryResult.translation;
     cachedTranslations.pinyin = primaryResult.pinyin;
     const { pinyin } = primaryResult;
     
     setTimeout(async () => {
       try {
-        const backupResult = await translateSentence(currentSelection, backupLang);
+        const backupResult = await VZ.services.translator.translateSentence(currentSelection, backupLang);
         cachedTranslations[backupLang] = backupResult.translation;
         
         if (sentenceTargetLang === backupLang) {
@@ -181,7 +188,7 @@ async function openSentencePopup() {
     }).join('');
     
     const copyIconUrl = chrome.runtime.getURL('icons/copy.svg');
-    const isDark = typeof theme !== 'undefined' && theme === 'dark';
+    const isDark = true && getCfg().theme === 'dark';
     const boxBg = isDark ? '#242728' : '#f8fafc';
     const boxBorder = isDark ? '#333333' : '#e2e8f0';
     const titleColor = isDark ? '#a1a1aa' : '#64748b';
@@ -194,15 +201,13 @@ async function openSentencePopup() {
     const boxContentStyle = `border: 1px solid ${boxBorder}; border-radius: 8px; padding: 8px; background: ${boxBg}; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);`;
     const boxScrollStyle = isLongText ? `flex: 1; min-height: 0; overflow-y: auto;` : `max-height: 180px; overflow-y: auto;`;
     
-    const actualFont = typeof fontFamily !== 'undefined' ? fontFamily : 'kaiti';
+    const actualFont = typeof getCfg().fontFamily !== 'undefined' ? getCfg().fontFamily : 'system';
     const fontStyles = {
       "system": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       "fandolkailocal": "'FandolKai', 'FandolKai-Regular', 'Kaiti', serif",
-      "kaiti": "'Kaiti TC', 'KaiTi', 'STKaiti', serif",
-      "serif": "'Noto Serif SC', 'Noto Serif TC', 'Songti SC', 'SimSun', serif",
-      "sans": "'Noto Sans SC', 'Noto Sans TC', 'Microsoft YaHei', 'PingFang SC', sans-serif"
+      "serif": "'Noto Serif SC', 'Noto Serif TC', 'Songti SC', 'SimSun', serif"
     };
-    const fontFamilyStyle = `font-family: ${fontStyles[actualFont] || fontStyles['kaiti']};`;
+    const fontFamilyStyle = `font-family: ${fontStyles[actualFont] || fontStyles['system']};`;
 
     const buildBoxes = (fontSizeHanzi, fontSizePinyin, fontSizeTrans) => `
       <div style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''}">
@@ -250,7 +255,7 @@ async function openSentencePopup() {
           </button>
         </div>
         <div class="zh-custom-scrollbar" style="${boxContentStyle} ${boxScrollStyle}">
-          <div class="zh-sentence-pinyin" style="font-size: ${fontSizePinyin}px; line-height: 1.6; color: ${textMuted}; word-break: break-word; white-space: pre-wrap; ${fontFamilyStyle}">${pinyin || ""}</div>
+          <div class="zh-sentence-pinyin" style="font-size: ${fontSizePinyin}px; line-height: 1.6; color: ${textMuted}; word-break: break-word; white-space: pre-wrap; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${pinyin || ""}</div>
         </div>
       </div>
       
@@ -276,10 +281,10 @@ async function openSentencePopup() {
     `;
     
     let baseSize = 22;
-    if (typeof fontSize !== 'undefined') {
-      if (fontSize === 'small') baseSize = 18;
-      else if (fontSize === 'large') baseSize = 26;
-      else if (fontSize === 'x-large') baseSize = 30;
+    if (typeof getCfg().fontSize !== 'undefined') {
+      if (getCfg().fontSize === 'small') baseSize = 18;
+      else if (getCfg().fontSize === 'large') baseSize = 26;
+      else if (getCfg().fontSize === 'x-large') baseSize = 30;
     }
     
     let sizeHanzi, sizePinyin, sizeTrans;
@@ -449,6 +454,8 @@ async function openSentencePopup() {
       sizePinyin = Math.max(14, baseSize - 2 - decrease);
       sizeTrans = Math.max(14, baseSize - 4 - decrease);
       
+      if (actualFont === 'fandolkailocal') sizeHanzi += 2;
+      
       const contentDiv = sentenceModalOverlay.querySelector("#zh-sentence-modal-content");
       contentDiv.innerHTML = buildBoxes(sizeHanzi, sizePinyin, sizeTrans);
       attachBoxEvents(contentDiv);
@@ -462,6 +469,8 @@ async function openSentencePopup() {
       sizeHanzi = Math.max(16, baseSize - 2 - decrease);
       sizePinyin = Math.max(14, baseSize - 5 - decrease);
       sizeTrans = Math.max(14, baseSize - 6 - decrease);
+      
+      if (actualFont === 'fandolkailocal') sizeHanzi += 2;
       
       sentencePopup.innerHTML = buildBoxes(sizeHanzi, sizePinyin, sizeTrans);
       
@@ -484,3 +493,10 @@ async function openSentencePopup() {
     }
   }
 }
+
+  return {
+    handleMouseUpSelection,
+    hideSentenceModal,
+    hideSelectionIcon
+  };
+})();

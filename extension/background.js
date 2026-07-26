@@ -25,7 +25,7 @@ function updateUI(active) {
 // Load dictionary from extension resources in background (CSP safe)
 async function loadDictionary() {
   if (dictionary) return dictionary;
-  const url = chrome.runtime.getURL("data/dictionary.dat");
+  const url = chrome.runtime.getURL("data/dictionary.json");
   try {
     const response = await fetch(url);
     dictionary = await response.json();
@@ -40,7 +40,18 @@ async function loadDictionary() {
 
 // IndexedDB Database logic for "db" memoryMode
 const DB_NAME = "ChineseDictionaryDB";
-const DB_VERSION = 5; // Tăng version để lưu decomposition và variants
+// IndexedDB bắt buộc version phải là SỐ NGUYÊN. Hàm này giúp chuyển chuỗi "1.0.4.12" thành số nguyên an toàn.
+const API = typeof browser !== 'undefined' ? browser : chrome;
+const APP_VERSION = API.runtime.getManifest().version; // Lấy trực tiếp từ manifest.json (Hỗ trợ cả Chrome và Firefox)
+function parseVersionString(verStr) {
+  const parts = verStr.split('.');
+  let num = 0;
+  for (let i = 0; i < 4; i++) { // Hỗ trợ tối đa 4 phần (vd: 1.0.4.12), mỗi phần tối đa 2 chữ số (0-99)
+    num = num * 100 + (parseInt(parts[i], 10) || 0);
+  }
+  return num || 1;
+}
+const DB_VERSION = parseVersionString(APP_VERSION);
 const STORE_NAME = "words";
 const STORE_RADICALS = "radicals";
 const STORE_SPECIALS = "specials";
@@ -77,83 +88,95 @@ function openDB() {
   });
 }
 
+let dbInitPromise = null;
 async function initIndexedDB() {
-  try {
-    const db = await openDB();
-    const count = await new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE_NAME, "readonly");
-      const store = tx.objectStore(STORE_NAME);
-      const countReq = store.count();
-      countReq.onsuccess = () => resolve(countReq.result);
-      countReq.onerror = () => reject(countReq.error);
-    });
+  if (!dbInitPromise) {
+    dbInitPromise = (async () => {
+      try {
+        const db = await openDB();
+        const count = await new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, "readonly");
+          const store = tx.objectStore(STORE_NAME);
+          const countReq = store.count();
+          countReq.onsuccess = () => resolve(countReq.result);
+          countReq.onerror = () => reject(countReq.error);
+        });
 
-    if (count === 0) {
-      console.log("IndexedDB is empty or upgraded. Populating words and decomposition data...");
-      
-      const fetchWords = fetch(chrome.runtime.getURL("data/dictionary.dat")).then(r => r.json());
-      const fetchRadicals = fetch(chrome.runtime.getURL("data/decompostion/radicals.json")).then(r => r.json());
-      const fetchSpecials = fetch(chrome.runtime.getURL("data/decompostion/specials.json")).then(r => r.json());
-      const fetchDetails = fetch(chrome.runtime.getURL("data/decompostion/details.json")).then(r => r.json());
+        if (count === 0) {
+          console.log("IndexedDB is empty (or just upgraded). Populating words and decomposition data...");
+          
+          const fetchWords = fetch(chrome.runtime.getURL("data/dictionary.json")).then(r => r.json());
+          const fetchRadicals = fetch(chrome.runtime.getURL("data/decompostion/radicals.json")).then(r => r.json());
+          const fetchSpecials = fetch(chrome.runtime.getURL("data/decompostion/specials.json")).then(r => r.json());
+          const fetchDetails = fetch(chrome.runtime.getURL("data/decompostion/details.json")).then(r => r.json());
 
-      const [parsedDict, radicals, specials, details] = await Promise.all([fetchWords, fetchRadicals, fetchSpecials, fetchDetails]);
-      
-      const tx = db.transaction([STORE_NAME, STORE_RADICALS, STORE_SPECIALS, STORE_DECOMPOSITION], "readwrite");
-      
-      const storeWords = tx.objectStore(STORE_NAME);
-      storeWords.clear();
-      for (const [word, defs] of Object.entries(parsedDict)) {
-        storeWords.put({ word, defs });
-      }
+          const [parsedDict, radicals, specials, details] = await Promise.all([fetchWords, fetchRadicals, fetchSpecials, fetchDetails]);
+          
+          const tx = db.transaction([STORE_NAME, STORE_RADICALS, STORE_SPECIALS, STORE_DECOMPOSITION], "readwrite");
+          
+          const storeWords = tx.objectStore(STORE_NAME);
+          storeWords.clear();
+          for (const [word, defs] of Object.entries(parsedDict)) {
+            storeWords.put({ word, defs });
+          }
 
-      const storeRadicals = tx.objectStore(STORE_RADICALS);
-      storeRadicals.clear();
-      for (const rad of radicals) {
-        storeRadicals.put(rad);
-        if (rad.variants) {
-          const variants = rad.variants.split(',').map(v => v.trim()).filter(v => v);
-          for (const v of variants) {
-            if (v !== rad.character) {
-              storeRadicals.put({ ...rad, character: v, is_variant: true, original_character: rad.character });
+          const storeRadicals = tx.objectStore(STORE_RADICALS);
+          storeRadicals.clear();
+          for (const rad of radicals) {
+            storeRadicals.put(rad);
+            if (rad.variants) {
+              let variants = [];
+              if (Array.isArray(rad.variants)) {
+                variants = rad.variants;
+              } else if (typeof rad.variants === 'string') {
+                variants = rad.variants.split(',').map(v => v.trim()).filter(v => v);
+              }
+              for (const v of variants) {
+                if (v !== rad.character) {
+                  storeRadicals.put({ ...rad, character: v, is_variant: true, original_character: rad.character });
+                }
+              }
+            }
+            if (rad.simplified && typeof rad.simplified === 'string') {
+              const simplified = rad.simplified.trim();
+              if (simplified && simplified !== rad.character) {
+                storeRadicals.put({ ...rad, character: simplified, is_simplified: true, original_character: rad.character });
+              }
             }
           }
-        }
-        if (rad.simplified && typeof rad.simplified === 'string') {
-          const simplified = rad.simplified.trim();
-          if (simplified && simplified !== rad.character) {
-            storeRadicals.put({ ...rad, character: simplified, is_simplified: true, original_character: rad.character });
+
+          const storeSpecials = tx.objectStore(STORE_SPECIALS);
+          storeSpecials.clear();
+          for (const sp of specials) {
+            storeSpecials.put(sp);
           }
+
+          const storeDetails = tx.objectStore(STORE_DECOMPOSITION);
+          storeDetails.clear();
+          for (const detail of details) {
+            storeDetails.put(detail);
+          }
+
+          await new Promise((resolve, reject) => {
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+          });
+          console.log("IndexedDB populated successfully.");
+        } else {
+          console.log(`IndexedDB ready (${count} words).`);
         }
+      } catch (err) {
+        console.error("Failed to init IndexedDB:", err);
       }
-
-      const storeSpecials = tx.objectStore(STORE_SPECIALS);
-      storeSpecials.clear();
-      for (const sp of specials) {
-        storeSpecials.put(sp);
-      }
-
-      const storeDetails = tx.objectStore(STORE_DECOMPOSITION);
-      storeDetails.clear();
-      for (const detail of details) {
-        storeDetails.put(detail);
-      }
-
-      await new Promise((resolve, reject) => {
-        tx.oncomplete = resolve;
-        tx.onerror = () => reject(tx.error);
-      });
-      console.log("IndexedDB populated successfully.");
-    } else {
-      console.log(`IndexedDB ready (${count} words).`);
-    }
-  } catch (err) {
-    console.error("Failed to init IndexedDB:", err);
+    })();
   }
+  return dbInitPromise;
 }
 
 function getFromDB(word) {
   return new Promise(async (resolve, reject) => {
     try {
+      await initIndexedDB();
       const db = await openDB();
       const tx = db.transaction(STORE_NAME, "readonly");
       const store = tx.objectStore(STORE_NAME);
@@ -475,7 +498,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   
   if (message.action === "getDecomposition") {
-    openDB().then(db => {
+    initIndexedDB().then(() => openDB()).then(db => {
       const tx = db.transaction([STORE_DECOMPOSITION, STORE_RADICALS, STORE_SPECIALS], "readonly");
       const getReq = (storeName, key) => new Promise((res) => {
         const req = tx.objectStore(storeName).get(key);

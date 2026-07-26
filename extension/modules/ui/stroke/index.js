@@ -1,8 +1,19 @@
+window.VZ = window.VZ || {};
+window.VZ.ui = window.VZ.ui || {};
+
+window.VZ.ui.stroke = (function() {
+  const getCfg = () => window.VZ.config.get();
+
+  let strokePopupElement = null;
+  let hanziWriterInstance = null;
+  let strokeHideTimer = null;
+  let strokeHoverTimer = null;
+
 // Create and show stroke order popup
-function showStrokePopup(char, anchorEl) {
+function show(char, anchorEl) {
   if (!strokePopupElement) {
     strokePopupElement = document.createElement("div");
-    strokePopupElement.className = `zh-stroke-popup zh-theme-${theme}`;
+    strokePopupElement.className = `zh-stroke-popup zh-theme-${getCfg().theme}`;
     strokePopupElement.innerHTML = `<div class="zh-stroke-target" id="zh-stroke-target"></div>`;
     document.body.appendChild(strokePopupElement);
 
@@ -14,12 +25,12 @@ function showStrokePopup(char, anchorEl) {
     });
     strokePopupElement.addEventListener("mouseleave", () => {
       if (!strokeHideTimer) {
-        strokeHideTimer = setTimeout(hideStrokePopup, 200);
+        strokeHideTimer = setTimeout(VZ.ui.stroke.hide, 200);
       }
     });
   }
 
-  strokePopupElement.className = `zh-stroke-popup zh-theme-${theme}`;
+  strokePopupElement.className = `zh-stroke-popup zh-theme-${getCfg().theme}`;
 
   if (typeof HanziWriter === "undefined") {
     console.error("HanziWriter library is not loaded.");
@@ -52,7 +63,7 @@ function showStrokePopup(char, anchorEl) {
   strokePopupElement.style.left = `${left}px`;
   strokePopupElement.classList.add("zh-visible");
 
-  const strokeColor = theme === "dark" ? "#38bdf8" : "#000000";
+  const strokeColor = getCfg().theme === "dark" ? "#38bdf8" : "#000000";
   const outlineColor = "#DDDDDD";
 
   hanziWriterInstance = HanziWriter.create("zh-stroke-target", char, {
@@ -62,7 +73,7 @@ function showStrokePopup(char, anchorEl) {
     strokeColor: strokeColor,
     radicalColor: strokeColor,
     outlineColor: outlineColor,
-    strokeAnimationSpeed: parseFloat(strokeSpeed) || 1,
+    strokeAnimationSpeed: parseFloat(getCfg().strokeSpeed) || 1,
     delayBetweenStrokes: 150,
     delayBetweenLoops: 500,
     showOutline: true,
@@ -71,7 +82,7 @@ function showStrokePopup(char, anchorEl) {
   hanziWriterInstance.loopCharacterAnimation();
 }
 
-function hideStrokePopup() {
+function hide() {
   if (strokePopupElement) {
     strokePopupElement.classList.remove("zh-visible");
   }
@@ -82,3 +93,13 @@ function hideStrokePopup() {
     hanziWriterInstance.cancelAnimation();
   }
 }
+
+  return {
+    show,
+    hide,
+    get strokeHideTimer() { return strokeHideTimer; },
+    set strokeHideTimer(v) { strokeHideTimer = v; },
+    get strokeHoverTimer() { return strokeHoverTimer; },
+    set strokeHoverTimer(v) { strokeHoverTimer = v; }
+  };
+})();

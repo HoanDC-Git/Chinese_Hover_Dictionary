@@ -1,3 +1,12 @@
+window.VZ = window.VZ || {};
+window.VZ.ui = window.VZ.ui || {};
+
+window.VZ.ui.report = (function() {
+  const getCfg = () => window.VZ.config.get();
+
+  let modalOverlay = null;
+  let currentReportWord = "";
+  function show(word) { showReportModal(word); }
 // --- Report Modal Functions ---
 let reportWord = "";
 
@@ -6,7 +15,7 @@ function createReportModal() {
 
   const overlay = document.createElement("div");
   overlay.id = "zh-report-overlay";
-  overlay.className = "zh-report-overlay zh-theme-" + theme;
+  overlay.className = "zh-report-overlay zh-theme-" + getCfg().theme;
   overlay.innerHTML = `
     <div class="zh-report-modal">
       <div id="zh-report-form-view">
@@ -35,6 +44,13 @@ function createReportModal() {
           <div class="zh-report-textarea-container" id="container-Không có hoạt ảnh nét bút">
             <div class="zh-report-textarea-wrapper">
               <textarea class="zh-report-textarea" data-for="Không có hoạt ảnh nét bút" placeholder="Nhập thêm chi tiết nếu cần..."></textarea>
+            </div>
+          </div>
+
+          <label><input type="checkbox" value="Chiết tự sai"> Chiết tự sai</label>
+          <div class="zh-report-textarea-container" id="container-Chiết tự sai">
+            <div class="zh-report-textarea-wrapper">
+              <textarea class="zh-report-textarea" data-for="Chiết tự sai" placeholder="Ví dụ: Chữ này nên được chiết tự thành..."></textarea>
             </div>
           </div>
 
@@ -164,12 +180,12 @@ function createReportModal() {
   });
 }
 
-function showReportModal(word) {
+function show(word) {
   createReportModal();
   reportWord = word;
   const overlay = document.getElementById("zh-report-overlay");
   if (overlay) {
-    overlay.className = "zh-report-overlay zh-theme-" + theme;
+    overlay.className = "zh-report-overlay zh-theme-" + getCfg().theme;
     document.getElementById("zh-report-word-display").textContent = word;
 
     // Reset form
@@ -200,3 +216,8 @@ function hideReportModal() {
     overlay.classList.remove("zh-visible");
   }
 }
+
+  return {
+    show
+  };
+})();

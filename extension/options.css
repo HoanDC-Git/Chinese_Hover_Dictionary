@@ -85,9 +85,9 @@ h1 {
   font-weight: 600;
   color: var(--text-title);
   margin-top: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 6px;
+  padding-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,7 +1,12 @@
-window.zhDecomposition = (function () {
+window.VZ = window.VZ || {};
+window.VZ.services = window.VZ.services || {};
+
+window.VZ.services.dictionary = (function () {
   const IDC_ARITY = {
     '⿰': 2, '⿱': 2, '⿴': 2, '⿵': 2, '⿶': 2, '⿷': 2, '⿸': 2, '⿹': 2, '⿺': 2, '⿻': 2,
-    '⿲': 3, '⿳': 3
+    '⿼': 2, '⿽': 2,
+    '⿲': 3, '⿳': 3,
+    '⿾': 1, '⿿': 1
   };
 
   async function fetchNodeData(char) {
@@ -10,7 +15,6 @@ window.zhDecomposition = (function () {
     });
   }
 
-  // To prevent infinite recursion in case of cyclic references (should not happen, but safety first)
   const MAX_DEPTH = 10;
 
   async function buildTree(char, depth = 0) {
@@ -23,7 +27,6 @@ window.zhDecomposition = (function () {
       return { char, isLeaf: true };
     }
     
-    // Check if this character is from specials.json (un-renderable)
     const isSpecial = !!data.special;
     let decompositionStr = null;
     let pinyin = '';
@@ -34,9 +37,9 @@ window.zhDecomposition = (function () {
     if (data.details) {
       decompositionStr = data.details.decomposition;
       pinyin = data.details.pinyin || '';
-      etymology = data.details.etymology_hint_vi || '';
+      etymology = data.details.hint_vi || '';
       if (data.details.definition_vi) {
-        meaning = data.details.definition_vi.split(/[,;]/)[0].trim();
+        meaning = data.details.definition_vi.trim();
       }
     } else if (data.special) {
       decompositionStr = data.special.decomposition;
@@ -55,22 +58,34 @@ window.zhDecomposition = (function () {
       }
     }
 
-    // If no decomposition string, it's a leaf node
     if (!decompositionStr) {
       return { char, pinyin, label, meaning, type: data.radical?.type, isSpecial, isLeaf: true, children: [], etymology };
     }
 
-    // Parse decomposition string
     const operator = decompositionStr[0];
     const children = [];
     
-    // Some entries might not start with an operator if they are just a single char?
-    // According to details.json, they always start with an operator.
     if (IDC_ARITY[operator]) {
       const chars = Array.from(decompositionStr);
       for (let i = 1; i < chars.length; i++) {
         const childNode = await buildTree(chars[i], depth + 1);
-        if (childNode) children.push(childNode);
+        if (childNode) {
+          // Fix 阝 (bộ ấp / bộ phụ) based on position
+          if (childNode.char === '阝') {
+            const isLeft = (i === 1);
+            const isRight = (operator === '⿰' && i === 2) || (operator === '⿲' && i === 3);
+            if (isLeft) {
+              childNode.label = "Bộ phụ";
+              childNode.meaning = "Gò đất";
+              childNode.pinyin = "fù";
+            } else if (isRight) {
+              childNode.label = "Bộ ấp";
+              childNode.meaning = "Vùng đất, làng";
+              childNode.pinyin = "yì";
+            }
+          }
+          children.push(childNode);
+        }
       }
       
       return {
@@ -85,7 +100,6 @@ window.zhDecomposition = (function () {
         etymology
       };
     } else {
-      // Fallback if no valid operator
       return { char, pinyin, label, meaning, isSpecial, isLeaf: true, children: [], etymology };
     }
   }

@@ -1,24 +1,36 @@
-// Render the guide panel content dynamically using the current active key bindings
+window.VZ = window.VZ || {};
+window.VZ.ui = window.VZ.ui || {};
+
+window.VZ.ui.guide = (function() {
+  const getCfg = () => window.VZ.config.get();
+
+  let guideElement = null;
+  let guideHideTimer = null;
+  let watchMouseForGuide = false;
+  function show() { showGuidePanel(); }
+  function hide() { hideGuidePanel(); }
+  function renderContent() { renderGuidePanelContent(); }
+// Render the guide panel content dynamically using the current getCfg().active key bindings
 function renderGuidePanelContent() {
   if (!guideElement) return;
 
-  const upKey = keys.up.toUpperCase();
-  const downKey = keys.down.toUpperCase();
-  const leftKey = keys.left.toUpperCase();
-  const rightKey = keys.right.toUpperCase();
-  const copyKey = keys.copy.toUpperCase();
-  const speak1 = keys.speak1.toUpperCase();
-  const speak2 = keys.speak2.toUpperCase();
-  const speak3 = keys.speak3.toUpperCase();
-  const speak4 = keys.speak4.toUpperCase();
-  const toggleActiveKey = keys.toggleActive.toUpperCase();
+  const upKey = getCfg().keys.up.toUpperCase();
+  const downKey = getCfg().keys.down.toUpperCase();
+  const leftKey = getCfg().keys.left.toUpperCase();
+  const rightKey = getCfg().keys.right.toUpperCase();
+  const copyKey = getCfg().keys.copy.toUpperCase();
+  const speak1 = getCfg().keys.speak1.toUpperCase();
+  const speak2 = getCfg().keys.speak2.toUpperCase();
+  const speak3 = getCfg().keys.speak3.toUpperCase();
+  const speak4 = getCfg().keys.speak4.toUpperCase();
+  const toggleActiveKey = getCfg().keys.toggleActive.toUpperCase();
   const toggleActiveText =
-    toggleActiveModifier === "alt"
+    getCfg().toggleActiveModifier === "alt"
       ? `ALT + ${toggleActiveKey}`
       : toggleActiveKey;
 
   let nudgeHtml = "";
-  if (enableNudge) {
+  if (getCfg().enableNudge) {
     nudgeHtml = `
       <div class="zh-guide-shortcut">
         <div class="zh-guide-key-group">
@@ -34,7 +46,7 @@ function renderGuidePanelContent() {
 
   let copyHtml = "";
   let speakHtml = "";
-  if (enableQuickActions) {
+  if (getCfg().enableQuickActions) {
     copyHtml = `
       <div class="zh-guide-shortcut">
         <span class="zh-guide-key">${copyKey}</span>
@@ -64,7 +76,10 @@ function renderGuidePanelContent() {
         <div><b>Cách dùng:</b> Di chuột qua chữ Hán trên trang để dịch từ vựng.</div>
       </div>
     <div class="zh-guide-shortcut">
-      <span>Giữ chuột ở hán tự trên popup để xem nét bút</span>
+      <span>Giữ chuột ở Hán tự trên popup để xem nét bút</span>
+    </div>
+    <div class="zh-guide-shortcut">
+      <span>Click vào chữ Hán trên popup để xem chiết tự</span>
     </div>
       ${copyHtml}
       <div class="zh-guide-shortcut">
@@ -127,3 +142,14 @@ function hideGuidePanel() {
     guideHideTimer = null;
   }
 }
+
+  return {
+    show,
+    hide,
+    renderContent,
+    get watchMouseForGuide() { return watchMouseForGuide; },
+    set watchMouseForGuide(v) { watchMouseForGuide = v; },
+    get guideHideTimer() { return guideHideTimer; },
+    set guideHideTimer(v) { guideHideTimer = v; }
+  };
+})();

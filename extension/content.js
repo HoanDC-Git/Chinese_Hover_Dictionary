@@ -1,17 +1,42 @@
+// Main content script entry point
+window.VZ = window.VZ || {};
+
+(function() {
+  const getCfg = () => window.VZ.config.get();
+  
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetX = 0;
+  let targetY = 0;
+  let lastEvent = null;
+  let throttleTimer = null;
+
+  
+  // Inject FandolKaiLocal font dynamically
+  const fontUrl = chrome.runtime.getURL("fonts/FandolKai-Regular.otf");
+  const fontStyle = document.createElement("style");
+  fontStyle.textContent = `
+    @font-face {
+      font-family: "FandolKaiLocal";
+      src: url("${fontUrl}") format("opentype");
+    }
+  `;
+  document.head.appendChild(fontStyle);
+
 // Core mouse and keyboard event listeners
 
 document.addEventListener("mousemove", (e) => {
   // If watchMouseForGuide is true, it means the mouse entered the webpage after click
-  if (watchMouseForGuide) {
-    watchMouseForGuide = false;
+  if (VZ.ui.guide.watchMouseForGuide) {
+    VZ.ui.guide.watchMouseForGuide = false;
     // Start a 1-second timer to hide guide after mouse moves in the webpage, allowing ample reading time
-    if (guideHideTimer) clearTimeout(guideHideTimer);
-    guideHideTimer = setTimeout(hideGuidePanel, 1000);
+    if (VZ.ui.guide.guideHideTimer) clearTimeout(VZ.ui.guide.guideHideTimer);
+    VZ.ui.guide.guideHideTimer = setTimeout(VZ.ui.guide.hide, 1000);
   }
 
   const isPopupVisible =
-    popupElement && popupElement.classList.contains("zh-visible");
-  if (!active && !isPopupVisible) return;
+    VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible");
+  if (!getCfg().active && !isPopupVisible) return;
 
   lastEvent = e; // Save mouse event to access composedPath() later
   mouseX = e.clientX;
@@ -35,33 +60,33 @@ window.addEventListener("keydown", (e) => {
 
   const key = e.key.toLowerCase();
 
-  // 0. Toggle Active Status Shortcut (Works even when active is false, and popup is hidden)
+  // 0. Toggle Active Status Shortcut (Works even when getCfg().active is false, and popup is hidden)
   let triggerToggleActive = false;
-  if (toggleActiveModifier === "alt") {
-    triggerToggleActive = e.altKey && key === keys.toggleActive;
+  if (getCfg().toggleActiveModifier === "alt") {
+    triggerToggleActive = e.altKey && key === getCfg().keys.toggleActive;
   } else {
     triggerToggleActive =
       !e.altKey &&
       !e.ctrlKey &&
       !e.metaKey &&
       !e.shiftKey &&
-      key === keys.toggleActive;
+      key === getCfg().keys.toggleActive;
   }
 
   if (triggerToggleActive) {
     e.preventDefault();
-    chrome.storage.local.set({ active: !active });
+    chrome.storage.local.set({ active: !getCfg().active });
     return;
   }
 
   if (
-    !active &&
-    !(popupElement && popupElement.classList.contains("zh-visible"))
+    !getCfg().active &&
+    !(VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible"))
   )
     return;
 
   // Check if popup is currently visible
-  if (popupElement && popupElement.classList.contains("zh-visible")) {
+  if (VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible")) {
     // Ignore key events with modifiers (to avoid overriding standard browser shortcuts like Ctrl+C, Ctrl+R, etc.)
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
       return;
@@ -69,32 +94,32 @@ window.addEventListener("keydown", (e) => {
 
     // 2. Custom Nudging Keys
     if (
-      enableNudge &&
-      [keys.up, keys.left, keys.down, keys.right].includes(key)
+      getCfg().enableNudge &&
+      [getCfg().keys.up, getCfg().keys.left, getCfg().keys.down, getCfg().keys.right].includes(key)
     ) {
       e.preventDefault();
-      const currentLeft = parseFloat(popupElement.style.left) || 0;
-      const currentTop = parseFloat(popupElement.style.top) || 0;
+      const currentLeft = parseFloat(VZ.ui.hoverPopup.popupElement.style.left) || 0;
+      const currentTop = parseFloat(VZ.ui.hoverPopup.popupElement.style.top) || 0;
       const offset = 15; // Nudge displacement in pixels
 
-      if (key === keys.up) {
-        popupElement.style.top = `${currentTop - offset}px`;
-      } else if (key === keys.down) {
-        popupElement.style.top = `${currentTop + offset}px`;
-      } else if (key === keys.left) {
-        popupElement.style.left = `${currentLeft - offset}px`;
-      } else if (key === keys.right) {
-        popupElement.style.left = `${currentLeft + offset}px`;
+      if (key === getCfg().keys.up) {
+        VZ.ui.hoverPopup.popupElement.style.top = `${currentTop - offset}px`;
+      } else if (key === getCfg().keys.down) {
+        VZ.ui.hoverPopup.popupElement.style.top = `${currentTop + offset}px`;
+      } else if (key === getCfg().keys.left) {
+        VZ.ui.hoverPopup.popupElement.style.left = `${currentLeft - offset}px`;
+      } else if (key === getCfg().keys.right) {
+        VZ.ui.hoverPopup.popupElement.style.left = `${currentLeft + offset}px`;
       }
     }
     // 3. Custom Copy Key
-    else if (enableQuickActions && key === keys.copy) {
+    else if (getCfg().enableQuickActions && key === getCfg().keys.copy) {
       e.preventDefault();
-      if (currentLongestMatch) {
+      if (VZ.ui.hoverPopup.currentLongestMatch) {
         navigator.clipboard
-          .writeText(currentLongestMatch)
+          .writeText(VZ.ui.hoverPopup.currentLongestMatch)
           .then(() => {
-            showToast(`Đã sao chép: "${currentLongestMatch}"`);
+            VZ.ui.hoverPopup.showToast(`Đã sao chép: "${VZ.ui.hoverPopup.currentLongestMatch}"`);
           })
           .catch((err) => {
             console.error("Failed to copy text:", err);
@@ -102,17 +127,17 @@ window.addEventListener("keydown", (e) => {
       }
     }
     // 4. Speak 1..4
-    else if (enableQuickActions && (key === keys.speak1 || key === keys.speak2 || key === keys.speak3 || key === keys.speak4)) {
+    else if (getCfg().enableQuickActions && (key === getCfg().keys.speak1 || key === getCfg().keys.speak2 || key === getCfg().keys.speak3 || key === getCfg().keys.speak4)) {
       e.preventDefault();
       let index = 0;
-      if (key === keys.speak2) index = 1;
-      else if (key === keys.speak3) index = 2;
-      else if (key === keys.speak4) index = 3;
+      if (key === getCfg().keys.speak2) index = 1;
+      else if (key === getCfg().keys.speak3) index = 2;
+      else if (key === getCfg().keys.speak4) index = 3;
 
-      const speakers = popupElement.querySelectorAll(".zh-hover-speaker");
+      const speakers = VZ.ui.hoverPopup.popupElement.querySelectorAll(".zh-hover-speaker");
       if (speakers && speakers[index]) {
         const wordToSpeak = speakers[index].getAttribute("data-word");
-        if (wordToSpeak) speakWord(wordToSpeak, speakers[index]);
+        if (wordToSpeak) VZ.services.tts.speakWord(wordToSpeak, speakers[index]);
       }
       return;
     }
@@ -121,7 +146,7 @@ window.addEventListener("keydown", (e) => {
 
 // Handle throttled mouse move events
 function onMouseMoveThrottled() {
-  if (!active) return;
+  if (!getCfg().active) return;
   
   const selection = window.getSelection();
   const isTextSelected = selection && selection.toString().trim().length > 0;
@@ -131,14 +156,14 @@ function onMouseMoveThrottled() {
   
   // Hover, popup của hover và highlight sẽ không hoạt động khi đang bôi đen (kéo chuột), có text được chọn, cửa sổ modal đang mở, hoặc panel chiết tự đang mở
   if (isDragging || isTextSelected || isSentenceModalOpen || isDecompPanelOpen) {
-    startHideTimer(mouseX, mouseY);
+    VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
     return;
   }
 
   // Check if mouse is hovering over the popup itself
   if (
-    popupElement &&
-    popupElement.contains(document.elementFromPoint(mouseX, mouseY))
+    VZ.ui.hoverPopup.popupElement &&
+    VZ.ui.hoverPopup.popupElement.contains(document.elementFromPoint(mouseX, mouseY))
   ) {
     return;
   }
@@ -148,7 +173,7 @@ function onMouseMoveThrottled() {
   const elementUnderMouse = getElementUnderMousePiercingShadow(mouseX, mouseY);
   if (elementUnderMouse) {
     if (elementUnderMouse.closest(".zh-sentence-popup") || elementUnderMouse.closest(".zh-report-overlay")) {
-      startHideTimer(mouseX, mouseY);
+      VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
       return;
     }
     
@@ -159,14 +184,14 @@ function onMouseMoveThrottled() {
       elementUnderMouse.isContentEditable ||
       elementUnderMouse.closest("[contenteditable]")
     ) {
-      startHideTimer(mouseX, mouseY);
+      VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
       return;
     }
   }
 
   // Check if mouse is hovering over the exact character that was hovered
   let isOverHoveredChar = false;
-  for (const rect of hoveredCharRects) {
+  for (const rect of VZ.ui.hoverPopup.hoveredCharRects) {
     if (
       mouseX >= rect.left &&
       mouseX <= rect.right &&
@@ -179,16 +204,13 @@ function onMouseMoveThrottled() {
   }
 
   if (isOverHoveredChar) {
-    if (hideTimer) {
-      clearTimeout(hideTimer);
-      hideTimer = null;
-    }
+    VZ.ui.hoverPopup.clearHideTimer();
     return; // Keep popup and highlights exactly as is
   }
 
-  if (!active) {
-    if (popupElement && popupElement.classList.contains("zh-visible")) {
-      startHideTimer(mouseX, mouseY);
+  if (!getCfg().active) {
+    if (VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible")) {
+      VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
     }
     return;
   }
@@ -255,12 +277,12 @@ function onMouseMoveThrottled() {
     }
 
     if (!isPhysicallyClose) {
-      startHideTimer(mouseX, mouseY);
+      VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
       return;
     }
 
     // Get up to 5 characters from the cursor position to the right (handling node crossing and line breaks)
-    const { substring, charMap } = getChineseTextAndMap(textNode, offset);
+    const { substring, charMap } = VZ.utils.dom.getChineseTextAndMap(textNode, offset);
 
     // Check if the first character is a Chinese character
     if (substring && /^[\u4e00-\u9fa5]/.test(substring)) {
@@ -268,9 +290,9 @@ function onMouseMoveThrottled() {
       chrome.runtime.sendMessage(
         { action: "lookup", text: substring },
         (response) => {
-          // Double check active hasn't changed since the lookup message was sent
-          if (!active) {
-            startHideTimer(mouseX, mouseY);
+          // Double check getCfg().active hasn't changed since the lookup message was sent
+          if (!getCfg().active) {
+            VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
             return;
           }
 
@@ -280,47 +302,44 @@ function onMouseMoveThrottled() {
             !response.matches ||
             response.matches.length === 0
           ) {
-            startHideTimer(mouseX, mouseY);
+            VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
             return;
           }
 
           // Clear hide timer since we found a valid Chinese character
-          if (hideTimer) {
-            clearTimeout(hideTimer);
-            hideTimer = null;
-          }
+          VZ.ui.hoverPopup.clearHideTimer();
 
           const matches = response.matches;
           const definitions = response.definitions;
           const longestMatch = matches[0];
 
           // NEW OPTIMIZATION: Prevent flickering by not re-rendering if it's the exact same result
-          const isPopupVisible = popupElement && popupElement.classList.contains("zh-visible");
-          if (currentLongestMatch !== longestMatch || !isPopupVisible) {
-            currentLongestMatch = longestMatch; // Save for shortcuts
+          const isPopupVisible = VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible");
+          if (VZ.ui.hoverPopup.currentLongestMatch !== longestMatch || !isPopupVisible) {
+            VZ.ui.hoverPopup.currentLongestMatch = longestMatch; // Save for shortcuts
             
             // Render and position popup only if content changed or popup was hidden
-            createUIElements();
-            renderPopup(matches, definitions);
+            VZ.ui.hoverPopup.createUIElements();
+            VZ.ui.hoverPopup.renderPopup(matches, definitions);
           }
           
-          highlightTextRange(charMap, longestMatch.length);
+          VZ.ui.hoverPopup.highlightTextRange(charMap, longestMatch.length);
           const charRange = document.createRange();
           try {
             charRange.setStart(textNode, offset);
             charRange.setEnd(textNode, offset + 1);
-            hoveredCharRects = Array.from(charRange.getClientRects());
-            if (hoveredCharRects.length > 0) {
-              const r = hoveredCharRects[0];
-              hoveredCharCenterX = r.left + r.width / 2 + window.scrollX;
-              hoveredCharCenterY = r.top + r.height / 2 + window.scrollY;
+            VZ.ui.hoverPopup.hoveredCharRects = Array.from(charRange.getClientRects());
+            if (VZ.ui.hoverPopup.hoveredCharRects.length > 0) {
+              const r = VZ.ui.hoverPopup.hoveredCharRects[0];
+              VZ.ui.hoverPopup.hoveredCharCenterX = r.left + r.width / 2 + window.scrollX;
+              VZ.ui.hoverPopup.hoveredCharCenterY = r.top + r.height / 2 + window.scrollY;
             }
           } catch (err) {
-            hoveredCharRects = [];
-            hoveredCharCenterX = 0;
-            hoveredCharCenterY = 0;
+            VZ.ui.hoverPopup.hoveredCharRects = [];
+            VZ.ui.hoverPopup.hoveredCharCenterX = 0;
+            VZ.ui.hoverPopup.hoveredCharCenterY = 0;
           }
-          positionPopup();
+          VZ.ui.hoverPopup.updatePopupPosition(mouseX, mouseY);
         },
       );
       return;
@@ -328,7 +347,7 @@ function onMouseMoveThrottled() {
   }
 
   // If no match was found, start the delay timer to hide the popup
-  startHideTimer(mouseX, mouseY);
+  VZ.ui.hoverPopup.startHideTimer(mouseX, mouseY);
 }
 
 // Helper to get element under coordinates, piercing Shadow DOM
@@ -367,19 +386,16 @@ document.addEventListener("selectionchange", () => {
   
   // 1. Hide normal dictionary popup immediately when user starts dragging/selecting
   if (selection && !selection.isCollapsed) {
-    if (popupElement && popupElement.classList.contains("zh-visible")) {
-      popupElement.classList.remove("zh-visible");
-      if (hideTimer) {
-        clearTimeout(hideTimer);
-        hideTimer = null;
-      }
+    if (VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible")) {
+      VZ.ui.hoverPopup.popupElement.classList.remove("zh-visible");
+      VZ.ui.hoverPopup.clearHideTimer();
     }
   }
 
   // 2. Hide selection icon if selection is lost
-  if (typeof hideSelectionIcon === "function") {
+  if (typeof VZ.ui.sentence.hideSelectionIcon === "function") {
     if (!selection || selection.isCollapsed) {
-      hideSelectionIcon();
+      VZ.ui.sentence.hideSelectionIcon();
     }
   }
 });
@@ -400,11 +416,11 @@ window.addEventListener("scroll", (e) => {
     }
   }
 
-  if (typeof hidePopup === "function") {
-    hidePopup();
+  if (typeof VZ.ui.hoverPopup.hidePopup === "function") {
+    VZ.ui.hoverPopup.hidePopup();
   }
-  if (window.zhDecompositionPopup) {
-    window.zhDecompositionPopup.hidePanel();
+  if (VZ.ui.decompPopup) {
+    VZ.ui.decompPopup.hidePanel();
   }
 }, { passive: true, capture: true });
 
@@ -413,12 +429,37 @@ document.addEventListener("click", (e) => {
   const charEl = e.target.closest('.zh-char');
   if (charEl) {
     const char = charEl.getAttribute('data-char');
-    if (char && window.zhDecompositionPopup) {
+    if (char && window.VZ.ui.decompPopup) {
       // Find the parent popup to use as reference for positioning
       const popupEl = charEl.closest('.zh-hover-popup') || charEl.closest('.zh-sentence-popup') || charEl.closest('.zh-decomposition-panel');
       if (popupEl) {
-        window.zhDecompositionPopup.showPanel(char, popupEl);
+        window.VZ.ui.decompPopup.showPanel(char, popupEl);
       }
     }
   }
 });
+
+  // Initialize config and bindings
+  window.VZ.config.init(() => {
+    // Bind selection event from sentence popup
+    document.addEventListener("mouseup", VZ.ui.sentence.handleMouseUpSelection);
+  });
+
+  // Re-render guide if keys change
+  window.VZ.config.subscribe((newCfg, changedKeys) => {
+    if (changedKeys.includes('active')) {
+      if (newCfg.active) {
+        window.VZ.ui.guide.show();
+      } else {
+        window.VZ.ui.guide.hide();
+      }
+    }
+    if (changedKeys.includes('keys')) {
+      window.VZ.ui.guide.renderContent();
+    }
+    if (changedKeys.includes('appearance')) {
+      window.VZ.ui.hoverPopup.updatePopupClasses();
+    }
+  });
+
+})();

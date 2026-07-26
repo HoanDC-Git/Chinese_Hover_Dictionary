@@ -1,8 +1,26 @@
+window.VZ = window.VZ || {};
+window.VZ.ui = window.VZ.ui || {};
+
+window.VZ.ui.hoverPopup = (function() {
+  let popupElement = null;
+  let hideTimer = null;
+  let toastElement = null;
+  let activeHighlights = [];
+  
+  const getCfg = () => window.VZ.config.get();
+  const showReportModal = (w) => window.VZ.ui.report?.show(w);
+  const showStrokePopup = (c, e) => window.VZ.ui.stroke?.show(c, e);
+  const hideStrokePopup = () => window.VZ.ui.stroke?.hide();
+
+  let currentLongestMatch = "";
+  let hoveredCharRects = [];
+  let hoveredCharCenterX = 0;
+  let hoveredCharCenterY = 0;
 // Create popup and highlight overlay container elements
 function createUIElements() {
   if (!popupElement) {
     popupElement = document.createElement("div");
-    popupElement.className = `zh-hover-popup zh-theme-${theme} zh-font-${fontFamily} zh-size-${fontSize}`;
+    popupElement.className = `zh-hover-popup zh-theme-${getCfg().theme} zh-font-${getCfg().fontFamily} zh-size-${getCfg().fontSize}`;
     document.body.appendChild(popupElement);
 
     // Keep popup open when mouse is over it
@@ -25,7 +43,7 @@ function createUIElements() {
       const speaker = e.target.closest(".zh-hover-speaker");
       if (speaker) {
         const word = speaker.getAttribute("data-word");
-        if (word) speakWord(word, speaker);
+        if (word) VZ.services.tts.speakWord(word, speaker);
         return;
       }
 
@@ -43,12 +61,12 @@ function createUIElements() {
       if (charSpan) {
         const char = charSpan.getAttribute("data-char");
         if (/[\u4e00-\u9fa5]/.test(char)) {
-          if (strokeHideTimer) {
-            clearTimeout(strokeHideTimer);
-            strokeHideTimer = null;
+          if (VZ.ui.stroke.strokeHideTimer) {
+            clearTimeout(VZ.ui.stroke.strokeHideTimer);
+            VZ.ui.stroke.strokeHideTimer = null;
           }
-          if (strokeHoverTimer) clearTimeout(strokeHoverTimer);
-          strokeHoverTimer = setTimeout(() => {
+          if (VZ.ui.stroke.strokeHoverTimer) clearTimeout(VZ.ui.stroke.strokeHoverTimer);
+          VZ.ui.stroke.strokeHoverTimer = setTimeout(() => {
             showStrokePopup(char, charSpan);
           }, 500);
         }
@@ -58,12 +76,12 @@ function createUIElements() {
     popupElement.addEventListener("mouseout", (e) => {
       const charSpan = e.target.closest(".zh-char");
       if (charSpan) {
-        if (strokeHoverTimer) {
-          clearTimeout(strokeHoverTimer);
-          strokeHoverTimer = null;
+        if (VZ.ui.stroke.strokeHoverTimer) {
+          clearTimeout(VZ.ui.stroke.strokeHoverTimer);
+          VZ.ui.stroke.strokeHoverTimer = null;
         }
-        if (!strokeHideTimer) {
-          strokeHideTimer = setTimeout(hideStrokePopup, 200);
+        if (!VZ.ui.stroke.strokeHideTimer) {
+          VZ.ui.stroke.strokeHideTimer = setTimeout(hideStrokePopup, 200);
         }
       }
     });
@@ -74,7 +92,7 @@ function createUIElements() {
 function updatePopupClasses() {
   if (popupElement) {
     const isVisible = popupElement.classList.contains("zh-visible");
-    popupElement.className = `zh-hover-popup zh-theme-${theme} zh-font-${fontFamily} zh-size-${fontSize}`;
+    popupElement.className = `zh-hover-popup zh-theme-${getCfg().theme} zh-font-${getCfg().fontFamily} zh-size-${getCfg().fontSize}`;
     if (isVisible) {
       popupElement.classList.add("zh-visible");
     }
@@ -92,7 +110,7 @@ function renderPopup(matches, definitions) {
 
     for (const def of wordDefs) {
       const [pinyin, pos, meaning_vi, meaning_en, hsk_level] = def;
-      const formattedPinyin = formatPinyin(pinyin);
+      const formattedPinyin = VZ.utils.text.formatPinyin(pinyin);
 
       // Determine HSK level class
       const hskClass = hsk_level
@@ -100,10 +118,10 @@ function renderPopup(matches, definitions) {
         : "";
 
       let speakKeyHint = "";
-      if (matchIndex === 0) speakKeyHint = keys.speak1.toUpperCase();
-      else if (matchIndex === 1) speakKeyHint = keys.speak2.toUpperCase();
-      else if (matchIndex === 2) speakKeyHint = keys.speak3.toUpperCase();
-      else if (matchIndex === 3) speakKeyHint = keys.speak4.toUpperCase();
+      if (matchIndex === 0) speakKeyHint = getCfg().keys.speak1.toUpperCase();
+      else if (matchIndex === 1) speakKeyHint = getCfg().keys.speak2.toUpperCase();
+      else if (matchIndex === 2) speakKeyHint = getCfg().keys.speak3.toUpperCase();
+      else if (matchIndex === 3) speakKeyHint = getCfg().keys.speak4.toUpperCase();
 
       html += `
         <div class="zh-hover-item">
@@ -113,11 +131,11 @@ function renderPopup(matches, definitions) {
                 .split("")
                 .map(
                   (char) =>
-                    `<span class="zh-char" data-char="${char}">${char}</span>`,
+                    `<span class="zh-char" data-char="${char}"${char === '仓' ? ' style="font-family: sans-serif !important;"' : ''}>${char}</span>`,
                 )
                 .join("")}</span>
               ${
-                enableQuickActions
+                getCfg().enableQuickActions
                   ? `
               <button class="zh-hover-speaker" data-word="${word}" title="Phát âm${speakKeyHint ? ` (Phím tắt: ${speakKeyHint})` : ""}">
                 <svg viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-3 0L5 8H1v8h4l6 4.77V3.23zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
@@ -292,3 +310,136 @@ function startHideTimer(x, y) {
     }, 150); // 150ms transition buffer
   }
 }
+
+// Position popup near hovered character center and do boundary checks
+function updatePopupPosition(targetX, targetY) {
+  if (!popupElement) return;
+
+  // Temporarily show popup to compute width/height
+  popupElement.style.visibility = "hidden";
+  popupElement.style.display = "flex";
+  popupElement.classList.add("zh-visible");
+
+  const popupWidth = popupElement.offsetWidth || 300;
+  const popupHeight = popupElement.offsetHeight || 150;
+
+  popupElement.style.display = "";
+  popupElement.style.visibility = "";
+
+  let left, top;
+
+  if (hoveredCharRects && hoveredCharRects.length > 0) {
+    const rect = hoveredCharRects[0];
+    // With position: fixed, we use viewport coordinates directly
+    const charTop = rect.top;
+    const charBottom = rect.bottom;
+    const charLeft = rect.left;
+    const charRight = rect.right;
+
+    const offset = 4; // Giữ nguyên khoảng cách cũ là 4px
+
+    // Check if popup fits below character bottom in the viewport
+    const viewportBottom = window.innerHeight;
+    const fitBelow = charBottom + offset + popupHeight <= viewportBottom - 10;
+    let tailClass = "";
+
+    if (fitBelow) {
+      // Normal: Top edge of popup is slightly below bottom edge of character
+      top = charBottom + offset;
+      tailClass = "zh-tail-top-";
+    } else {
+      // Near viewport bottom: Bottom edge of popup is slightly above top edge of character
+      top = charTop - offset - popupHeight;
+      tailClass = "zh-tail-bottom-";
+    }
+
+    // Position horizontally: prefer right, fallback to left if it overflows viewport right margin
+    const viewportRight = charRight;
+    if (viewportRight + 10 + popupWidth <= window.innerWidth) {
+      // Place completely to the right of the character
+      left = charRight - 8;
+      tailClass += "left";
+    } else {
+      // Place completely to the left of the character
+      left = charLeft - popupWidth + 8;
+      tailClass += "right";
+    }
+
+    // Clean up old tail classes
+    popupElement.classList.remove(
+      "zh-tail-top-left",
+      "zh-tail-top-right",
+      "zh-tail-bottom-left",
+      "zh-tail-bottom-right",
+    );
+    popupElement.classList.add(tailClass);
+  } else {
+    // Fallback to mouse coordinates if character rect is not available
+    left = targetX + 15;
+    top = targetY - popupHeight / 2;
+    popupElement.classList.remove(
+      "zh-tail-top-left",
+      "zh-tail-top-right",
+      "zh-tail-bottom-left",
+      "zh-tail-bottom-right",
+    );
+  }
+
+  // Prevent popup from extending beyond viewport left/right edges
+  const minLeft = 10;
+  const maxLeft = window.innerWidth - popupWidth - 10;
+
+  if (left < minLeft) left = minLeft;
+  if (left > maxLeft) left = maxLeft;
+
+  // Prevent popup from extending beyond viewport top/bottom edges
+  const minTop = 10;
+  const maxTop = window.innerHeight - popupHeight - 10;
+
+  if (top < minTop) top = minTop;
+  if (top > maxTop) top = maxTop;
+
+  popupElement.style.left = `${left}px`;
+  popupElement.style.top = `${top}px`;
+  popupElement.classList.add("zh-visible");
+
+  // Remove focus from input elements to remove typing caret when popup appears
+  if (
+    document.activeElement &&
+    (document.activeElement.tagName === "INPUT" ||
+      document.activeElement.tagName === "TEXTAREA" ||
+      document.activeElement.isContentEditable)
+  ) {
+    document.activeElement.blur();
+  }
+}
+
+  function clearHideTimer() {
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+  }
+
+  return {
+    createUIElements,
+    updatePopupClasses,
+    renderPopup,
+    hidePopup,
+    highlightTextRange,
+    clearHighlights,
+    showToast,
+    startHideTimer,
+    clearHideTimer,
+    updatePopupPosition,
+    get popupElement() { return popupElement; },
+    get currentLongestMatch() { return currentLongestMatch; },
+    set currentLongestMatch(v) { currentLongestMatch = v; },
+    get hoveredCharRects() { return hoveredCharRects; },
+    set hoveredCharRects(v) { hoveredCharRects = v; },
+    get hoveredCharCenterX() { return hoveredCharCenterX; },
+    set hoveredCharCenterX(v) { hoveredCharCenterX = v; },
+    get hoveredCharCenterY() { return hoveredCharCenterY; },
+    set hoveredCharCenterY(v) { hoveredCharCenterY = v; }
+  };
+})();

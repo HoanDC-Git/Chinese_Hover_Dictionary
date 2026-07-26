@@ -7,7 +7,6 @@
     "simplified": null,
     "pinyin": "yī",
     "meaning_vi": "Bộ nhất: Số một",
-    "meaning_en": "one",
     "type": "radical"
   },
   {
@@ -18,7 +17,6 @@
     "simplified": null,
     "pinyin": "gǔn",
     "meaning_vi": "Bộ cổn: Nét sổ dọc",
-    "meaning_en": "line",
     "type": "radical"
   },
   {
@@ -29,18 +27,16 @@
     "simplified": null,
     "pinyin": "zhǔ",
     "meaning_vi": "Bộ chủ: Nét chấm",
-    "meaning_en": "dot",
     "type": "radical"
   },
   {
     "id": 4,
     "character": "丿",
     "radical_number": 4,
-    "variants": "乀, 乁",
+    "variants": "乀, 乁, ㇒",
     "simplified": "",
     "pinyin": "piě",
     "meaning_vi": "Bộ phiệt: Nét phẩy",
-    "meaning_en": "slash",
     "type": "radical"
   },
   {
@@ -51,7 +47,6 @@
     "simplified": "",
     "pinyin": "yì",
     "meaning_vi": "Bộ ất: Can Ất",
-    "meaning_en": "second",
     "type": "radical"
   },
   {
@@ -62,7 +57,6 @@
     "simplified": null,
     "pinyin": "jué",
     "meaning_vi": "Bộ quyết: Nét móc",
-    "meaning_en": "hook",
     "type": "radical"
   },
   {
@@ -73,7 +67,6 @@
     "simplified": null,
     "pinyin": "èr",
     "meaning_vi": "Bộ nhị: Số hai",
-    "meaning_en": "two",
     "type": "radical"
   },
   {
@@ -84,7 +77,6 @@
     "simplified": null,
     "pinyin": "tóu",
     "meaning_vi": "Bộ đầu: Phần đầu",
-    "meaning_en": "lid",
     "type": "radical"
   },
   {
@@ -95,7 +87,6 @@
     "simplified": "",
     "pinyin": "rén",
     "meaning_vi": "Bộ nhân: Người",
-    "meaning_en": "person",
     "type": "radical"
   },
   {
@@ -106,7 +97,6 @@
     "simplified": null,
     "pinyin": "ér",
     "meaning_vi": "Bộ nhi: Trẻ con, đôi chân",
-    "meaning_en": "child",
     "type": "radical"
   },
   {
@@ -117,7 +107,6 @@
     "simplified": null,
     "pinyin": "rù",
     "meaning_vi": "Bộ nhập: Vào",
-    "meaning_en": "enter",
     "type": "radical"
   },
   {
@@ -128,7 +117,6 @@
     "simplified": null,
     "pinyin": "bā",
     "meaning_vi": "Bộ bát: Số tám, tách ra",
-    "meaning_en": "eight",
     "type": "radical"
   },
   {
@@ -139,7 +127,6 @@
     "simplified": null,
     "pinyin": "jiǒng",
     "meaning_vi": "Bộ quynh: Vùng biên giới",
-    "meaning_en": "down box",
     "type": "radical"
   },
   {
@@ -150,7 +137,6 @@
     "simplified": null,
     "pinyin": "mì",
     "meaning_vi": "Bộ mịch: Che phủ",
-    "meaning_en": "cover",
     "type": "radical"
   },
   {
@@ -161,7 +147,6 @@
     "simplified": null,
     "pinyin": "bīng",
     "meaning_vi": "Bộ băng: Nước đá",
-    "meaning_en": "ice",
     "type": "radical"
   },
   {
@@ -172,7 +157,6 @@
     "simplified": "",
     "pinyin": "jī",
     "meaning_vi": "Bộ kỷ: Cái bàn nhỏ",
-    "meaning_en": "table",
     "type": "radical"
   },
   {
@@ -183,18 +167,16 @@
     "simplified": null,
     "pinyin": "qǔ",
     "meaning_vi": "Bộ khảm: Chỗ trũng, há miệng",
-    "meaning_en": "open box",
     "type": "radical"
   },
   {
     "id": 18,
     "character": "刀",
     "radical_number": 18,
-    "variants": "刂, ⺈",
+    "variants": "刂, ⺈, 𠂊",
     "simplified": "",
     "pinyin": "dāo",
     "meaning_vi": "Bộ đao: Con dao",
-    "meaning_en": "knife",
     "type": "radical"
   },
   {
@@ -205,7 +187,6 @@
     "simplified": null,
     "pinyin": "lì",
     "meaning_vi": "Bộ lực: Sức mạnh",
-    "meaning_en": "power",
     "type": "radical"
   },
   {
@@ -216,7 +197,6 @@
     "simplified": null,
     "pinyin": "bāo",
     "meaning_vi": "Bộ bao: Bao bọc",
-    "meaning_en": "wrap",
     "type": "radical"
   },
   {
@@ -227,7 +207,6 @@
     "simplified": null,
     "pinyin": "bǐ",
     "meaning_vi": "Bộ chủy: Cái thìa",
-    "meaning_en": "spoon",
     "type": "radical"
   },
   {
@@ -238,7 +217,6 @@
     "simplified": null,
     "pinyin": "fāng",
     "meaning_vi": "Bộ phương: Tủ đựng",
-    "meaning_en": "right open box",
     "type": "radical"
   },
   {
@@ -249,7 +227,6 @@
     "simplified": null,
     "pinyin": "xǐ",
     "meaning_vi": "Bộ hệ: Che giấu",
-    "meaning_en": "hiding enclosure",
     "type": "radical"
   },
   {
@@ -260,7 +237,6 @@
     "simplified": null,
     "pinyin": "shí",
     "meaning_vi": "Bộ thập: Số mười",
-    "meaning_en": "ten",
     "type": "radical"
   },
   {
@@ -271,7 +247,6 @@
     "simplified": "",
     "pinyin": "bǔ",
     "meaning_vi": "Bộ bốc: Xem bói",
-    "meaning_en": "divination",
     "type": "radical"
   },
   {
@@ -282,7 +257,6 @@
     "simplified": "",
     "pinyin": "jié",
     "meaning_vi": "Bộ tiết: Đốt tre, con dấu",
-    "meaning_en": "seal",
     "type": "radical"
   },
   {
@@ -293,7 +267,6 @@
     "simplified": null,
     "pinyin": "hàn",
     "meaning_vi": "Bộ hán: Sườn núi, vách đá",
-    "meaning_en": "cliff",
     "type": "radical"
   },
   {
@@ -304,7 +277,6 @@
     "simplified": null,
     "pinyin": "sī",
     "meaning_vi": "Bộ tư: Riêng tư",
-    "meaning_en": "private",
     "type": "radical"
   },
   {
@@ -315,7 +287,6 @@
     "simplified": null,
     "pinyin": "yòu",
     "meaning_vi": "Bộ hựu: Bàn tay phải, lại nữa",
-    "meaning_en": "again, right hand",
     "type": "radical"
   },
   {
@@ -326,7 +297,6 @@
     "simplified": null,
     "pinyin": "kǒu",
     "meaning_vi": "Bộ khẩu: Cái miệng",
-    "meaning_en": "mouth",
     "type": "radical"
   },
   {
@@ -337,7 +307,6 @@
     "simplified": null,
     "pinyin": "wéi",
     "meaning_vi": "Bộ vi: Vây quanh",
-    "meaning_en": "enclosure",
     "type": "radical"
   },
   {
@@ -348,7 +317,6 @@
     "simplified": null,
     "pinyin": "tǔ",
     "meaning_vi": "Bộ thổ: Đất",
-    "meaning_en": "earth",
     "type": "radical"
   },
   {
@@ -359,7 +327,6 @@
     "simplified": null,
     "pinyin": "shì",
     "meaning_vi": "Bộ sĩ: Kẻ sĩ, quan",
-    "meaning_en": "scholar",
     "type": "radical"
   },
   {
@@ -370,7 +337,6 @@
     "simplified": null,
     "pinyin": "zhǐ",
     "meaning_vi": "Bộ truy: Theo sau",
-    "meaning_en": "go",
     "type": "radical"
   },
   {
@@ -381,7 +347,6 @@
     "simplified": null,
     "pinyin": "suī",
     "meaning_vi": "Bộ tuy: Đi chậm rãi",
-    "meaning_en": "go slowly",
     "type": "radical"
   },
   {
@@ -392,7 +357,6 @@
     "simplified": null,
     "pinyin": "xī",
     "meaning_vi": "Bộ tịch: Buổi tối",
-    "meaning_en": "evening",
     "type": "radical"
   },
   {
@@ -403,7 +367,6 @@
     "simplified": null,
     "pinyin": "dà",
     "meaning_vi": "Bộ đại: To lớn",
-    "meaning_en": "big",
     "type": "radical"
   },
   {
@@ -414,7 +377,6 @@
     "simplified": null,
     "pinyin": "nǚ",
     "meaning_vi": "Bộ nữ: Phụ nữ",
-    "meaning_en": "woman",
     "type": "radical"
   },
   {
@@ -425,7 +387,6 @@
     "simplified": null,
     "pinyin": "zǐ",
     "meaning_vi": "Bộ tử: Con cái",
-    "meaning_en": "child",
     "type": "radical"
   },
   {
@@ -436,7 +397,6 @@
     "simplified": null,
     "pinyin": "mián",
     "meaning_vi": "Bộ miên: Mái nhà",
-    "meaning_en": "roof",
     "type": "radical"
   },
   {
@@ -447,18 +407,16 @@
     "simplified": null,
     "pinyin": "cùn",
     "meaning_vi": "Bộ thốn: Tấc",
-    "meaning_en": "inch",
     "type": "radical"
   },
   {
     "id": 42,
     "character": "小",
     "radical_number": 42,
-    "variants": "⺌, ⺍",
+    "variants": "⺌, ⺍, 𭕄",
     "simplified": "",
     "pinyin": "xiǎo",
     "meaning_vi": "Bộ tiểu: Nhỏ bé",
-    "meaning_en": "small",
     "type": "radical"
   },
   {
@@ -469,7 +427,6 @@
     "simplified": null,
     "pinyin": "wāng",
     "meaning_vi": "Bộ uông: Khập khiễng",
-    "meaning_en": "lame",
     "type": "radical"
   },
   {
@@ -480,7 +437,6 @@
     "simplified": null,
     "pinyin": "shī",
     "meaning_vi": "Bộ thi: Thây ma",
-    "meaning_en": "corpse",
     "type": "radical"
   },
   {
@@ -491,7 +447,6 @@
     "simplified": null,
     "pinyin": "chè",
     "meaning_vi": "Bộ triệt: Mầm cỏ non",
-    "meaning_en": "sprout",
     "type": "radical"
   },
   {
@@ -502,7 +457,6 @@
     "simplified": null,
     "pinyin": "shān",
     "meaning_vi": "Bộ sơn: Ngọn núi",
-    "meaning_en": "mountain",
     "type": "radical"
   },
   {
@@ -513,7 +467,6 @@
     "simplified": null,
     "pinyin": "chuān",
     "meaning_vi": "Bộ xuyên: Sông ngòi",
-    "meaning_en": "river",
     "type": "radical"
   },
   {
@@ -524,7 +477,6 @@
     "simplified": null,
     "pinyin": "gōng",
     "meaning_vi": "Bộ công: Người thợ, công việc",
-    "meaning_en": "work",
     "type": "radical"
   },
   {
@@ -535,7 +487,6 @@
     "simplified": null,
     "pinyin": "jǐ",
     "meaning_vi": "Bộ kỷ: Bản thân",
-    "meaning_en": "oneself",
     "type": "radical"
   },
   {
@@ -546,7 +497,6 @@
     "simplified": null,
     "pinyin": "jīn",
     "meaning_vi": "Bộ cân: Cái khăn",
-    "meaning_en": "turban",
     "type": "radical"
   },
   {
@@ -557,7 +507,6 @@
     "simplified": null,
     "pinyin": "gān",
     "meaning_vi": "Bộ can: Cái khiên, can thiệp",
-    "meaning_en": "dry, shield",
     "type": "radical"
   },
   {
@@ -568,7 +517,6 @@
     "simplified": null,
     "pinyin": "yāo",
     "meaning_vi": "Bộ yêu: Nhỏ nhắn",
-    "meaning_en": "short thread",
     "type": "radical"
   },
   {
@@ -579,7 +527,6 @@
     "simplified": null,
     "pinyin": "guǎn",
     "meaning_vi": "Bộ nghiễm: Mái hiên",
-    "meaning_en": "dotted cliff",
     "type": "radical"
   },
   {
@@ -590,7 +537,6 @@
     "simplified": null,
     "pinyin": "yǐn",
     "meaning_vi": "Bộ dẫn: Bước dài",
-    "meaning_en": "long stride",
     "type": "radical"
   },
   {
@@ -601,7 +547,6 @@
     "simplified": null,
     "pinyin": "gǒng",
     "meaning_vi": "Bộ củng: Chắp tay",
-    "meaning_en": "two hands",
     "type": "radical"
   },
   {
@@ -612,7 +557,6 @@
     "simplified": null,
     "pinyin": "yì",
     "meaning_vi": "Bộ dực: Bắn tên",
-    "meaning_en": "shoot",
     "type": "radical"
   },
   {
@@ -623,7 +567,6 @@
     "simplified": null,
     "pinyin": "gōng",
     "meaning_vi": "Bộ cung: Cây cung",
-    "meaning_en": "bow",
     "type": "radical"
   },
   {
@@ -634,7 +577,6 @@
     "simplified": "",
     "pinyin": "jì",
     "meaning_vi": "Bộ ký: Mõm lợn",
-    "meaning_en": "snout",
     "type": "radical"
   },
   {
@@ -645,7 +587,6 @@
     "simplified": null,
     "pinyin": "shān",
     "meaning_vi": "Bộ sam: Lông tóc dài",
-    "meaning_en": "bristle",
     "type": "radical"
   },
   {
@@ -656,7 +597,6 @@
     "simplified": null,
     "pinyin": "chì",
     "meaning_vi": "Bộ xích: Bước ngắn",
-    "meaning_en": "step",
     "type": "radical"
   },
   {
@@ -667,7 +607,6 @@
     "simplified": "",
     "pinyin": "xīn",
     "meaning_vi": "Bộ tâm: Quả tim, tâm trí",
-    "meaning_en": "heart",
     "type": "radical"
   },
   {
@@ -678,7 +617,6 @@
     "simplified": null,
     "pinyin": "gē",
     "meaning_vi": "Bộ qua: Cây giáo",
-    "meaning_en": "halberd",
     "type": "radical"
   },
   {
@@ -689,7 +627,6 @@
     "simplified": "户",
     "pinyin": "hù",
     "meaning_vi": "Bộ hộ: Cửa một cánh",
-    "meaning_en": "door",
     "type": "radical"
   },
   {
@@ -700,7 +637,6 @@
     "simplified": "",
     "pinyin": "shǒu",
     "meaning_vi": "Bộ thủ: Bàn tay",
-    "meaning_en": "hand",
     "type": "radical"
   },
   {
@@ -711,7 +647,6 @@
     "simplified": null,
     "pinyin": "zhī",
     "meaning_vi": "Bộ chi: Cành nhánh",
-    "meaning_en": "branch",
     "type": "radical"
   },
   {
@@ -722,7 +657,6 @@
     "simplified": null,
     "pinyin": "pū",
     "meaning_vi": "Bộ phộc: Đánh nhẹ",
-    "meaning_en": "rap",
     "type": "radical"
   },
   {
@@ -733,7 +667,6 @@
     "simplified": null,
     "pinyin": "wén",
     "meaning_vi": "Bộ văn: Văn vẻ, chữ viết",
-    "meaning_en": "literature",
     "type": "radical"
   },
   {
@@ -744,7 +677,6 @@
     "simplified": null,
     "pinyin": "dǒu",
     "meaning_vi": "Bộ đẩu: Cái đấu đong gạo",
-    "meaning_en": "dipper",
     "type": "radical"
   },
   {
@@ -755,7 +687,6 @@
     "simplified": null,
     "pinyin": "jīn",
     "meaning_vi": "Bộ cân: Cái búa, cân lạng",
-    "meaning_en": "axe",
     "type": "radical"
   },
   {
@@ -766,7 +697,6 @@
     "simplified": null,
     "pinyin": "fāng",
     "meaning_vi": "Bộ phương: Vuông vắn, phương hướng",
-    "meaning_en": "square",
     "type": "radical"
   },
   {
@@ -777,7 +707,6 @@
     "simplified": "",
     "pinyin": "wú",
     "meaning_vi": "Bộ vô: Không có",
-    "meaning_en": "not",
     "type": "radical"
   },
   {
@@ -788,7 +717,6 @@
     "simplified": null,
     "pinyin": "rì",
     "meaning_vi": "Bộ nhật: Mặt trời, ban ngày",
-    "meaning_en": "sun",
     "type": "radical"
   },
   {
@@ -799,7 +727,6 @@
     "simplified": null,
     "pinyin": "yuē",
     "meaning_vi": "Bộ viết: Nói rằng",
-    "meaning_en": "say",
     "type": "radical"
   },
   {
@@ -810,7 +737,6 @@
     "simplified": null,
     "pinyin": "yuè",
     "meaning_vi": "Bộ nguyệt: Mặt trăng, tháng",
-    "meaning_en": "moon",
     "type": "radical"
   },
   {
@@ -821,7 +747,6 @@
     "simplified": null,
     "pinyin": "mù",
     "meaning_vi": "Bộ mộc: Cây cối, gỗ",
-    "meaning_en": "tree",
     "type": "radical"
   },
   {
@@ -832,7 +757,6 @@
     "simplified": null,
     "pinyin": "qiàn",
     "meaning_vi": "Bộ khiếm: Thiếu thốn",
-    "meaning_en": "lack",
     "type": "radical"
   },
   {
@@ -843,7 +767,6 @@
     "simplified": null,
     "pinyin": "zhǐ",
     "meaning_vi": "Bộ chỉ: Dừng lại",
-    "meaning_en": "stop",
     "type": "radical"
   },
   {
@@ -854,7 +777,6 @@
     "simplified": "",
     "pinyin": "dǎi",
     "meaning_vi": "Bộ đãi: Xấu xa, tồi tệ",
-    "meaning_en": "death",
     "type": "radical"
   },
   {
@@ -865,7 +787,6 @@
     "simplified": null,
     "pinyin": "shū",
     "meaning_vi": "Bộ thù: Binh khí dài",
-    "meaning_en": "weapon",
     "type": "radical"
   },
   {
@@ -876,7 +797,6 @@
     "simplified": "",
     "pinyin": "wú",
     "meaning_vi": "Bộ vô: Đừng, chớ",
-    "meaning_en": "do not",
     "type": "radical"
   },
   {
@@ -887,7 +807,6 @@
     "simplified": null,
     "pinyin": "bǐ",
     "meaning_vi": "Bộ tỷ: So sánh",
-    "meaning_en": "compare",
     "type": "radical"
   },
   {
@@ -898,7 +817,6 @@
     "simplified": null,
     "pinyin": "máo",
     "meaning_vi": "Bộ mao: Lông thú, lông vũ",
-    "meaning_en": "hair",
     "type": "radical"
   },
   {
@@ -909,7 +827,6 @@
     "simplified": null,
     "pinyin": "shì",
     "meaning_vi": "Bộ thị: Họ",
-    "meaning_en": "clan",
     "type": "radical"
   },
   {
@@ -920,7 +837,6 @@
     "simplified": null,
     "pinyin": "qì",
     "meaning_vi": "Bộ khí: Hơi thở, không khí",
-    "meaning_en": "steam",
     "type": "radical"
   },
   {
@@ -931,7 +847,6 @@
     "simplified": "",
     "pinyin": "shuǐ",
     "meaning_vi": "Bộ thủy: Nước",
-    "meaning_en": "water",
     "type": "radical"
   },
   {
@@ -942,7 +857,6 @@
     "simplified": null,
     "pinyin": "huǒ",
     "meaning_vi": "Bộ hỏa: Lửa",
-    "meaning_en": "fire",
     "type": "radical"
   },
   {
@@ -953,7 +867,6 @@
     "simplified": null,
     "pinyin": "zhǎo",
     "meaning_vi": "Bộ trảo: Móng vuốt",
-    "meaning_en": "claw",
     "type": "radical"
   },
   {
@@ -964,7 +877,6 @@
     "simplified": null,
     "pinyin": "fù",
     "meaning_vi": "Bộ phụ: Cha",
-    "meaning_en": "father",
     "type": "radical"
   },
   {
@@ -975,7 +887,6 @@
     "simplified": null,
     "pinyin": "yáo",
     "meaning_vi": "Bộ hào: Hào (trong Kinh Dịch)",
-    "meaning_en": "double x",
     "type": "radical"
   },
   {
@@ -986,7 +897,6 @@
     "simplified": "丬",
     "pinyin": "pán",
     "meaning_vi": "Bộ tường: Mảnh gỗ",
-    "meaning_en": "half tree trunk",
     "type": "radical"
   },
   {
@@ -997,7 +907,6 @@
     "simplified": null,
     "pinyin": "piàn",
     "meaning_vi": "Bộ phiến: Mảnh mỏng",
-    "meaning_en": "slice",
     "type": "radical"
   },
   {
@@ -1008,18 +917,16 @@
     "simplified": null,
     "pinyin": "yá",
     "meaning_vi": "Bộ nha: Răng nanh",
-    "meaning_en": "fang",
     "type": "radical"
   },
   {
     "id": 93,
     "character": "牛",
     "radical_number": 93,
-    "variants": "牜, ⺧",
+    "variants": "牜, ⺧, 𠂒",
     "simplified": "",
     "pinyin": "niú",
     "meaning_vi": "Bộ ngưu: Con bò",
-    "meaning_en": "cow",
     "type": "radical"
   },
   {
@@ -1030,7 +937,6 @@
     "simplified": null,
     "pinyin": "quǎn",
     "meaning_vi": "Bộ khuyển: Con chó",
-    "meaning_en": "dog",
     "type": "radical"
   },
   {
@@ -1041,7 +947,6 @@
     "simplified": null,
     "pinyin": "xuán",
     "meaning_vi": "Bộ huyền: Màu đen",
-    "meaning_en": "dark",
     "type": "radical"
   },
   {
@@ -1052,7 +957,6 @@
     "simplified": "",
     "pinyin": "yù",
     "meaning_vi": "Bộ ngọc: Đá quý",
-    "meaning_en": "jade",
     "type": "radical"
   },
   {
@@ -1063,7 +967,6 @@
     "simplified": null,
     "pinyin": "guā",
     "meaning_vi": "Bộ qua: Quả dưa",
-    "meaning_en": "melon",
     "type": "radical"
   },
   {
@@ -1074,7 +977,6 @@
     "simplified": null,
     "pinyin": "wǎ",
     "meaning_vi": "Bộ ngõa: Ngói đất",
-    "meaning_en": "tile",
     "type": "radical"
   },
   {
@@ -1085,7 +987,6 @@
     "simplified": null,
     "pinyin": "gān",
     "meaning_vi": "Bộ cam: Ngọt",
-    "meaning_en": "sweet",
     "type": "radical"
   },
   {
@@ -1096,7 +997,6 @@
     "simplified": null,
     "pinyin": "shēng",
     "meaning_vi": "Bộ sinh: Sinh đẻ, sống",
-    "meaning_en": "life",
     "type": "radical"
   },
   {
@@ -1107,7 +1007,6 @@
     "simplified": null,
     "pinyin": "yòng",
     "meaning_vi": "Bộ dụng: Sử dụng",
-    "meaning_en": "use",
     "type": "radical"
   },
   {
@@ -1118,7 +1017,6 @@
     "simplified": null,
     "pinyin": "tián",
     "meaning_vi": "Bộ điền: Ruộng đất",
-    "meaning_en": "field",
     "type": "radical"
   },
   {
@@ -1129,7 +1027,6 @@
     "simplified": "",
     "pinyin": "pǐ",
     "meaning_vi": "Bộ thất: Cuộn vải",
-    "meaning_en": "bolt of cloth",
     "type": "radical"
   },
   {
@@ -1140,7 +1037,6 @@
     "simplified": null,
     "pinyin": "chuáng",
     "meaning_vi": "Bộ nạch: Bệnh tật",
-    "meaning_en": "sickness",
     "type": "radical"
   },
   {
@@ -1151,7 +1047,6 @@
     "simplified": null,
     "pinyin": "bò",
     "meaning_vi": "Bộ bát: Trèo lên",
-    "meaning_en": "footsteps",
     "type": "radical"
   },
   {
@@ -1162,7 +1057,6 @@
     "simplified": null,
     "pinyin": "bái",
     "meaning_vi": "Bộ bạch: Màu trắng",
-    "meaning_en": "white",
     "type": "radical"
   },
   {
@@ -1173,7 +1067,6 @@
     "simplified": null,
     "pinyin": "pí",
     "meaning_vi": "Bộ bì: Da",
-    "meaning_en": "skin",
     "type": "radical"
   },
   {
@@ -1184,7 +1077,6 @@
     "simplified": null,
     "pinyin": "mǐn",
     "meaning_vi": "Bộ mãnh: Bát dĩa",
-    "meaning_en": "dish",
     "type": "radical"
   },
   {
@@ -1195,7 +1087,6 @@
     "simplified": "",
     "pinyin": "mù",
     "meaning_vi": "Bộ mục: Con mắt",
-    "meaning_en": "eye",
     "type": "radical"
   },
   {
@@ -1206,7 +1097,6 @@
     "simplified": null,
     "pinyin": "máo",
     "meaning_vi": "Bộ mâu: Cái giáo",
-    "meaning_en": "spear",
     "type": "radical"
   },
   {
@@ -1217,7 +1107,6 @@
     "simplified": null,
     "pinyin": "shǐ",
     "meaning_vi": "Bộ thỉ: Mũi tên",
-    "meaning_en": "arrow",
     "type": "radical"
   },
   {
@@ -1228,7 +1117,6 @@
     "simplified": null,
     "pinyin": "shí",
     "meaning_vi": "Bộ thạch: Đá",
-    "meaning_en": "stone",
     "type": "radical"
   },
   {
@@ -1239,7 +1127,6 @@
     "simplified": "",
     "pinyin": "shì",
     "meaning_vi": "Bộ thị: Chỉ cho thấy",
-    "meaning_en": "spirit",
     "type": "radical"
   },
   {
@@ -1250,7 +1137,6 @@
     "simplified": null,
     "pinyin": "rǒu",
     "meaning_vi": "Bộ nhựu: Vết chân thú",
-    "meaning_en": "track",
     "type": "radical"
   },
   {
@@ -1261,7 +1147,6 @@
     "simplified": null,
     "pinyin": "hé",
     "meaning_vi": "Bộ hòa: Cây lúa",
-    "meaning_en": "grain",
     "type": "radical"
   },
   {
@@ -1272,7 +1157,6 @@
     "simplified": null,
     "pinyin": "xuè",
     "meaning_vi": "Bộ huyệt: Cái hang",
-    "meaning_en": "cave",
     "type": "radical"
   },
   {
@@ -1283,7 +1167,6 @@
     "simplified": null,
     "pinyin": "lì",
     "meaning_vi": "Bộ lập: Đứng",
-    "meaning_en": "stand",
     "type": "radical"
   },
   {
@@ -1294,7 +1177,6 @@
     "simplified": null,
     "pinyin": "zhú",
     "meaning_vi": "Bộ trúc: Cây tre",
-    "meaning_en": "bamboo",
     "type": "radical"
   },
   {
@@ -1305,7 +1187,6 @@
     "simplified": null,
     "pinyin": "mǐ",
     "meaning_vi": "Bộ mễ: Gạo",
-    "meaning_en": "rice",
     "type": "radical"
   },
   {
@@ -1316,7 +1197,6 @@
     "simplified": "纟",
     "pinyin": "mì",
     "meaning_vi": "Bộ mịch: Sợi tơ nhỏ",
-    "meaning_en": "silk",
     "type": "radical"
   },
   {
@@ -1327,7 +1207,6 @@
     "simplified": null,
     "pinyin": "fǒu",
     "meaning_vi": "Bộ phẫu: Đồ sành",
-    "meaning_en": "jar",
     "type": "radical"
   },
   {
@@ -1338,7 +1217,6 @@
     "simplified": "网",
     "pinyin": "wǎng",
     "meaning_vi": "Bộ võng: Cái lưới",
-    "meaning_en": "net",
     "type": "radical"
   },
   {
@@ -1349,7 +1227,6 @@
     "simplified": "",
     "pinyin": "yáng",
     "meaning_vi": "Bộ dương: Con cừu",
-    "meaning_en": "sheep",
     "type": "radical"
   },
   {
@@ -1360,7 +1237,6 @@
     "simplified": null,
     "pinyin": "yǔ",
     "meaning_vi": "Bộ vũ: Lông chim",
-    "meaning_en": "feather",
     "type": "radical"
   },
   {
@@ -1371,7 +1247,6 @@
     "simplified": "",
     "pinyin": "lǎo",
     "meaning_vi": "Bộ lão: Người già",
-    "meaning_en": "old",
     "type": "radical"
   },
   {
@@ -1382,7 +1257,6 @@
     "simplified": null,
     "pinyin": "ér",
     "meaning_vi": "Bộ nhi: Mà, và",
-    "meaning_en": "and",
     "type": "radical"
   },
   {
@@ -1393,7 +1267,6 @@
     "simplified": null,
     "pinyin": "lěi",
     "meaning_vi": "Bộ lỗi: Cái cày",
-    "meaning_en": "plow",
     "type": "radical"
   },
   {
@@ -1404,7 +1277,6 @@
     "simplified": null,
     "pinyin": "ěr",
     "meaning_vi": "Bộ nhĩ: Lỗ tai",
-    "meaning_en": "ear",
     "type": "radical"
   },
   {
@@ -1415,7 +1287,6 @@
     "simplified": "",
     "pinyin": "yù",
     "meaning_vi": "Bộ duật: Cây bút",
-    "meaning_en": "brush",
     "type": "radical"
   },
   {
@@ -1426,7 +1297,6 @@
     "simplified": null,
     "pinyin": "ròu",
     "meaning_vi": "Bộ nhục: Thịt",
-    "meaning_en": "meat",
     "type": "radical"
   },
   {
@@ -1437,7 +1307,6 @@
     "simplified": null,
     "pinyin": "chén",
     "meaning_vi": "Bộ thần: Quan bầy tôi",
-    "meaning_en": "minister",
     "type": "radical"
   },
   {
@@ -1448,7 +1317,6 @@
     "simplified": null,
     "pinyin": "zì",
     "meaning_vi": "Bộ tự: Bản thân, từ",
-    "meaning_en": "self",
     "type": "radical"
   },
   {
@@ -1459,7 +1327,6 @@
     "simplified": null,
     "pinyin": "zhì",
     "meaning_vi": "Bộ chí: Đến nơi",
-    "meaning_en": "arrive",
     "type": "radical"
   },
   {
@@ -1470,7 +1337,6 @@
     "simplified": null,
     "pinyin": "jiù",
     "meaning_vi": "Bộ cữu: Cái cối giã",
-    "meaning_en": "mortar",
     "type": "radical"
   },
   {
@@ -1481,7 +1347,6 @@
     "simplified": null,
     "pinyin": "shé",
     "meaning_vi": "Bộ thiệt: Cái lưỡi",
-    "meaning_en": "tongue",
     "type": "radical"
   },
   {
@@ -1492,7 +1357,6 @@
     "simplified": null,
     "pinyin": "chuǎn",
     "meaning_vi": "Bộ suyễn: Sai lầm",
-    "meaning_en": "oppose",
     "type": "radical"
   },
   {
@@ -1503,7 +1367,6 @@
     "simplified": null,
     "pinyin": "zhōu",
     "meaning_vi": "Bộ chu: Con thuyền",
-    "meaning_en": "boat",
     "type": "radical"
   },
   {
@@ -1514,7 +1377,6 @@
     "simplified": null,
     "pinyin": "gèn",
     "meaning_vi": "Bộ cấn: Ranh giới, ngăn lại",
-    "meaning_en": "stopping",
     "type": "radical"
   },
   {
@@ -1525,18 +1387,16 @@
     "simplified": null,
     "pinyin": "sè",
     "meaning_vi": "Bộ sắc: Màu sắc, dung nhan",
-    "meaning_en": "color",
     "type": "radical"
   },
   {
     "id": 140,
     "character": "艸",
     "radical_number": 140,
-    "variants": "艹, 䒑",
+    "variants": "艹",
     "simplified": "",
     "pinyin": "cǎo",
     "meaning_vi": "Bộ thảo: Cỏ",
-    "meaning_en": "grass",
     "type": "radical"
   },
   {
@@ -1547,7 +1407,6 @@
     "simplified": null,
     "pinyin": "hū",
     "meaning_vi": "Bộ hô: Vằn vện của hổ",
-    "meaning_en": "tiger",
     "type": "radical"
   },
   {
@@ -1558,7 +1417,6 @@
     "simplified": null,
     "pinyin": "chóng",
     "meaning_vi": "Bộ trùng: Côn trùng",
-    "meaning_en": "insect",
     "type": "radical"
   },
   {
@@ -1569,7 +1427,6 @@
     "simplified": null,
     "pinyin": "xuě",
     "meaning_vi": "Bộ huyết: Máu",
-    "meaning_en": "blood",
     "type": "radical"
   },
   {
@@ -1580,7 +1437,6 @@
     "simplified": null,
     "pinyin": "xíng",
     "meaning_vi": "Bộ hành: Đi, thi hành",
-    "meaning_en": "walk",
     "type": "radical"
   },
   {
@@ -1591,7 +1447,6 @@
     "simplified": "",
     "pinyin": "yī",
     "meaning_vi": "Bộ y: Quần áo",
-    "meaning_en": "clothes",
     "type": "radical"
   },
   {
@@ -1602,7 +1457,6 @@
     "simplified": null,
     "pinyin": "yà",
     "meaning_vi": "Bộ á: Che đậy",
-    "meaning_en": "cover",
     "type": "radical"
   },
   {
@@ -1613,7 +1467,6 @@
     "simplified": "见",
     "pinyin": "jiàn",
     "meaning_vi": "Bộ kiến: Trông thấy",
-    "meaning_en": "see",
     "type": "radical"
   },
   {
@@ -1624,7 +1477,6 @@
     "simplified": null,
     "pinyin": "jué",
     "meaning_vi": "Bộ giác: Cái sừng",
-    "meaning_en": "horn",
     "type": "radical"
   },
   {
@@ -1635,7 +1487,6 @@
     "simplified": "讠",
     "pinyin": "yán",
     "meaning_vi": "Bộ ngôn: Lời nói",
-    "meaning_en": "speech",
     "type": "radical"
   },
   {
@@ -1646,7 +1497,6 @@
     "simplified": null,
     "pinyin": "gǔ",
     "meaning_vi": "Bộ cốc: Thung lũng",
-    "meaning_en": "valley",
     "type": "radical"
   },
   {
@@ -1657,7 +1507,6 @@
     "simplified": null,
     "pinyin": "dòu",
     "meaning_vi": "Bộ đậu: Hạt đậu",
-    "meaning_en": "bean",
     "type": "radical"
   },
   {
@@ -1668,7 +1517,6 @@
     "simplified": null,
     "pinyin": "shǐ",
     "meaning_vi": "Bộ thỉ: Con lợn",
-    "meaning_en": "pig",
     "type": "radical"
   },
   {
@@ -1679,7 +1527,6 @@
     "simplified": null,
     "pinyin": "zhì",
     "meaning_vi": "Bộ trĩ: Loài bò sát, thú không sừng",
-    "meaning_en": "badger",
     "type": "radical"
   },
   {
@@ -1690,7 +1537,6 @@
     "simplified": "贝",
     "pinyin": "bèi",
     "meaning_vi": "Bộ bối: Vỏ sò, tiền bạc",
-    "meaning_en": "shell",
     "type": "radical"
   },
   {
@@ -1701,7 +1547,6 @@
     "simplified": null,
     "pinyin": "chì",
     "meaning_vi": "Bộ xích: Màu đỏ",
-    "meaning_en": "red",
     "type": "radical"
   },
   {
@@ -1712,7 +1557,6 @@
     "simplified": "",
     "pinyin": "zǒu",
     "meaning_vi": "Bộ tẩu: Chạy",
-    "meaning_en": "run",
     "type": "radical"
   },
   {
@@ -1723,7 +1567,6 @@
     "simplified": "⻊",
     "pinyin": "zú",
     "meaning_vi": "Bộ túc: Bàn chân",
-    "meaning_en": "foot",
     "type": "radical"
   },
   {
@@ -1734,7 +1577,6 @@
     "simplified": null,
     "pinyin": "shēn",
     "meaning_vi": "Bộ thân: Thân thể",
-    "meaning_en": "body",
     "type": "radical"
   },
   {
@@ -1745,7 +1587,6 @@
     "simplified": "车",
     "pinyin": "chē",
     "meaning_vi": "Bộ xa: Cỗ xe",
-    "meaning_en": "cart",
     "type": "radical"
   },
   {
@@ -1756,7 +1597,6 @@
     "simplified": null,
     "pinyin": "xīn",
     "meaning_vi": "Bộ tân: Cay đắng",
-    "meaning_en": "bitter",
     "type": "radical"
   },
   {
@@ -1767,7 +1607,6 @@
     "simplified": null,
     "pinyin": "chén",
     "meaning_vi": "Bộ thần: Buổi sáng, ngôi thần",
-    "meaning_en": "morning",
     "type": "radical"
   },
   {
@@ -1778,7 +1617,6 @@
     "simplified": "辶",
     "pinyin": "chuò",
     "meaning_vi": "Bộ xước: Đi rồi dừng",
-    "meaning_en": "walk",
     "type": "radical"
   },
   {
@@ -1789,7 +1627,6 @@
     "simplified": "",
     "pinyin": "yì",
     "meaning_vi": "Bộ ấp: Vùng đất, làng",
-    "meaning_en": "city",
     "type": "radical"
   },
   {
@@ -1800,7 +1637,6 @@
     "simplified": null,
     "pinyin": "yǒu",
     "meaning_vi": "Bộ dậu: Bình rượu",
-    "meaning_en": "wine",
     "type": "radical"
   },
   {
@@ -1811,7 +1647,6 @@
     "simplified": null,
     "pinyin": "biàn",
     "meaning_vi": "Bộ biện: Phân biệt",
-    "meaning_en": "distinguish",
     "type": "radical"
   },
   {
@@ -1822,7 +1657,6 @@
     "simplified": null,
     "pinyin": "lǐ",
     "meaning_vi": "Bộ lý: Dặm, làng xóm",
-    "meaning_en": "village",
     "type": "radical"
   },
   {
@@ -1833,7 +1667,6 @@
     "simplified": "钅",
     "pinyin": "jīn",
     "meaning_vi": "Bộ kim: Vàng, kim loại",
-    "meaning_en": "gold",
     "type": "radical"
   },
   {
@@ -1844,7 +1677,6 @@
     "simplified": "长",
     "pinyin": "cháng",
     "meaning_vi": "Bộ trường: Dài, lớn lên",
-    "meaning_en": "long",
     "type": "radical"
   },
   {
@@ -1855,7 +1687,6 @@
     "simplified": "门",
     "pinyin": "mén",
     "meaning_vi": "Bộ môn: Cánh cửa",
-    "meaning_en": "gate",
     "type": "radical"
   },
   {
@@ -1866,7 +1697,6 @@
     "simplified": "",
     "pinyin": "fù",
     "meaning_vi": "Bộ phụ: Gò đất",
-    "meaning_en": "mound",
     "type": "radical"
   },
   {
@@ -1875,9 +1705,8 @@
     "radical_number": 171,
     "variants": null,
     "simplified": null,
-    "pinyin": "dài",
-    "meaning_vi": "Bộ đãi: Bắt kịp",
-    "meaning_en": "slave",
+    "pinyin": "lì",
+    "meaning_vi": "Bộ đãi: Lệ thuộc; bắt kịp",
     "type": "radical"
   },
   {
@@ -1888,7 +1717,6 @@
     "simplified": null,
     "pinyin": "zhuī",
     "meaning_vi": "Bộ chuy: Chim đuôi ngắn",
-    "meaning_en": "short-tailed bird",
     "type": "radical"
   },
   {
@@ -1899,7 +1727,6 @@
     "simplified": "",
     "pinyin": "yǔ",
     "meaning_vi": "Bộ vũ: Mưa",
-    "meaning_en": "rain",
     "type": "radical"
   },
   {
@@ -1910,7 +1737,6 @@
     "simplified": "",
     "pinyin": "qīng",
     "meaning_vi": "Bộ thanh: Màu xanh",
-    "meaning_en": "blue",
     "type": "radical"
   },
   {
@@ -1921,7 +1747,6 @@
     "simplified": null,
     "pinyin": "fēi",
     "meaning_vi": "Bộ phi: Không đúng",
-    "meaning_en": "wrong",
     "type": "radical"
   },
   {
@@ -1932,7 +1757,6 @@
     "simplified": null,
     "pinyin": "miàn",
     "meaning_vi": "Bộ diện: Khuôn mặt",
-    "meaning_en": "face",
     "type": "radical"
   },
   {
@@ -1943,7 +1767,6 @@
     "simplified": null,
     "pinyin": "gé",
     "meaning_vi": "Bộ cách: Da thú",
-    "meaning_en": "leather",
     "type": "radical"
   },
   {
@@ -1954,7 +1777,6 @@
     "simplified": "韦",
     "pinyin": "wéi",
     "meaning_vi": "Bộ vi: Da đã thuộc",
-    "meaning_en": "tanned leather",
     "type": "radical"
   },
   {
@@ -1965,7 +1787,6 @@
     "simplified": null,
     "pinyin": "jiǔ",
     "meaning_vi": "Bộ cửu: Rau hẹ",
-    "meaning_en": "leek",
     "type": "radical"
   },
   {
@@ -1976,7 +1797,6 @@
     "simplified": null,
     "pinyin": "yīn",
     "meaning_vi": "Bộ âm: Âm thanh",
-    "meaning_en": "sound",
     "type": "radical"
   },
   {
@@ -1987,7 +1807,6 @@
     "simplified": "页",
     "pinyin": "yè",
     "meaning_vi": "Bộ hiệt: Cái đầu, trang giấy",
-    "meaning_en": "leaf",
     "type": "radical"
   },
   {
@@ -1998,7 +1817,6 @@
     "simplified": "风",
     "pinyin": "fēng",
     "meaning_vi": "Bộ phong: Gió",
-    "meaning_en": "wind",
     "type": "radical"
   },
   {
@@ -2009,7 +1827,6 @@
     "simplified": "飞",
     "pinyin": "fēi",
     "meaning_vi": "Bộ phi: Bay",
-    "meaning_en": "fly",
     "type": "radical"
   },
   {
@@ -2020,7 +1837,6 @@
     "simplified": "饣",
     "pinyin": "shí",
     "meaning_vi": "Bộ thực: Ăn, thức ăn",
-    "meaning_en": "eat",
     "type": "radical"
   },
   {
@@ -2031,7 +1847,6 @@
     "simplified": null,
     "pinyin": "shǒu",
     "meaning_vi": "Bộ thủ: Cái đầu",
-    "meaning_en": "head",
     "type": "radical"
   },
   {
@@ -2042,7 +1857,6 @@
     "simplified": null,
     "pinyin": "xiāng",
     "meaning_vi": "Bộ hương: Mùi thơm",
-    "meaning_en": "fragrant",
     "type": "radical"
   },
   {
@@ -2053,7 +1867,6 @@
     "simplified": "马",
     "pinyin": "mǎ",
     "meaning_vi": "Bộ mã: Con ngựa",
-    "meaning_en": "horse",
     "type": "radical"
   },
   {
@@ -2064,7 +1877,6 @@
     "simplified": null,
     "pinyin": "gǔ",
     "meaning_vi": "Bộ cốt: Xương",
-    "meaning_en": "bone",
     "type": "radical"
   },
   {
@@ -2075,7 +1887,6 @@
     "simplified": "",
     "pinyin": "gāo",
     "meaning_vi": "Bộ cao: Cao lớn",
-    "meaning_en": "high",
     "type": "radical"
   },
   {
@@ -2086,7 +1897,6 @@
     "simplified": null,
     "pinyin": "biāo",
     "meaning_vi": "Bộ tiêu: Tóc dài",
-    "meaning_en": "hair",
     "type": "radical"
   },
   {
@@ -2097,7 +1907,6 @@
     "simplified": "斗",
     "pinyin": "dòu",
     "meaning_vi": "Bộ đấu: Đánh nhau",
-    "meaning_en": "fight",
     "type": "radical"
   },
   {
@@ -2108,7 +1917,6 @@
     "simplified": null,
     "pinyin": "chàng",
     "meaning_vi": "Bộ xưởng: Rượu thơm",
-    "meaning_en": "sacrificial wine",
     "type": "radical"
   },
   {
@@ -2119,7 +1927,6 @@
     "simplified": null,
     "pinyin": "lì",
     "meaning_vi": "Bộ cách: Nồi đun",
-    "meaning_en": "cauldron",
     "type": "radical"
   },
   {
@@ -2130,7 +1937,6 @@
     "simplified": null,
     "pinyin": "guǐ",
     "meaning_vi": "Bộ quỷ: Ma quỷ",
-    "meaning_en": "ghost",
     "type": "radical"
   },
   {
@@ -2141,7 +1947,6 @@
     "simplified": "鱼",
     "pinyin": "yú",
     "meaning_vi": "Bộ ngư: Con cá",
-    "meaning_en": "fish",
     "type": "radical"
   },
   {
@@ -2152,7 +1957,6 @@
     "simplified": "鸟",
     "pinyin": "niǎo",
     "meaning_vi": "Bộ điểu: Con chim",
-    "meaning_en": "bird",
     "type": "radical"
   },
   {
@@ -2163,7 +1967,6 @@
     "simplified": "卤",
     "pinyin": "lǔ",
     "meaning_vi": "Bộ lỗ: Đất mặn",
-    "meaning_en": "salt",
     "type": "radical"
   },
   {
@@ -2174,7 +1977,6 @@
     "simplified": null,
     "pinyin": "lù",
     "meaning_vi": "Bộ lộc: Con hươu",
-    "meaning_en": "deer",
     "type": "radical"
   },
   {
@@ -2185,7 +1987,6 @@
     "simplified": "麦",
     "pinyin": "mài",
     "meaning_vi": "Bộ mạch: Lúa mạch",
-    "meaning_en": "wheat",
     "type": "radical"
   },
   {
@@ -2196,7 +1997,6 @@
     "simplified": null,
     "pinyin": "má",
     "meaning_vi": "Bộ ma: Cây gai",
-    "meaning_en": "hemp",
     "type": "radical"
   },
   {
@@ -2207,7 +2007,6 @@
     "simplified": "黄",
     "pinyin": "huáng",
     "meaning_vi": "Bộ hoàng: Màu vàng",
-    "meaning_en": "yellow",
     "type": "radical"
   },
   {
@@ -2218,7 +2017,6 @@
     "simplified": null,
     "pinyin": "shǔ",
     "meaning_vi": "Bộ thử: Lúa nếp",
-    "meaning_en": "millet",
     "type": "radical"
   },
   {
@@ -2229,7 +2027,6 @@
     "simplified": "",
     "pinyin": "hēi",
     "meaning_vi": "Bộ hắc: Màu đen",
-    "meaning_en": "black",
     "type": "radical"
   },
   {
@@ -2240,7 +2037,6 @@
     "simplified": null,
     "pinyin": "zhǐ",
     "meaning_vi": "Bộ chỉ: Thêu thùa",
-    "meaning_en": "embroidery",
     "type": "radical"
   },
   {
@@ -2251,7 +2047,6 @@
     "simplified": "黾",
     "pinyin": "mǐn",
     "meaning_vi": "Bộ mãnh: Con ếch",
-    "meaning_en": "frog",
     "type": "radical"
   },
   {
@@ -2262,7 +2057,6 @@
     "simplified": null,
     "pinyin": "dǐng",
     "meaning_vi": "Bộ đỉnh: Cái vạc",
-    "meaning_en": "tripod",
     "type": "radical"
   },
   {
@@ -2273,7 +2067,6 @@
     "simplified": null,
     "pinyin": "gǔ",
     "meaning_vi": "Bộ cổ: Cái trống",
-    "meaning_en": "drum",
     "type": "radical"
   },
   {
@@ -2284,7 +2077,6 @@
     "simplified": null,
     "pinyin": "shǔ",
     "meaning_vi": "Bộ thử: Con chuột",
-    "meaning_en": "rat",
     "type": "radical"
   },
   {
@@ -2295,7 +2087,6 @@
     "simplified": null,
     "pinyin": "bí",
     "meaning_vi": "Bộ tị: Cái mũi",
-    "meaning_en": "nose",
     "type": "radical"
   },
   {
@@ -2306,7 +2097,6 @@
     "simplified": "齐",
     "pinyin": "qí",
     "meaning_vi": "Bộ tề: Bằng phẳng, đều",
-    "meaning_en": "even",
     "type": "radical"
   },
   {
@@ -2317,7 +2107,6 @@
     "simplified": "齿",
     "pinyin": "chǐ",
     "meaning_vi": "Bộ xỉ: Răng",
-    "meaning_en": "tooth",
     "type": "radical"
   },
   {
@@ -2328,7 +2117,6 @@
     "simplified": "龙",
     "pinyin": "lóng",
     "meaning_vi": "Bộ long: Con rồng",
-    "meaning_en": "dragon",
     "type": "radical"
   },
   {
@@ -2339,7 +2127,6 @@
     "simplified": "龟",
     "pinyin": "guī",
     "meaning_vi": "Bộ quy: Con rùa",
-    "meaning_en": "turtle",
     "type": "radical"
   },
   {
@@ -2350,7 +2137,6 @@
     "simplified": null,
     "pinyin": "yuè",
     "meaning_vi": "Bộ dược: Sáo trúc",
-    "meaning_en": "flute",
     "type": "radical"
   },
   {
@@ -2361,7 +2147,6 @@
     "simplified": null,
     "pinyin": "āo",
     "meaning_vi": "Ao: lõm, khuyết",
-    "meaning_en": "concave, hollow; depressed; pass, valley",
     "type": "other"
   },
   {
@@ -2372,7 +2157,6 @@
     "simplified": null,
     "pinyin": "yè",
     "meaning_vi": "Duệ: kéo lê, dắt đi",
-    "meaning_en": "to tow, to pull, to drag",
     "type": "other"
   },
   {
@@ -2383,7 +2167,6 @@
     "simplified": null,
     "pinyin": "jù",
     "meaning_vi": "Cự: to lớn, khổng lồ; người đứng đầu",
-    "meaning_en": "large, huge, gigantic; chief",
     "type": "other"
   },
   {
@@ -2394,7 +2177,6 @@
     "simplified": null,
     "pinyin": "cái",
     "meaning_vi": "Tài: tài năng, năng lực; vừa mới, chỉ",
-    "meaning_en": "ability, talent, gift; just, only",
     "type": "other"
   },
   {
@@ -2405,7 +2187,6 @@
     "simplified": null,
     "pinyin": "xì",
     "meaning_vi": "Tấp: bốn mươi",
-    "meaning_en": "forty, fortieth",
     "type": "other"
   },
   {
@@ -2416,7 +2197,6 @@
     "simplified": null,
     "pinyin": "jiū",
     "meaning_vi": "Củ: liên kết, quấn quýt; dây leo",
-    "meaning_en": "to connect, to join; vine",
     "type": "other"
   },
   {
@@ -2427,7 +2207,6 @@
     "simplified": null,
     "pinyin": "shì",
     "meaning_vi": "Thế: thế hệ, thời đại; thế giới",
-    "meaning_en": "generation, era, age; world",
     "type": "other"
   },
   {
@@ -2438,7 +2217,6 @@
     "simplified": null,
     "pinyin": "sù",
     "meaning_vi": "Túc: tôn kính, nghiêm túc",
-    "meaning_en": "to pay respects; solemn, reverent",
     "type": "other"
   },
   {
@@ -2449,7 +2227,6 @@
     "simplified": null,
     "pinyin": "yě",
     "meaning_vi": "Dã: cũng",
-    "meaning_en": "also, too",
     "type": "other"
   },
   {
@@ -2460,7 +2237,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Di: cằm, hàm",
-    "meaning_en": "chin, jaw; variant of 頤",
     "type": "other"
   },
   {
@@ -2471,7 +2247,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Quái: lách nước, rạch nhỏ",
-    "meaning_en": "radical bend, river channel",
     "type": "other"
   },
   {
@@ -2482,7 +2257,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét ngang gập trong chữ Hán",
-    "meaning_en": "Chinese stroke \"hengzhe\"",
     "type": "other"
   },
   {
@@ -2493,7 +2267,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (biến thể đầu chữ)",
-    "meaning_en": "radical component",
     "type": "other"
   },
   {
@@ -2504,7 +2277,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét hất trong chữ Hán",
-    "meaning_en": "rising stroke \"ti\"",
     "type": "other"
   },
   {
@@ -2515,7 +2287,6 @@
     "simplified": null,
     "pinyin": "lè",
     "meaning_vi": "Nhạc, lạc: vui vẻ, hạnh phúc; âm nhạc",
-    "meaning_en": "cheerful, happy, laughing; music",
     "type": "other"
   },
   {
@@ -2526,7 +2297,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét ngang phẩy trong chữ Hán",
-    "meaning_en": "Chinese stroke \"hengpie\"",
     "type": "other"
   },
   {
@@ -2537,18 +2307,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Dạng cổ của chữ 乃 (nãi - bèn, vậy mà)",
-    "meaning_en": "ancient form of 乃, then, indeed",
-    "type": "other"
-  },
-  {
-    "id": 232,
-    "character": "𠂊",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": null,
-    "meaning_vi": "Thành phần chữ Hán (phần trên của một số chữ)",
-    "meaning_en": "component/radical variant",
     "type": "other"
   },
   {
@@ -2559,18 +2317,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (biến thể nét)",
-    "meaning_en": "radical/component variant",
-    "type": "other"
-  },
-  {
-    "id": 234,
-    "character": "𣥂",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": null,
-    "meaning_vi": "Dạng cổ của chữ 步 (bộ - bước đi)",
-    "meaning_en": "ancient form of 步, to step, to walk",
     "type": "other"
   },
   {
@@ -2581,7 +2327,6 @@
     "simplified": null,
     "pinyin": "yǐ",
     "meaning_vi": "Dĩ: bằng, bởi vì, để mà, theo như",
-    "meaning_en": "according to; so as to; because of; then",
     "type": "other"
   },
   {
@@ -2592,7 +2337,6 @@
     "simplified": null,
     "pinyin": "sì",
     "meaning_vi": "Tị: chi Tị (địa chi thứ 6, từ 9 đến 11 giờ sáng)",
-    "meaning_en": "the hours from 9 to 11; 6th terrestrial branch",
     "type": "other"
   },
   {
@@ -2603,7 +2347,6 @@
     "simplified": null,
     "pinyin": "zhào",
     "meaning_vi": "Triệu: điềm báo, triệu chứng; triệu (10^6 hoặc 10^12)",
-    "meaning_en": "omen; mega-, million",
     "type": "other"
   },
   {
@@ -2614,7 +2357,6 @@
     "simplified": null,
     "pinyin": "gài",
     "meaning_vi": "Cái: ăn xin, người ăn xin; cho",
-    "meaning_en": "beggar; to beg; to give",
     "type": "other"
   },
   {
@@ -2625,7 +2367,6 @@
     "simplified": null,
     "pinyin": "jiǎ",
     "meaning_vi": "Giáp: áo giáp, vỏ bọc; móng tay; thiên can thứ nhất",
-    "meaning_en": "armor, shell; fingernails; 1st heavenly stem",
     "type": "other"
   },
   {
@@ -2636,7 +2377,6 @@
     "simplified": null,
     "pinyin": "tū",
     "meaning_vi": "Đột: lồi ra, gồ lên",
-    "meaning_en": "to protrude, to bulge out; convex",
     "type": "other"
   },
   {
@@ -2647,7 +2387,6 @@
     "simplified": null,
     "pinyin": "yuè",
     "meaning_vi": "Việt: cái búa lớn, rìu chiến",
-    "meaning_en": "halberd, battle-axe",
     "type": "other"
   },
   {
@@ -2658,7 +2397,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét sổ gập trong chữ Hán",
-    "meaning_en": "Chinese stroke \"shuzhe\"",
     "type": "other"
   },
   {
@@ -2669,7 +2407,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (thường liên quan đến bàn chân)",
-    "meaning_en": "variant of foot, to walk; component",
     "type": "other"
   },
   {
@@ -2680,7 +2417,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (biến thể nét)",
-    "meaning_en": "radical/component variant",
     "type": "other"
   },
   {
@@ -2691,7 +2427,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét ngang gập cong trong chữ Hán",
-    "meaning_en": "Chinese stroke \"hengzhewan\"",
     "type": "other"
   },
   {
@@ -2702,7 +2437,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét phẩy gập trong chữ Hán",
-    "meaning_en": "Chinese stroke \"piezhe\"",
     "type": "other"
   },
   {
@@ -2713,7 +2447,6 @@
     "simplified": null,
     "pinyin": "zhuān",
     "meaning_vi": "Chuyên: chuyên môn, tập trung; độc chiếm",
-    "meaning_en": "concentrated, specialized; to monopolize",
     "type": "other"
   },
   {
@@ -2724,7 +2457,6 @@
     "simplified": null,
     "pinyin": "bā",
     "meaning_vi": "Ba: mong mỏi, hy vọng; bám vào, dính",
-    "meaning_en": "to desire, to wish for",
     "type": "other"
   },
   {
@@ -2735,7 +2467,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (biến thể người nằm)",
-    "meaning_en": "radical component (lying person)",
     "type": "other"
   },
   {
@@ -2746,7 +2477,6 @@
     "simplified": null,
     "pinyin": "guàn",
     "meaning_vi": "Dạng cổ của chữ 貫 (quán - xuyên qua)",
-    "meaning_en": "old form of 貫",
     "type": "other"
   },
   {
@@ -2757,7 +2487,6 @@
     "simplified": null,
     "pinyin": "yǐ",
     "meaning_vi": "Dĩ: đã, rồi; kết thúc, dừng lại",
-    "meaning_en": "already; finished; to stop; then, afterwards",
     "type": "other"
   },
   {
@@ -2768,7 +2497,6 @@
     "simplified": null,
     "pinyin": "yín",
     "meaning_vi": "Chúng: đứng cạnh nhau, xếp hàng",
-    "meaning_en": "to stand side by side",
     "type": "other"
   },
   {
@@ -2779,7 +2507,6 @@
     "simplified": null,
     "pinyin": "yǒng",
     "meaning_vi": "Vĩnh: lâu dài, vĩnh viễn, mãi mãi",
-    "meaning_en": "long; perpetual, eternal; forever",
     "type": "other"
   },
   {
@@ -2790,18 +2517,6 @@
     "simplified": null,
     "pinyin": "jí",
     "meaning_vi": "Cập: đạt đến, kịp; và; kịp thời",
-    "meaning_en": "to extend; to reach; and; in time",
-    "type": "other"
-  },
-  {
-    "id": 255,
-    "character": "禹",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": "yǔ",
-    "meaning_vi": "Vũ: vua Vũ (nhà sáng lập truyền thuyết của nhà Hạ)",
-    "meaning_en": "legendary Hsia dynasty founder",
     "type": "other"
   },
   {
@@ -2812,7 +2527,6 @@
     "simplified": null,
     "pinyin": "chéng",
     "meaning_vi": "Thừa: tiếp nhận, gánh vác, thừa kế",
-    "meaning_en": "to undertake, to bear, to accept a duty; inheritance",
     "type": "other"
   },
   {
@@ -2823,7 +2537,6 @@
     "simplified": null,
     "pinyin": "fā",
     "meaning_vi": "Phát: phát ra, gửi đi; tóc",
-    "meaning_en": "to issue, to dispatch, to send out; hair",
     "type": "other"
   },
   {
@@ -2834,7 +2547,6 @@
     "simplified": null,
     "pinyin": "xūn",
     "meaning_vi": "Huân: hun khói, xông khói; hơi khói, sương mù",
-    "meaning_en": "to smoke, to cure meat; vapor, smoke, fog",
     "type": "other"
   },
   {
@@ -2845,7 +2557,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán (dạng góc chữ U nằm ngang)",
-    "meaning_en": "radical/component shape (similar to Katakana ko)",
     "type": "other"
   },
   {
@@ -2856,18 +2567,6 @@
     "simplified": null,
     "pinyin": "mǔ",
     "meaning_vi": "Mẫu: mẹ; người bề trên là nữ; giống cái",
-    "meaning_en": "mother; female elders; female",
-    "type": "other"
-  },
-  {
-    "id": 261,
-    "character": "𭕄",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": null,
-    "meaning_vi": "Thành phần chữ Hán",
-    "meaning_en": "radical/component variant",
     "type": "other"
   },
   {
@@ -2877,8 +2576,7 @@
     "variants": null,
     "simplified": null,
     "pinyin": null,
-    "meaning_vi": "Bộ tả (biến thể bàn tay trái)",
-    "meaning_en": "radical left hand",
+    "meaning_vi": "Bộ tả: tay trái",
     "type": "other"
   },
   {
@@ -2889,7 +2587,6 @@
     "simplified": null,
     "pinyin": "hū",
     "meaning_vi": "Hồ: trợ từ ngữ khí nghi vấn hoặc cảm thán",
-    "meaning_en": "interrogative or exclamatory final particle",
     "type": "other"
   },
   {
@@ -2900,7 +2597,6 @@
     "simplified": null,
     "pinyin": "yǐ",
     "meaning_vi": "Dĩ: biến thể cổ của 以 (bằng, dùng, để mà)",
-    "meaning_en": "according to, for, with; to use",
     "type": "other"
   },
   {
@@ -2911,7 +2607,6 @@
     "simplified": null,
     "pinyin": "shū",
     "meaning_vi": "Thư: sách, thư từ, văn bản; viết chữ",
-    "meaning_en": "book, letter, document; writing",
     "type": "other"
   },
   {
@@ -2922,7 +2617,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét sổ gập gập móc trong chữ Hán",
-    "meaning_en": "Chinese stroke",
     "type": "other"
   },
   {
@@ -2933,7 +2627,6 @@
     "simplified": null,
     "pinyin": "jǐng",
     "meaning_vi": "Tỉnh: giếng nước, mỏ sâu",
-    "meaning_en": "well, mine shaft, pit",
     "type": "other"
   },
   {
@@ -2944,7 +2637,6 @@
     "simplified": null,
     "pinyin": "nián",
     "meaning_vi": "Niên: năm; ngày kỷ niệm; tuổi tác",
-    "meaning_en": "year; anniversary; a person's age",
     "type": "other"
   },
   {
@@ -2955,7 +2647,6 @@
     "simplified": null,
     "pinyin": "yǐn",
     "meaning_vi": "Dạng cổ của chữ 隱 (ẩn - ẩn giấu, bí mật)",
-    "meaning_en": "old form of 隱",
     "type": "other"
   },
   {
@@ -2966,7 +2657,6 @@
     "simplified": null,
     "pinyin": "zhōu",
     "meaning_vi": "Châu: tiểu bang, tỉnh, châu",
-    "meaning_en": "state, province, prefecture",
     "type": "other"
   },
   {
@@ -2977,7 +2667,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán",
-    "meaning_en": "radical component",
     "type": "other"
   },
   {
@@ -2988,29 +2677,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Nét sổ hất trong chữ Hán",
-    "meaning_en": "Chinese stroke",
-    "type": "other"
-  },
-  {
-    "id": 273,
-    "character": "𠂒",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": null,
-    "meaning_vi": "Thành phần chữ Hán",
-    "meaning_en": "radical/component variant",
-    "type": "other"
-  },
-  {
-    "id": 274,
-    "character": "⺍",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": null,
-    "meaning_vi": "Thành phần chữ Hán",
-    "meaning_en": "radical component",
     "type": "other"
   },
   {
@@ -3021,7 +2687,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán",
-    "meaning_en": "radical/component shape",
     "type": "other"
   },
   {
@@ -3032,7 +2697,6 @@
     "simplified": null,
     "pinyin": "jì",
     "meaning_vi": "Nghẹn, mắc cổ",
-    "meaning_en": "to choke on something",
     "type": "other"
   },
   {
@@ -3043,7 +2707,6 @@
     "simplified": null,
     "pinyin": "jiǔ",
     "meaning_vi": "Lâu dài, lâu năm, từ lâu",
-    "meaning_en": "long ago; a long time",
     "type": "other"
   },
   {
@@ -3054,7 +2717,6 @@
     "simplified": null,
     "pinyin": null,
     "meaning_vi": "Thành phần chữ Hán cổ",
-    "meaning_en": "ancient radical variant",
     "type": "other"
   },
   {
@@ -3065,7 +2727,6 @@
     "simplified": null,
     "pinyin": "jiǔ",
     "meaning_vi": "Cửu: chín",
-    "meaning_en": "nine",
     "type": "other"
   },
   {
@@ -3076,7 +2737,6 @@
     "simplified": null,
     "pinyin": "zhàng",
     "meaning_vi": "Trượng: đơn vị đo chiều dài",
-    "meaning_en": "measure of length, husband",
     "type": "other"
   },
   {
@@ -3087,7 +2747,6 @@
     "simplified": null,
     "pinyin": "cè",
     "meaning_vi": "Sách: cuốn sách",
-    "meaning_en": "book, booklet",
     "type": "other"
   },
   {
@@ -3098,7 +2757,6 @@
     "simplified": null,
     "pinyin": "dōng",
     "meaning_vi": "Đông: phương đông",
-    "meaning_en": "east",
     "type": "other"
   },
   {
@@ -3109,7 +2767,6 @@
     "simplified": null,
     "pinyin": "zhòng",
     "meaning_vi": "Trọng: nặng",
-    "meaning_en": "heavy, weight",
     "type": "other"
   },
   {
@@ -3120,7 +2777,6 @@
     "simplified": null,
     "pinyin": "lái",
     "meaning_vi": "Lai: đến",
-    "meaning_en": "to come",
     "type": "other"
   },
   {
@@ -3131,7 +2787,6 @@
     "simplified": null,
     "pinyin": "tóu",
     "meaning_vi": "Đầu: cái đầu",
-    "meaning_en": "head",
     "type": "other"
   },
   {
@@ -3142,7 +2797,6 @@
     "simplified": null,
     "pinyin": "shǐ",
     "meaning_vi": "Sử: lịch sử",
-    "meaning_en": "history",
     "type": "other"
   },
   {
@@ -3153,7 +2807,6 @@
     "simplified": null,
     "pinyin": "qiě",
     "meaning_vi": "Thả: vả lại, sắp",
-    "meaning_en": "moreover, and",
     "type": "other"
   },
   {
@@ -3164,7 +2817,6 @@
     "simplified": null,
     "pinyin": "yú",
     "meaning_vi": "Vu: ở, tại",
-    "meaning_en": "at, in, to",
     "type": "other"
   },
   {
@@ -3175,18 +2827,6 @@
     "simplified": null,
     "pinyin": "shù",
     "meaning_vi": "Thúc: buộc, bó",
-    "meaning_en": "to bind, tie",
-    "type": "other"
-  },
-  {
-    "id": 290,
-    "character": "央",
-    "radical_number": null,
-    "variants": null,
-    "simplified": null,
-    "pinyin": "yāng",
-    "meaning_vi": "Ương (ở giữa)",
-    "meaning_en": "center",
     "type": "other"
   },
   {
@@ -3197,7 +2837,6 @@
     "simplified": null,
     "pinyin": "qǔ",
     "meaning_vi": "Khúc: uốn cong, bài hát",
-    "meaning_en": "curved, song",
     "type": "other"
   },
   {
@@ -3208,7 +2847,6 @@
     "simplified": null,
     "pinyin": "qiū",
     "meaning_vi": "Khâu: cái gò",
-    "meaning_en": "mound, hill",
     "type": "other"
   },
   {
@@ -3219,7 +2857,6 @@
     "simplified": null,
     "pinyin": "rǎn",
     "meaning_vi": "Nhiễm: thong thả",
-    "meaning_en": "tender, slowly",
     "type": "other"
   },
   {
@@ -3230,7 +2867,6 @@
     "simplified": null,
     "pinyin": "xiāng",
     "meaning_vi": "Hương: quê hương",
-    "meaning_en": "country, village",
     "type": "other"
   },
   {
@@ -3241,7 +2877,6 @@
     "simplified": null,
     "pinyin": "dān",
     "meaning_vi": "Đan: màu đỏ, viên thuốc",
-    "meaning_en": "red, pill",
     "type": "other"
   },
   {
@@ -3252,7 +2887,6 @@
     "simplified": null,
     "pinyin": "zhà",
     "meaning_vi": "Sạ: chợt, mới",
-    "meaning_en": "suddenly, at first",
     "type": "other"
   },
   {
@@ -3263,7 +2897,6 @@
     "simplified": null,
     "pinyin": "mín",
     "meaning_vi": "Dân: nhân dân",
-    "meaning_en": "people",
     "type": "other"
   },
   {
@@ -3274,7 +2907,6 @@
     "simplified": null,
     "pinyin": "wù",
     "meaning_vi": "Mậu: ngôi thứ 5 thiên can",
-    "meaning_en": "fifth heavenly stem",
     "type": "other"
   },
   {
@@ -3285,7 +2917,6 @@
     "simplified": null,
     "pinyin": "chǒu",
     "meaning_vi": "Sửu: ngôi thứ 2 địa chi",
-    "meaning_en": "second earthly branch",
     "type": "other"
   },
   {
@@ -3296,7 +2927,6 @@
     "simplified": null,
     "pinyin": "zhū",
     "meaning_vi": "Chu: màu đỏ",
-    "meaning_en": "vermilion, red",
     "type": "other"
   },
   {
@@ -3307,7 +2937,6 @@
     "simplified": null,
     "pinyin": "wèi",
     "meaning_vi": "Vị: chưa, ngôi thứ 8 địa chi",
-    "meaning_en": "not yet, eighth earthly branch",
     "type": "other"
   },
   {
@@ -3318,7 +2947,6 @@
     "simplified": null,
     "pinyin": "wèi",
     "meaning_vi": "Vi, Vị (làm, vì)",
-    "meaning_en": "to do, for",
     "type": "other"
   },
   {
@@ -3329,7 +2957,6 @@
     "simplified": null,
     "pinyin": "jiǎn",
     "meaning_vi": "Giản: chọn, thiếp",
-    "meaning_en": "letter, to select",
     "type": "other"
   },
   {
@@ -3340,7 +2967,6 @@
     "simplified": null,
     "pinyin": "chǐ",
     "meaning_vi": "Xích: thước đo",
-    "meaning_en": "ruler, unit of length",
     "type": "other"
   },
   {
@@ -3351,7 +2977,6 @@
     "simplified": null,
     "pinyin": "yóu",
     "meaning_vi": "Do: bởi, từ",
-    "meaning_en": "from, by, reason",
     "type": "other"
   },
   {
@@ -3362,7 +2987,6 @@
     "simplified": null,
     "pinyin": "shēn",
     "meaning_vi": "Thân: bày tỏ, ngôi thứ 9 địa chi",
-    "meaning_en": "to state, ninth earthly branch",
     "type": "other"
   },
   {
@@ -3373,7 +2997,6 @@
     "simplified": null,
     "pinyin": "yú",
     "meaning_vi": "Ngu: loài khỉ",
-    "meaning_en": "monkey",
     "type": "other"
   },
   {
@@ -3384,7 +3007,6 @@
     "simplified": null,
     "pinyin": "shì",
     "meaning_vi": "Sự: sự việc",
-    "meaning_en": "matter, thing, affair",
     "type": "other"
   },
   {
@@ -3395,18 +3017,16 @@
     "simplified": null,
     "pinyin": "běn",
     "meaning_vi": "Bản: gốc rễ",
-    "meaning_en": "root, basis",
     "type": "other"
   },
   {
     "id": 310,
     "character": "円",
     "radical_number": null,
-    "variants": "圓, 圆",
+    "variants": "圓",
     "simplified": null,
     "pinyin": "yuán",
     "meaning_vi": "Viên: tiền Yên Nhật",
-    "meaning_en": "circular, yen (Japanese currency)",
     "type": "other"
   },
   {
@@ -3417,7 +3037,6 @@
     "simplified": null,
     "pinyin": "wǔ",
     "meaning_vi": "Ngũ: số năm",
-    "meaning_en": "five",
     "type": "other"
   },
   {
@@ -3428,7 +3047,6 @@
     "simplified": null,
     "pinyin": "yín",
     "meaning_vi": "Dâm: đi lại chần chừ",
-    "meaning_en": "to move on, hesitate",
     "type": "other"
   },
   {
@@ -3439,18 +3057,16 @@
     "simplified": null,
     "pinyin": "jié",
     "meaning_vi": "Tiệp: lanh lẹ",
-    "meaning_en": "swift, quick",
     "type": "other"
   },
   {
     "id": 314,
     "character": "朿",
     "radical_number": null,
-    "variants": "刺",
+    "variants": null,
     "simplified": null,
     "pinyin": "cì",
     "meaning_vi": "Thích: cái gai",
-    "meaning_en": "thorn, splinter",
     "type": "other"
   },
   {
@@ -3461,7 +3077,6 @@
     "simplified": null,
     "pinyin": "mò",
     "meaning_vi": "Mạt: ngọn, cuối",
-    "meaning_en": "end, tip",
     "type": "other"
   },
   {
@@ -3472,7 +3087,6 @@
     "simplified": null,
     "pinyin": "niàn",
     "meaning_vi": "Chấp: hai mươi",
-    "meaning_en": "twenty",
     "type": "other"
   },
   {
@@ -3483,7 +3097,6 @@
     "simplified": null,
     "pinyin": "gǔ",
     "meaning_vi": "Cổ: mù",
-    "meaning_en": "blind",
     "type": "other"
   },
   {
@@ -3494,7 +3107,6 @@
     "simplified": null,
     "pinyin": "yáng",
     "meaning_vi": "Dương: sáng sủa",
-    "meaning_en": "bright",
     "type": "other"
   },
   {
@@ -3505,7 +3117,63 @@
     "simplified": null,
     "pinyin": "miǎn",
     "meaning_vi": "Miện: che khuất",
-    "meaning_en": "hidden, invisible",
+    "type": "other"
+  },
+  {
+    "id": 320,
+    "character": "亦",
+    "radical_number": null,
+    "variants": null,
+    "simplified": null,
+    "pinyin": "yì",
+    "meaning_vi": "cũng; tương tự",
+    "type": "other"
+  },
+  {
+    "id": 321,
+    "character": "𠂢",
+    "radical_number": null,
+    "variants": null,
+    "simplified": null,
+    "pinyin": "pài",
+    "meaning_vi": "dòng chảy rẽ nhánh",
+    "type": "other"
+  },
+  {
+    "id": 322,
+    "character": "尹",
+    "radical_number": null,
+    "variants": null,
+    "simplified": null,
+    "pinyin": "yǐn",
+    "meaning_vi": "Doãn: cai quản, người nắm quyền",
+    "type": "other"
+  },
+  {
+    "id": 323,
+    "character": "卫",
+    "radical_number": null,
+    "variants": "衛",
+    "simplified": null,
+    "pinyin": "wèi",
+    "meaning_vi": "Vệ: bảo vệ, phòng thủ",
+    "type": "other"
+  },
+  {
+    "id": 324,
+    "character": "冃",
+    "radical_number": null,
+    "variants": null,
+    "simplified": null,
+    "pinyin": "mào",
+    "meaning_vi": "Mũ, đồ đội đầu",
+    "type": "other"
+  },
+  {
+    "id": 325,
+    "character": "矦",
+    "pinyin": "hóu",
+    "meaning_vi": "Đích bắn",
     "type": "other"
   }
 ]

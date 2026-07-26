@@ -67,8 +67,9 @@
 }
 .zh-breadcrumb-item.active {
   font-size: 32px;
-  font-family: "FandolKaiLocal", "FandolKai", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", serif;
-  font-weight: 700;
+  font-family: "FandolKaiLocal", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: normal;
+  text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor;
   color: #0f172a;
   cursor: default;
   background: transparent;
@@ -93,7 +94,7 @@
   color: #94a3b8;
 }
 
-.zh-decomp-close {
+.zh-decomp-close, .zh-decomp-report-btn {
   background: none;
   border: none;
   color: #64748b;
@@ -102,16 +103,19 @@
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.zh-decomp-close:hover {
+.zh-decomp-close:hover, .zh-decomp-report-btn:hover {
   color: #f43f5e;
   background: rgba(244, 63, 94, 0.1);
 }
-.zh-theme-dark .zh-decomp-close {
+.zh-theme-dark .zh-decomp-close, .zh-theme-dark .zh-decomp-report-btn {
   color: #94a3b8;
 }
-.zh-theme-dark .zh-decomp-close:hover {
+.zh-theme-dark .zh-decomp-close:hover, .zh-theme-dark .zh-decomp-report-btn:hover {
   color: #fb7185;
   background: rgba(251, 113, 133, 0.2);
 }
@@ -119,6 +123,7 @@
 .zh-decomp-body {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -272,9 +277,9 @@
   transform: translateX(-50%) translateY(-8px);
   background: #1e293b;
   color: #f8fafc;
-  padding: 6px 10px;
+  padding: 8px 14px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 15px;
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;
@@ -333,8 +338,9 @@
 
 .node-char {
   font-size: 32px;
-  font-family: var(--zh-font-calligraphy, "FandolKai", "Kaiti SC", "STKaiti", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif);
-  font-weight: 700;
+  font-family: "FandolKaiLocal", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: normal;
+  text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor;
   color: #0f172a;
   line-height: 1.2;
 }
@@ -388,7 +394,7 @@
 }
 
 .etymology-content {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: #475569;
 }
@@ -402,11 +408,100 @@
 .zh-decomposition-panel.zh-decomp-size-small .node-pinyin { font-size: 13px; }
 .zh-decomposition-panel.zh-decomp-size-small .node-label { font-size: 10px; padding: 2px 4px; }
 .zh-decomposition-panel.zh-decomp-size-small .etymology-title { font-size: 14px; }
-.zh-decomposition-panel.zh-decomp-size-small .etymology-content { font-size: 13px; }
+.zh-decomposition-panel.zh-decomp-size-small .etymology-content { font-size: 14px; }
 
 .zh-decomposition-panel.zh-decomp-size-large .tree-node { width: 100px; height: 130px; }
 .zh-decomposition-panel.zh-decomp-size-large .node-char { font-size: 46px; }
 .zh-decomposition-panel.zh-decomp-size-large .node-pinyin { font-size: 16px; }
 .zh-decomposition-panel.zh-decomp-size-large .node-label { font-size: 12px; }
 .zh-decomposition-panel.zh-decomp-size-large .etymology-title { font-size: 17px; }
-.zh-decomposition-panel.zh-decomp-size-large .etymology-content { font-size: 16px; }
+.zh-decomposition-panel.zh-decomp-size-large .etymology-content { font-size: 18px; }
+
+/* Stroke Toggle Switch */
+.zh-decomp-stroke-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.zh-toggle-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  user-select: none;
+}
+.zh-theme-dark .zh-toggle-text {
+  color: #94a3b8;
+}
+
+/* iOS-style Switch */
+.zh-switch {
+  width: 44px;
+  height: 24px;
+  background-color: #cbd5e1;
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+.zh-theme-dark .zh-switch {
+  background-color: #334155;
+}
+.zh-switch-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.zh-switch.active {
+  background-color: #3b82f6;
+}
+.zh-theme-dark .zh-switch.active {
+  background-color: #38bdf8;
+}
+.zh-switch.active .zh-switch-thumb {
+  transform: translateX(20px);
+}
+
+/* Stroke Container */
+.zh-decomp-stroke-container {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 130px;
+  height: 130px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+.zh-decomp-stroke-container.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.zh-theme-dark .zh-decomp-stroke-container {
+  background: #1b1b1d;
+  border-color: #333333;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.zh-no-stroke {
+  font-size: 12px;
+  color: #94a3b8;
+  text-align: center;
+  padding: 10px;
+}
