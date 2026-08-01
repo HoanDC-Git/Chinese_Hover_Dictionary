@@ -8325,7 +8325,7 @@
       "zì",
       "preposition/pronoun",
       "từ; bản thân",
-      "from; since; oneself",
+      "from, since; oneself",
       "4"
     ]
   ],
@@ -49596,9 +49596,23 @@
   "之": [
     [
       "zhī",
-      "auxiliary/particle/pronoun",
-      "của; của (trợ từ kết cấu); nó, họ, điều này",
-      "of; subordinating particle (equivalent to 的); it, him, her, this",
+      "particle",
+      "của (tương đương với 的)",
+      "of （structural particle）",
+      "4"
+    ],
+    [
+      "zhī",
+      "pronoun",
+      "nó, hắn, họ, chúng; cái này, việc này",
+      "it, him, her, them; this, that",
+      "4"
+    ],
+    [
+      "zhī",
+      "verb",
+      "đi, đến",
+      "to go, to leave for",
       "4"
     ]
   ],
