@@ -1,5 +1,22 @@
 let dictionary = null;
+let t2sMap = null;
 let offscreenCreating = null;
+
+async function loadT2S() {
+  if (t2sMap) return t2sMap;
+  try {
+    const response = await fetch(chrome.runtime.getURL("data/t2s.json"));
+    t2sMap = await response.json();
+    return t2sMap;
+  } catch (err) {
+    console.error("Failed to load t2s.json", err);
+    return {};
+  }
+}
+
+function convertToSimplified(text, map) {
+  return text.split('').map(c => map[c] || c).join('');
+}
 const RULE_ID = 1;
 
 // Debug matching rules (available in unpacked dev extension)
@@ -460,9 +477,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "lookup") {
     chrome.storage.local.get("memoryMode", async (data) => {
       const mode = data.memoryMode || "db";
-      const text = message.text;
+      const originalText = message.text;
+      const t2s = await loadT2S();
+      const text = convertToSimplified(originalText, t2s);
+      
       const matches = [];
       const results = {};
+      const originalMatches = {};
       
       try {
         if (mode === "ram") {
@@ -472,23 +493,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             if (dict[candidate]) {
               matches.push(candidate);
               results[candidate] = dict[candidate];
+              originalMatches[candidate] = originalText.substring(0, len);
             }
           }
         } else {
           // DB Mode
           const candidateLookups = [];
           for (let len = text.length; len >= 1; len--) {
-            candidateLookups.push(text.substring(0, len));
+            candidateLookups.push({
+              simp: text.substring(0, len),
+              trad: originalText.substring(0, len)
+            });
           }
-          const dbResults = await Promise.all(candidateLookups.map(w => getFromDB(w)));
-          candidateLookups.forEach((candidate, idx) => {
+          const dbResults = await Promise.all(candidateLookups.map(c => getFromDB(c.simp)));
+          candidateLookups.forEach((c, idx) => {
             if (dbResults[idx]) {
-              matches.push(candidate);
-              results[candidate] = dbResults[idx];
+              matches.push(c.simp);
+              results[c.simp] = dbResults[idx];
+              originalMatches[c.simp] = c.trad;
             }
           });
         }
-        sendResponse({ matches, definitions: results });
+        sendResponse({ matches, definitions: results, originalMatches });
       } catch (err) {
         console.error("Lookup failed:", err);
         sendResponse(null);
@@ -498,25 +524,32 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   
   if (message.action === "getDecomposition") {
-    initIndexedDB().then(() => openDB()).then(db => {
-      const tx = db.transaction([STORE_DECOMPOSITION, STORE_RADICALS, STORE_SPECIALS], "readonly");
-      const getReq = (storeName, key) => new Promise((res) => {
-        const req = tx.objectStore(storeName).get(key);
-        req.onsuccess = () => res(req.result);
-        req.onerror = () => res(null);
-      });
+    (async () => {
+      try {
+        let char = message.character;
+        const t2s = await loadT2S();
+        if (t2s[char]) char = t2s[char];
 
-      Promise.all([
-        getReq(STORE_DECOMPOSITION, message.character),
-        getReq(STORE_RADICALS, message.character),
-        getReq(STORE_SPECIALS, message.character)
-      ]).then(([details, radical, special]) => {
+        await initIndexedDB();
+        const db = await openDB();
+        const tx = db.transaction([STORE_DECOMPOSITION, STORE_RADICALS, STORE_SPECIALS], "readonly");
+        const getReq = (storeName, key) => new Promise((res) => {
+          const req = tx.objectStore(storeName).get(key);
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => res(null);
+        });
+
+        const [details, radical, special] = await Promise.all([
+          getReq(STORE_DECOMPOSITION, char),
+          getReq(STORE_RADICALS, char),
+          getReq(STORE_SPECIALS, char)
+        ]);
         sendResponse({ details, radical, special });
-      });
-    }).catch(err => {
-      console.error("Failed to get decomposition:", err);
-      sendResponse(null);
-    });
+      } catch (err) {
+        console.error("Failed to get decomposition:", err);
+        sendResponse(null);
+      }
+    })();
     return true;
   }
 

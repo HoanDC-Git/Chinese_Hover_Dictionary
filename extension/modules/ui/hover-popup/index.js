@@ -100,13 +100,15 @@ function updatePopupClasses() {
 }
 
 // Render lookup matches inside popup
-function renderPopup(matches, definitions) {
+function renderPopup(matches, definitions, originalMatches = {}) {
   let html = "";
   let matchIndex = 0;
 
   for (const word of matches) {
     const wordDefs = definitions[word];
     if (!wordDefs) continue;
+
+    const displayWord = originalMatches[word] || word;
 
     for (const def of wordDefs) {
       const [pinyin, pos, meaning_vi, meaning_en, hsk_level] = def;
@@ -127,17 +129,17 @@ function renderPopup(matches, definitions) {
         <div class="zh-hover-item">
           <div class="zh-hover-header">
             <div class="zh-hover-header-top">
-              <span class="zh-hover-word">${word
+              <span class="zh-hover-word">${displayWord
                 .split("")
                 .map(
-                  (char) =>
-                    `<span class="zh-char" data-char="${char}"${char === '仓' ? ' style="font-family: sans-serif !important;"' : ''}>${char}</span>`,
+                  (char, i) =>
+                    `<span class="zh-char" data-char="${char}" data-sim-char="${word[i] || char}"${char === '仓' ? ' style="font-family: sans-serif !important;"' : ''}>${char}</span>`,
                 )
                 .join("")}</span>
               ${
                 getCfg().enableQuickActions
                   ? `
-              <button class="zh-hover-speaker" data-word="${word}" title="Phát âm${speakKeyHint ? ` (Phím tắt: ${speakKeyHint})` : ""}">
+              <button class="zh-hover-speaker" data-word="${displayWord}" title="Phát âm${speakKeyHint ? ` (Phím tắt: ${speakKeyHint})` : ""}">
                 <svg viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-3 0L5 8H1v8h4l6 4.77V3.23zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
                 ${speakKeyHint ? `<span class="zh-hover-speaker-key">(${speakKeyHint})</span>` : ""}
               </button>

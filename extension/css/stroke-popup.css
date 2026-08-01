@@ -26,8 +26,11 @@
 }
 
 .zh-stroke-target {
-  width: 100%;
-  height: 100%;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .zh-stroke-popup.zh-theme-dark {

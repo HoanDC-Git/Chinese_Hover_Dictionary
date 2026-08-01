@@ -315,15 +315,18 @@ function onMouseMoveThrottled() {
 
           // NEW OPTIMIZATION: Prevent flickering by not re-rendering if it's the exact same result
           const isPopupVisible = VZ.ui.hoverPopup.popupElement && VZ.ui.hoverPopup.popupElement.classList.contains("zh-visible");
-          if (VZ.ui.hoverPopup.currentLongestMatch !== longestMatch || !isPopupVisible) {
-            VZ.ui.hoverPopup.currentLongestMatch = longestMatch; // Save for shortcuts
+          const originalMatch = response.originalMatches ? (response.originalMatches[response.matches[0]] || response.matches[0]) : response.matches[0];
+          
+          if (VZ.ui.hoverPopup.currentLongestMatch !== originalMatch || !isPopupVisible) {
+            const { matches, definitions, originalMatches } = response;
+            VZ.ui.hoverPopup.currentLongestMatch = originalMatch; // Save for shortcuts
             
             // Render and position popup only if content changed or popup was hidden
             VZ.ui.hoverPopup.createUIElements();
-            VZ.ui.hoverPopup.renderPopup(matches, definitions);
+            VZ.ui.hoverPopup.renderPopup(matches, definitions, originalMatches);
           }
           
-          VZ.ui.hoverPopup.highlightTextRange(charMap, longestMatch.length);
+          VZ.ui.hoverPopup.highlightTextRange(charMap, originalMatch.length);
           const charRange = document.createRange();
           try {
             charRange.setStart(textNode, offset);
@@ -428,7 +431,7 @@ window.addEventListener("scroll", (e) => {
 document.addEventListener("click", (e) => {
   const charEl = e.target.closest('.zh-char');
   if (charEl) {
-    const char = charEl.getAttribute('data-char');
+    const char = charEl.getAttribute('data-sim-char') || charEl.getAttribute('data-char');
     if (char && window.VZ.ui.decompPopup) {
       // Find the parent popup to use as reference for positioning
       const popupEl = charEl.closest('.zh-hover-popup') || charEl.closest('.zh-sentence-popup') || charEl.closest('.zh-decomposition-panel');

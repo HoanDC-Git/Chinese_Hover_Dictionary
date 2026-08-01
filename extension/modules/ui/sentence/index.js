@@ -10,12 +10,15 @@ window.VZ.ui.sentence = (function() {
   let currentSelection = "";
   let currentRange = null;
   let sentenceTargetLang = 'vi';
+  let sentenceShowPinyin = false;
   let cachedTranslations = { vi: null, en: null, pinyin: null };
 
-
-chrome.storage.local.get(['sentenceTargetLang'], (result) => {
+chrome.storage.local.get(['sentenceTargetLang', 'showPinyinInSentence'], (result) => {
   if (result.sentenceTargetLang) {
     sentenceTargetLang = result.sentenceTargetLang;
+  }
+  if (typeof result.showPinyinInSentence !== 'undefined') {
+    sentenceShowPinyin = result.showPinyinInSentence;
   }
 });
 
@@ -209,23 +212,20 @@ async function openSentencePopup() {
     };
     const fontFamilyStyle = `font-family: ${fontStyles[actualFont] || fontStyles['system']};`;
 
-    const buildBoxes = (fontSizeHanzi, fontSizePinyin, fontSizeTrans) => `
-      <div style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''}">
+    const buildBoxes = (fontSizeHanzi, fontSizePinyin, fontSizeTrans) => {
+      const isPinyinVisible = isLongText ? sentenceShowPinyin : true;
+      return `
+      <div class="zh-box-wrapper" id="zh-box-hanzi" style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''}">
         <div style="${headerStyle}">
           <span>Hán tự</span>
-          <button class="zh-copy-btn" data-copy="${currentSelection.replace(/"/g, '&quot;')}" style="${copyBtnStyle}">
-            <span class="zh-copy-text" style="font-size: 13px; margin-right: 4px; color: ${titleColor}; font-weight: 500; text-transform: none; letter-spacing: 0;">Sao chép</span>
-            <span class="zh-copy-feedback" style="display: none; font-size: 13px; margin-right: 4px; color: ${isDark ? '#4ade80' : '#16a34a'}; font-weight: 500; text-transform: none; letter-spacing: 0;">Đã sao chép!</span>
-            <img src="${copyIconUrl}" width="16" height="16" style="${isDark ? 'filter: invert(1) brightness(2);' : ''}">
-          </button>
-          <button class="zh-sentence-tts" id="zhSentenceTTS" title="Phát âm" style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; border: none; background: transparent; cursor: pointer; color: ${titleColor}; font-weight: 500; font-size: 12px; transition: all 0.2s ease; margin-left: auto;">
+          <button class="zh-sentence-tts" id="zhSentenceTTS" title="Phát âm" style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; border: none; background: transparent; cursor: pointer; color: ${titleColor}; font-weight: 500; font-size: 12px; transition: all 0.2s ease;">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zm-3 0L5 8H1v8h4l6 4.77V3.23zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg> Phát âm
           </button>
           ${isLongText ? `
-          <div class="zh-audio-loader-container" id="zhAudioLoader" style="display: none; align-items: center; justify-content: center; margin-left: auto; width: 60px; height: 24px;">
+          <div class="zh-audio-loader-container" id="zhAudioLoader" style="display: none; align-items: center; justify-content: center; width: 60px; height: 24px;">
              <div class="zh-audio-loader" style="color: ${titleColor};"></div>
           </div>
-          <div class="zh-audio-controls" id="zhAudioControls" style="display: none; align-items: center; gap: 12px; margin-left: auto; background: ${isDark ? '#1b1b1d' : '#f1f5f9'}; padding: 2px 10px; border-radius: 20px; min-height: 28px; box-sizing: border-box;">
+          <div class="zh-audio-controls" id="zhAudioControls" style="display: none; align-items: center; gap: 12px; background: ${isDark ? '#1b1b1d' : '#f1f5f9'}; padding: 2px 10px; border-radius: 20px; min-height: 28px; box-sizing: border-box;">
             <button id="zhAudioRewind" title="Lùi 5 giây" style="background:none; border:none; cursor:pointer; padding:2px; display:flex; align-items:center; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
                <img src="${chrome.runtime.getURL('icons/replay_5.svg')}" width="20" height="20" style="${isDark ? 'filter: invert(1);' : ''}">
             </button>
@@ -239,46 +239,56 @@ async function openSentencePopup() {
             </button>
           </div>
           ` : ''}
-        </div>
-        <div class="zh-custom-scrollbar" style="${boxContentStyle} ${boxScrollStyle}">
-          <div class="zh-sentence-original" style="font-size: ${fontSizeHanzi}px; line-height: 1.6; color: ${textColor}; word-break: break-word; white-space: pre-wrap; ${fontFamilyStyle}">${charSpans}</div>
-        </div>
-      </div>
-      
-      <div style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''}">
-        <div style="${headerStyle}">
-          <span>Pinyin</span>
-          <button class="zh-copy-btn" data-copy="${pinyin ? pinyin.replace(/"/g, '&quot;') : ''}" style="${copyBtnStyle}">
+          <button class="zh-copy-btn" data-copy="${currentSelection.replace(/"/g, '&quot;')}" style="${copyBtnStyle} margin-left: auto;">
             <span class="zh-copy-text" style="font-size: 13px; margin-right: 4px; color: ${titleColor}; font-weight: 500; text-transform: none; letter-spacing: 0;">Sao chép</span>
             <span class="zh-copy-feedback" style="display: none; font-size: 13px; margin-right: 4px; color: ${isDark ? '#4ade80' : '#16a34a'}; font-weight: 500; text-transform: none; letter-spacing: 0;">Đã sao chép!</span>
             <img src="${copyIconUrl}" width="16" height="16" style="${isDark ? 'filter: invert(1) brightness(2);' : ''}">
           </button>
         </div>
         <div class="zh-custom-scrollbar" style="${boxContentStyle} ${boxScrollStyle}">
-          <div class="zh-sentence-pinyin" style="font-size: ${fontSizePinyin}px; line-height: 1.6; color: ${textMuted}; word-break: break-word; white-space: pre-wrap; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${pinyin || ""}</div>
+          <div class="zh-sentence-original" style="font-size: ${fontSizeHanzi}px; line-height: 1.6; color: ${textColor}; word-break: break-word; white-space: pre-wrap; ${fontFamilyStyle}">${charSpans}</div>
         </div>
       </div>
       
-      <div style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''} margin-bottom: 0;">
+      <div class="zh-box-wrapper" id="zh-box-pinyin" style="${boxWrapperStyle} transition: flex 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${isPinyinVisible ? '0s' : '0.3s'}, min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${isPinyinVisible ? '0s' : '0.3s'}; ${isLongText && isPinyinVisible ? 'flex: 1 1 0%; min-height: 0px;' : 'flex: 0 0 44px; min-height: 44px;'}">
         <div style="${headerStyle}">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span>Dịch nghĩa</span>
-            <button class="zh-copy-btn" id="zh-trans-copy" data-copy="${(cachedTranslations[sentenceTargetLang] || 'Đang dịch...').replace(/"/g, '&quot;')}" style="${copyBtnStyle}">
-              <span class="zh-copy-text" style="font-size: 13px; margin-right: 4px; color: ${titleColor}; font-weight: 500; text-transform: none; letter-spacing: 0;">Sao chép</span>
-              <span class="zh-copy-feedback" style="display: none; font-size: 13px; margin-right: 4px; color: ${isDark ? '#4ade80' : '#16a34a'}; font-weight: 500; text-transform: none; letter-spacing: 0;">Đã sao chép!</span>
-              <img src="${copyIconUrl}" width="16" height="16" style="${isDark ? 'filter: invert(1) brightness(2);' : ''}">
-            </button>
+          <span>Pinyin</span>
+          ${isLongText ? `
+          <div id="zhPinyinToggle" style="width: 36px; height: 20px; background: ${isPinyinVisible ? '#3b82f6' : (isDark ? '#4b5563' : '#cbd5e1')}; border-radius: 20px; position: relative; cursor: pointer; margin-left: 8px; transition: background 0.3s; display: flex; align-items: center; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);">
+            <div class="zh-slider-knob" style="width: 16px; height: 16px; background: white; border-radius: 50%; position: absolute; left: ${isPinyinVisible ? '18px' : '2px'}; transition: left 0.3s; box-shadow: 0 1px 2px rgba(0,0,0,0.3);"></div>
           </div>
-          <div class="zh-lang-toggle" style="display: flex; background: ${isDark ? '#111' : '#e2e8f0'}; border-radius: 4px; padding: 2px; cursor: pointer; margin-left: auto;">
+          ` : ''}
+          <button class="zh-copy-btn" data-copy="${pinyin ? pinyin.replace(/"/g, '&quot;') : ''}" style="${copyBtnStyle} margin-left: auto;">
+            <span class="zh-copy-text" style="font-size: 13px; margin-right: 4px; color: ${titleColor}; font-weight: 500; text-transform: none; letter-spacing: 0;">Sao chép</span>
+            <span class="zh-copy-feedback" style="display: none; font-size: 13px; margin-right: 4px; color: ${isDark ? '#4ade80' : '#16a34a'}; font-weight: 500; text-transform: none; letter-spacing: 0;">Đã sao chép!</span>
+            <img src="${copyIconUrl}" width="16" height="16" style="${isDark ? 'filter: invert(1) brightness(2);' : ''}">
+          </button>
+        </div>
+        <div class="zh-custom-scrollbar" style="${boxContentStyle} ${boxScrollStyle} transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${isPinyinVisible ? '0.3s' : '0s'}; transform-origin: top; ${isPinyinVisible ? 'opacity: 1; max-height: 500px; margin-top: 0px; visibility: visible;' : 'opacity: 0; max-height: 0px; margin-top: 0px; padding-top: 0px; padding-bottom: 0px; visibility: hidden; border: none;'}">
+          <div class="zh-sentence-pinyin" style="font-size: ${fontSizePinyin}px; line-height: 1.6; color: ${textMuted}; word-break: break-word; white-space: pre-wrap; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${pinyin || ""}</div>
+        </div>
+        <div class="zh-pinyin-separator" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) ${isPinyinVisible ? '0s' : '0.3s'}; opacity: ${!isPinyinVisible && isLongText ? '1' : '0'}; max-height: ${!isPinyinVisible && isLongText ? '2px' : '0px'}; height: 2px; width: 100%; background: ${boxBg}; border: 1px solid ${boxBorder}; border-radius: 2px; margin-top: ${!isPinyinVisible && isLongText ? '4px' : '0px'}; margin-bottom: 0px;"></div>
+      </div>
+      
+      <div class="zh-box-wrapper" id="zh-box-trans" style="${boxWrapperStyle} ${isLongText ? 'flex: 1; min-height: 0;' : ''} margin-bottom: 0;">
+        <div style="${headerStyle}">
+          <span>Dịch nghĩa</span>
+          <div class="zh-lang-toggle" style="display: flex; background: ${isDark ? '#111' : '#e2e8f0'}; border-radius: 4px; padding: 2px; cursor: pointer; margin-left: 12px;">
             <span class="zh-lang-btn" data-lang="vi" style="padding: 2px 8px; border-radius: 2px; font-size: 11px; transition: all 0.2s; ${sentenceTargetLang === 'vi' ? `background: ${isDark ? '#3b82f6' : '#fff'}; color: ${isDark ? '#fff' : '#0f172a'}; box-shadow: 0 1px 2px rgba(0,0,0,0.1);` : `color: ${titleColor};`}">VI</span>
             <span class="zh-lang-btn" data-lang="en" style="padding: 2px 8px; border-radius: 2px; font-size: 11px; transition: all 0.2s; ${sentenceTargetLang === 'en' ? `background: ${isDark ? '#3b82f6' : '#fff'}; color: ${isDark ? '#fff' : '#0f172a'}; box-shadow: 0 1px 2px rgba(0,0,0,0.1);` : `color: ${titleColor};`}">EN</span>
           </div>
+          <button class="zh-copy-btn" id="zh-trans-copy" data-copy="${(cachedTranslations[sentenceTargetLang] || 'Đang dịch...').replace(/"/g, '&quot;')}" style="${copyBtnStyle} margin-left: auto;">
+            <span class="zh-copy-text" style="font-size: 13px; margin-right: 4px; color: ${titleColor}; font-weight: 500; text-transform: none; letter-spacing: 0;">Sao chép</span>
+            <span class="zh-copy-feedback" style="display: none; font-size: 13px; margin-right: 4px; color: ${isDark ? '#4ade80' : '#16a34a'}; font-weight: 500; text-transform: none; letter-spacing: 0;">Đã sao chép!</span>
+            <img src="${copyIconUrl}" width="16" height="16" style="${isDark ? 'filter: invert(1) brightness(2);' : ''}">
+          </button>
         </div>
         <div class="zh-custom-scrollbar" style="${boxContentStyle} ${boxScrollStyle}">
           <div id="zh-trans-text" class="zh-sentence-translation" style="font-size: ${fontSizeTrans}px; line-height: 1.6; color: ${textColor}; word-break: break-word; white-space: pre-wrap;">${cachedTranslations[sentenceTargetLang] || 'Đang dịch...'}</div>
         </div>
       </div>
     `;
+    };
     
     let baseSize = 22;
     if (typeof getCfg().fontSize !== 'undefined') {
@@ -442,6 +452,72 @@ async function openSentencePopup() {
           }
         });
       });
+      
+      // Pinyin Toggle
+      const pinyinToggle = container.querySelector('#zhPinyinToggle');
+      const pinyinBox = container.querySelector('#zh-box-pinyin');
+      const pinyinContent = pinyinBox ? pinyinBox.querySelector('.zh-custom-scrollbar') : null;
+      const pinyinSeparator = pinyinBox ? pinyinBox.querySelector('.zh-pinyin-separator') : null;
+      if (pinyinToggle && pinyinBox && pinyinContent) {
+        let isPinyinVisible = sentenceShowPinyin;
+        
+        const updatePinyinVisibility = (visible) => {
+          const knob = pinyinToggle.querySelector('.zh-slider-knob');
+          const headerHeight = pinyinBox.firstElementChild ? pinyinBox.firstElementChild.offsetHeight : 32;
+          const collapsedHeight = headerHeight + 12; // 6px header margin + 4px separator mt + 2px separator height
+          
+          if (visible) {
+            pinyinToggle.style.background = '#3b82f6';
+            knob.style.left = '18px';
+            pinyinBox.style.transition = 'flex 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s, min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s';
+            pinyinBox.style.flex = isLongText ? '1 1 0%' : '';
+            pinyinBox.style.minHeight = isLongText ? '0px' : '';
+            pinyinContent.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s';
+            pinyinContent.style.opacity = '1';
+            pinyinContent.style.maxHeight = '500px';
+            pinyinContent.style.marginTop = '0px';
+            pinyinContent.style.paddingTop = '';
+            pinyinContent.style.paddingBottom = '';
+            pinyinContent.style.visibility = 'visible';
+            pinyinContent.style.border = '';
+            if (pinyinSeparator) {
+              pinyinSeparator.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s';
+              pinyinSeparator.style.opacity = '0';
+              pinyinSeparator.style.maxHeight = '0px';
+              pinyinSeparator.style.marginTop = '0px';
+              pinyinSeparator.style.marginBottom = '0px';
+            }
+          } else {
+            pinyinToggle.style.background = isDark ? '#4b5563' : '#cbd5e1';
+            knob.style.left = '2px';
+            pinyinBox.style.transition = 'flex 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s';
+            pinyinBox.style.flex = isLongText ? `0 0 ${collapsedHeight}px` : 'none';
+            pinyinBox.style.minHeight = isLongText ? `${collapsedHeight}px` : '';
+            pinyinContent.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s';
+            pinyinContent.style.opacity = '0';
+            pinyinContent.style.maxHeight = '0px';
+            pinyinContent.style.marginTop = '0px';
+            pinyinContent.style.paddingTop = '0px';
+            pinyinContent.style.paddingBottom = '0px';
+            pinyinContent.style.visibility = 'hidden';
+            pinyinContent.style.border = 'none';
+            if (pinyinSeparator && isLongText) {
+              pinyinSeparator.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0.3s';
+              pinyinSeparator.style.opacity = '1';
+              pinyinSeparator.style.maxHeight = '2px';
+              pinyinSeparator.style.marginTop = '4px';
+              pinyinSeparator.style.marginBottom = '0px';
+            }
+          }
+        };
+        
+        pinyinToggle.addEventListener('click', () => {
+          isPinyinVisible = !isPinyinVisible;
+          sentenceShowPinyin = isPinyinVisible;
+          chrome.storage.local.set({ showPinyinInSentence: isPinyinVisible });
+          updatePinyinVisibility(isPinyinVisible);
+        });
+      }
     };
     
     if (isLongText) {
