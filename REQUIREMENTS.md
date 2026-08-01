@@ -59,7 +59,7 @@ Tài liệu này ghi lại những quy tắc và thiết lập cốt lõi của 
 ### 7.4 `extension/data/dictionary.json`
 - **Mục đích** Chứa các mục từ để sử dụng cho các chức năng hover popup, tra cứu, dịch nhanh
 - **Đặc điểm** Gồm các thành phần gồm chữ Hán, pinyin, loại từ (động từ, danh từ, trạng từ,...), nghĩa tiếng Việt, nghĩa tiếng Anh, HSK level
-- **Quy tắc** Một mục từ có thể có nhiều nghĩa, có thể gộp thành một trường nếu đáp ứng đủ các tiêu chí sau: cùng pinyin, các nghĩa có mối liên quan. Trong các trường hợp sau bắt buộc không được gộp: khác pinyin hoặc các nghĩa thể hiện hai tầng nghĩa không liên quan hoặc việc gộp khiến cho một trong các trường loại từ, nghĩa tiếng Việt, nghĩa tiếng Anh quá dài; HSK level là trường không bắt buộc.
+- **Quy tắc** Một mục từ có thể có nhiều nghĩa, có thể gộp thành một trường nếu đáp ứng đủ các tiêu chí sau: cùng pinyin, các nghĩa có mối liên quan. Trong các trường hợp sau bắt buộc không được gộp: khác pinyin hoặc các nghĩa thể hiện hai tầng nghĩa không liên quan hoặc việc gộp khiến cho một trong các trường loại từ, nghĩa tiếng Việt, nghĩa tiếng Anh quá dài; HSK level là trường không bắt buộc. ngăn cách cách từ loại bằng "/" ví dụ : noun/verb; Ngăn cách các lớp nghĩa của cùng một từ loại bằng ",", nghĩa của khác từ loại bằng ";". Ví dụ: chữ 对 có từ loại là adjective/verb và nghĩa tương ứng correct, right; to face, to answer
 
 ### 7.5 `extension/data/t2s.json`
 - **Mục đích** chứa danh sách chữ phồn thể và dạng giản thể để khi dịch tự động chuyển đổi linh hoạt giữa hai dạng
