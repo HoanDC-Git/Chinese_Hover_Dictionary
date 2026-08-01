@@ -24200,7 +24200,7 @@
     "radical": "气",
     "decomposition": "⿹气𢀖",
     "stroke_count": 9,
-    "hint_vi": "Hiđrô (氢) là khí (气) nhẹ nhất, phần 巠 (qīng/jīng) bên cạnh chỉ cách phát âm."
+    "hint_vi": "Hiđrô (氢) là khí (气) nhẹ nhất, phần 𢀖 (qīng/jīng) bên cạnh chỉ cách phát âm."
   },
   {
     "id": 2423,
@@ -31628,9 +31628,9 @@
     "pinyin": "jìng",
     "definition_vi": "co rút; co giật",
     "radical": "疒",
-    "decomposition": "⿸疒巠",
+    "decomposition": "⿸疒𢀖",
     "stroke_count": 10,
-    "hint_vi": "Chứng co giật (痉) là căn bệnh (疒) chạy dọc theo các đường (巠) kinh lạc hay cơ bắp gây nên sự co rút."
+    "hint_vi": "Chứng co giật (痉) là căn bệnh (疒) chạy dọc theo các đường (𢀖) kinh lạc hay cơ bắp gây nên sự co rút."
   },
   {
     "id": 3167,
@@ -38188,9 +38188,9 @@
     "pinyin": "jìng",
     "definition_vi": "ống quyển, cẳng chân",
     "radical": "月",
-    "decomposition": "⿰月巠",
+    "decomposition": "⿰月𢀖",
     "stroke_count": 9,
-    "hint_vi": "Ống quyển (胫) là bộ phận của cẳng chân (月), nơi có cấu trúc thẳng tắp và vững chãi như một dòng chảy (巠) xuyên suốt."
+    "hint_vi": "Ống quyển (胫) là bộ phận của cẳng chân (月), nơi có cấu trúc thẳng tắp và vững chãi như một dòng chảy (𢀖) xuyên suốt."
   },
   {
     "id": 3823,
@@ -43588,9 +43588,9 @@
     "pinyin": "tīng",
     "definition_vi": "(hóa học) Hiđrôcacbon",
     "radical": "火",
-    "decomposition": "⿰火巠",
+    "decomposition": "⿰火𢀖",
     "stroke_count": 9,
-    "hint_vi": "Hiđrôcacbon (烃) là hợp chất tạo nên nhiên liệu cho lửa (火), chảy qua những huyết mạch (巠) của ngành công nghiệp hiện đại."
+    "hint_vi": "Hiđrôcacbon (烃) là hợp chất tạo nên nhiên liệu cho lửa (火), chảy qua những huyết mạch (𢀖) của ngành công nghiệp hiện đại."
   },
   {
     "id": 4363,
@@ -44488,7 +44488,7 @@
     "pinyin": "qiǎng",
     "definition_vi": "(hóa học) Nhóm hiđroxyl",
     "radical": "羊",
-    "decomposition": "⿰羊巠",
+    "decomposition": "⿰羊𢀖",
     "stroke_count": 11,
     "hint_vi": "Nhóm hiđroxyl (羟) là một khái niệm hóa học gắn liền với hình ảnh con cừu (羊) trong cách cấu tạo chữ Hán hiện đại."
   },
@@ -48508,9 +48508,9 @@
     "pinyin": "xíng",
     "definition_vi": "đường hẹp trên núi; lối đi giữa núi",
     "radical": "阝",
-    "decomposition": "⿰阝巠",
+    "decomposition": "⿰阝𢀖",
     "stroke_count": 7,
-    "hint_vi": "Lối đi hẹp giữa các gò đồi (阝) nơi có dòng chảy (巠) hoặc con đường thẳng tắp."
+    "hint_vi": "Lối đi hẹp giữa các gò đồi (阝) nơi có dòng chảy (𢀖) hoặc con đường thẳng tắp."
   },
   {
     "id": 4855,
@@ -52262,8 +52262,8 @@
     "pinyin": "jǐng",
     "definition_vi": "cắt cổ",
     "radical": "刂",
-    "decomposition": "⿰巠刂",
-    "hint_vi": "Dùng dao (刂) cắt vào mạch máu hoặc phần cổ (巠) để kết liễu sự sống chính là cắt cổ (刭)."
+    "decomposition": "⿰𢀖刂",
+    "hint_vi": "Dùng dao (刂) cắt vào mạch máu hoặc phần cổ (𢀖) để kết liễu sự sống chính là cắt cổ (刭)."
   },
   {
     "id": 5256,
@@ -59536,15 +59536,6 @@
     "radical": "勹",
     "decomposition": "⿹勹虫",
     "hint_vi": "Bộ thủ (𠣜) này mô tả hình ảnh một con côn trùng (虫) đang bị bao bọc (勹) lại."
-  },
-  {
-    "id": 6064,
-    "character": "巠",
-    "pinyin": "jīng",
-    "definition_vi": "dòng nước ngầm (dạng cổ của 涇)",
-    "radical": "巛",
-    "decomposition": "⿳一巛工",
-    "hint_vi": "Dòng nước ngầm (巠) giống như một con sông (巛) chảy liền mạch (一) qua các công trình (工) dưới lòng đất."
   },
   {
     "id": 6065,
