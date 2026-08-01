@@ -29,9 +29,9 @@
   "下": [
     [
       "xià",
-      "noun",
-      "dưới, xuống; lần (lượng từ)",
-      "verb、 down, below; to go down; measure classifier word for times",
+      "noun/verb/classifier",
+      "dưới； xuống; lần",
+      "down, below; to go down; measure classifier word for times",
       "1"
     ]
   ],
@@ -1359,9 +1359,9 @@
   "包": [
     [
       "bāo",
-      "verb",
+      "verb, noun, classifier",
       "gói, bọc; túi, bao",
-      "noun、 to wrap, to pack; bag; measure classifier word for bundles",
+      "to wrap, to pack; bag; measure classifier word for bundles",
       "1"
     ]
   ],
@@ -2322,9 +2322,9 @@
   "多": [
     [
       "duō",
-      "adjective, adverb, number, verb",
+      "adjective, adverb, number, verb, pronoun",
       "nhiều; hơn; bao nhiêu? (hỏi số lượng)",
-      "verb、 many, much; to have more; how pronoun、 many, how much; (more, over)",
+      "many, much; to have more; how many, how much; (more, over)",
       "2"
     ]
   ],
@@ -53254,7 +53254,7 @@
       "tóu",
       "adjective, classifier, noun",
       "đầu; con (lượng từ cho gia súc)",
-      "head; 、 (first)",
+      "head; first; classifier for domestic animals",
       "3"
     ],
     [
@@ -71841,9 +71841,9 @@
   "可能": [
     [
       "kěnéng",
-      "adjective",
+      "adjective, noun, verb",
       "có thể; khả năng",
-      "noun、 possible; possibility; may verb",
+      "possible; possibility; may",
       "2"
     ]
   ],
