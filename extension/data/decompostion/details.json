@@ -44,11 +44,13 @@
     "id": 5,
     "character": "在",
     "pinyin": "zài",
-    "definition_vi": "ở, tại; tồn tại; dấu hiệu thì tiếp diễn",
+    "definition_vi": "ở, tại; tồn tại; đang (dấu hiệu thì tiếp diễn)",
+    "definition_en": "to be at, to exist; at, in, on; in the middle of doing something",
     "radical": "土",
     "decomposition": "⿸土",
     "stroke_count": 6,
-    "hint_vi": "Bàn tay cầm một thanh mốc cắm chặt xuống mặt đất (土), đánh dấu vị trí hiện 'tại' (在) đang đứng."
+    "hint_vi": "Bàn tay cầm một thanh mốc cắm chặt xuống mặt đất (土), đánh dấu vị trí hiện 'tại' (在) đang đứng.",
+    "hint": "A hand firmly planting a stake into the earth (土), marking the 'present' location or where one is 'at' (在)."
   },
   {
     "id": 6,
@@ -106,7 +108,7 @@
     "id": 11,
     "character": "们",
     "pinyin": "men",
-    "definition_vi": "các (số nhiều)",
+    "definition_vi": "các, những, chúng",
     "radical": "亻",
     "decomposition": "⿰亻门",
     "stroke_count": 5,
