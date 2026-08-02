@@ -5232,10 +5232,31 @@
   "分": [
     [
       "fēn",
-      "classifier, noun, verb",
-      "phút; phần, chia",
-      "minute; component, part)",
+      "verb",
+      "chia, phân chia, phân tán, phân phối, phân biệt",
+      "to divide, to separate, to distribute, to distinguish",
       "1"
+    ],
+    [
+      "fēn",
+      "noun/classifier",
+      "phút, điểm số; đơn vị tiền tệ (bằng 1/100 đồng)",
+      "minute, score, mark; cent (currency unit)",
+      "2"
+    ],
+    [
+      "fēn",
+      "noun",
+      "phần, bộ phận, thành phần",
+      "part, component, ingredient",
+      "3"
+    ],
+    [
+      "fèn",
+      "noun",
+      "phận, phận sự, chức phận; phần (của cải), hồi môn",
+      "lot, fate, duty; share, dowry",
+      "4"
     ]
   ],
   "切": [["qiè", "verb", "cắt", "to cut", "7-9"]],
