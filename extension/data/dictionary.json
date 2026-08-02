@@ -210,7 +210,7 @@
   "仅": [["jǐn", "adverb", "chỉ; chỉ có", "only; merely; barely", "4"]],
   "仍": [["réng", "adverb", "vẫn; còn", "still; yet", "4"]],
   "从": [
-    ["cóng", "preposition", "từ; theo; chưa từng", "from; to follow; ever", "1"]
+    ["cóng", "preposition", "từ, theo, chưa từng", "from, to follow, ever", "1"]
   ],
   "他": [["tā", "pronoun", "anh ấy, ông ấy", "he, him", "1"]],
   "付": [["fù", "verb", "trả (tiền)", "to pay", "4"]],
@@ -1573,7 +1573,15 @@
       "7-9"
     ]
   ],
-  "想": [["xiǎng", "verb", "nghĩ, muốn", "to think; to want", "1"]],
+  "想": [
+    [
+      "xiǎng",
+      "verb",
+      "nghĩ, muốn, nhớ, tin tưởng",
+      "to think, to want, to miss, to believe",
+      "1"
+    ]
+  ],
   "惹": [["rě", "verb", "gây ra; chọc", "to provoke", "7-9"]],
   "愁": [["chóu", "verb", "lo lắng", "to worry", "5"]],
   "愈": [["yù", "adverb", "càng thêm", "more and more", "7-9"]],
