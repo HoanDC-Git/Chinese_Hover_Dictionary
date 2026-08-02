@@ -7062,11 +7062,12 @@
   "实": [
     [
       "shí",
-      "adjective",
-      "thực tế; thành thực; quả",
-      "real; true; honest; fruit",
-      "3"
-    ]
+      "adjective/noun",
+      "thật, thực, rắn chắc; sự thật, hiện thực",
+      "real, true, solid; truth, reality",
+      "2"
+    ],
+    ["shí", "noun", "quả, hạt", "fruit, seed", "4"]
   ],
   "宾": [["bīn", "noun", "khách; khách khứa", "guest; visitor", "3"]],
   "尘": [["chén", "noun", "bụi; trần thế", "dust; dirt; earth; world", "5"]],
