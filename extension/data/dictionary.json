@@ -4266,10 +4266,38 @@
   "起": [
     [
       "qǐ",
-      "verb/classifier",
-      "đứng dậy; (lượng từ cho sự việc)",
-      "to rise, to get up; measure word for events",
+      "verb",
+      "đứng dậy, thức dậy; cất cánh",
+      "to get up, to rise; to take off",
       "1"
+    ],
+    [
+      "qǐ",
+      "verb",
+      "nổi lên, phát sinh, xảy ra",
+      "to appear, to arise, to happen",
+      "2"
+    ],
+    [
+      "qǐ",
+      "verb",
+      "nhổ, nhấc; khởi thảo (văn bản)",
+      "to pull out, to lift; to draft (a document)",
+      "4"
+    ],
+    [
+      "qǐ",
+      "verb/preposition",
+      "bắt đầu, khởi đầu; từ (thời gian, nơi chốn)",
+      "to start, to begin; from (time, place)",
+      "3"
+    ],
+    [
+      "qǐ",
+      "classifier",
+      "kiện, vụ; tốp, toán (lượng từ)",
+      "case, event; group, batch (classifier)",
+      "4"
     ]
   ],
   "趁": [
