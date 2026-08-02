@@ -4561,9 +4561,9 @@
   "部": [
     [
       "bù",
-      "noun, classifier",
-      "bộ; bộ phận; cuốn (sách), chiếc (máy)",
-      "department; part; measure word for books, machines",
+      "noun/classifier",
+      "bộ, bộ phận; cuốn (sách), chiếc (máy)",
+      "department, part; measure word for books, machines",
       "4"
     ]
   ],
@@ -23386,7 +23386,7 @@
       "1"
     ]
   ],
-  "小": [["xiǎo", "adjective", "Nhỏ, bé", "little, small", "1"]],
+  "小": [["xiǎo", "adjective", "nhỏ, bé", "little, small", "1"]],
   "局": [
     [
       "jú",
@@ -25766,7 +25766,13 @@
       "good; well; to be in love",
       "1"
     ],
-    ["hào", "verb", "thích, có xu hướng", "to be fond of, to have a tendency to", "1"]
+    [
+      "hào",
+      "verb",
+      "thích, có xu hướng",
+      "to be fond of, to have a tendency to",
+      "1"
+    ]
   ],
   "姥": [
     ["lǎo", "noun", "bà ngoại", "maternal grandmother", ""],
