@@ -1442,7 +1442,15 @@
   ],
   "延": [["yán", "verb", "kéo dài; trì hoãn", "prolong; delay", "7-9"]],
   "建": [["jiàn", "verb", "xây dựng", "to build", "3"]],
-  "开": [["kāi", "verb", "mở, lái (xe), khai trương", "to open", "1"]],
+  "开": [
+    [
+      "kāi",
+      "verb",
+      "mở, bắt đầu, lái (xe)",
+      "to open, to start, to operate (vehicle)",
+      "1"
+    ]
+  ],
   "式": [
     [
       "shì",
@@ -1500,7 +1508,7 @@
   ],
   "很": [["hěn", "adverb", "rất", "very", "1"]],
   "微": [["wēi", "adjective/adverb", "nhỏ; vi mô", "tiny; micro-", "7-9"]],
-  "心": [["xīn", "noun", "tim; lòng; tâm trí", "heart; mind", "3"]],
+  "心": [["xīn", "noun", "tim, lòng, tâm trí", "heart, mind", "3"]],
   "必": [
     ["bì", "adverb", "nhất định, chắc chắn", "certainly, necessarily", "5"]
   ],
