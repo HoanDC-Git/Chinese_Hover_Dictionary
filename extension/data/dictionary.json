@@ -25761,12 +25761,12 @@
   "好": [
     [
       "hǎo",
-      "adjective, adverb, verb",
-      "tốt, hay; (được, ổn); (thích)",
-      "good; (well); (to be fond of)",
+      "adjective/adverb/verb",
+      "tốt, hay; được, ổn; thích",
+      "good; well; to be in love",
       "1"
     ],
-    ["hào", "verb", "thích, ham", "to like, to be fond of", "1"]
+    ["hào", "verb", "thích, có xu hướng", "to be fond of, to have a tendency to", "1"]
   ],
   "姥": [
     ["lǎo", "noun", "bà ngoại", "maternal grandmother", ""],
