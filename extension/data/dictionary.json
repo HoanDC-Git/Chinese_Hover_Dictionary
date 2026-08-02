@@ -168,7 +168,7 @@
     [
       "xiē",
       "classifier",
-      "một vài, những (lượng từ chỉ số lượng không xác định)",
+      "một vài, những (số lượng không xác định)",
       "measure word for an indefinite amount",
       "1"
     ]
@@ -2432,8 +2432,8 @@
     [
       "yàng",
       "classifier",
-      "loại, dạng; kiểu",
-      "measure word for kinds, types; pattern, style",
+      "loại, dạng, kiểu",
+      "measure word for kinds, types, pattern, style",
       "6"
     ]
   ],
@@ -3028,7 +3028,27 @@
   "班": [["bān", "classifier, noun", "lớp, ca", "class, team; groups)", "1"]],
   "球": [["qiú", "noun", "quả bóng", "ball, sphere", "1"]],
   "理": [
-    ["lǐ", "noun/verb", "lý lẽ; quản lý", "reason, logic; to manage", "6"]
+    [
+      "lǐ",
+      "noun",
+      "lý lẽ, đạo lý; kết cấu, đường vân (gỗ/đá/vải); vật lý",
+      "reason, logic; texture, grain (of wood/stone/cloth); physics",
+      "4"
+    ],
+    [
+      "lǐ",
+      "verb",
+      "quản lý, xử lý; chỉnh lý, sắp xếp",
+      "to manage, to handle; to put in order, to tidy up",
+      "3"
+    ],
+    [
+      "lǐ",
+      "verb",
+      "quan tâm, để ý, đáp lại",
+      "to pay attention to, to acknowledge, to reply",
+      "5"
+    ]
   ],
   "琴": [
     ["qín", "noun", "đàn; nhạc cụ dây", "musical instrument; piano; etc.", "4"]
