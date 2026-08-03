@@ -5658,12 +5658,27 @@
   "扫": [["sǎo", "verb", "quét", "to sweep", "3"]],
   "扳": [["bān", "verb", "kéo, vặn", "to pull, to turn, to wrench", "7-9"]],
   "把": [
+    ["bǎ", "verb", "nắm, giữ, cầm", "to hold, to grasp", "2"],
     [
       "bǎ",
-      "classifier/preposition",
-      "cái, chiếc (cho vật có cầm); (dùng để đưa tân ngữ ra trước động từ)",
-      "measure word for objects with handles; (particle for object-fronting)",
+      "classifier",
+      "cái, chiếc (cho vật có cán, có tay cầm)",
+      "measure word for objects with handles",
       "3"
+    ],
+    [
+      "bǎ",
+      "preposition",
+      "(dùng để đưa tân ngữ ra trước động từ)",
+      "particle for object-fronting",
+      "4"
+    ],
+    [
+      "bà",
+      "noun",
+      "cán, chuôi (của dao, chổi...)",
+      "handle, grip (of a knife, broom...)",
+      "6"
     ]
   ],
   "抡": [
