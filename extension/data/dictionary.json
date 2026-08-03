@@ -3094,7 +3094,7 @@
     ["tián", "noun", "cánh đồng, đất nông nghiệp", "field, farmland", "6"]
   ],
   "由": [
-    ["yóu", "preposition", "bởi; do; từ", "by; through; from; because of", "3"]
+    ["yóu", "preposition", "bởi, do, từ", "by, through, from, because of", "3"]
   ],
   "甲": [["jiǎ", "noun", "thứ nhất; áo giáp", "first; armor", "5"]],
   "电": [
@@ -25755,30 +25755,16 @@
   "头": [
     [
       "tóu",
-      "adjective, classifier, noun",
-      "đầu; con (lượng từ cho gia súc)",
-      "head; first; classifier for domestic animals",
-      "3"
-    ],
-    [
-      "tóu",
-      "suffix",
-      "hậu tố dùng sau danh từ",
-      "suffix used after nouns",
-      "3"
-    ],
-    [
-      "tóu",
-      "noun/classifier",
-      "Đầu; (lượng từ dùng cho gia súc)",
-      "head; (classifier for cattle, garlic, etc.)",
+      "noun/classifier/adjective",
+      "đầu; con; đứng đầu, đầu tiên",
+      "head; classifier for animals; leading, first",
       "2"
     ],
     [
       "tou",
       "suffix",
-      "Hậu tố chỉ vị trí, phương vị (Ví dụ: 里头)",
-      "suffix indicating direction/position (e.g. 里头)",
+      "hậu tố chỉ vị trí, phương vị (ví dụ: 里头 - bên trong)",
+      "suffix indicating position/direction (e.g. 里头 - inside)",
       "2"
     ]
   ],
