@@ -12445,8 +12445,8 @@
     [
       "yì",
       "noun",
-      "ý kiến, ý nghĩa, ý nguyện, ý định, nước Ý (viết tắt)",
-      "thought, idea, intention, meaning, Italy (abbrev.)",
+      "ý kiến, ý nghĩa, ý nguyện, ý định",
+      "idea, meaning, thought, intention",
       "2"
     ]
   ],
@@ -23601,15 +23601,7 @@
       "1"
     ]
   ],
-  "者": [
-    [
-      "zhě",
-      "suffix",
-      "người (làm việc gì đó, ví dụ: 志愿者 - tình nguyện viên)",
-      "suffix meaning person; one who does something (e.g. 志愿者 - volunteer)",
-      "3"
-    ]
-  ],
+  "者": [["zhě", "suffix", "người", "person", "3"]],
   "花": [
     ["huā", "noun/verb", "bông hoa; tiêu, tốn", "flower; to spend", "1"],
     [
