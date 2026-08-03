@@ -5767,7 +5767,7 @@
       "7-9"
     ]
   ],
-  "无": [["wú", "verb", "không có; thiếu", "to lack; to not have", "4"]],
+  "无": [["wú", "verb", "không có, thiếu", "to not have, to lack", "4"]],
   "更": [["gèng", "adverb", "hơn, càng... hơn", "more", "2"]],
   "曾": [["céng", "adverb", "đã từng", "once, ever", "7-9"]],
   "服": [
@@ -26721,12 +26721,12 @@
     ["qiǎng", "noun", "xâu tiền; tiền", "string of coins; money", ""]
   ],
   "长": [
-    ["cháng", "adjective", "dài; chiều dài", "long; length; strong point", "1"],
+    ["cháng", "adjective/noun", "dài; chiều dài", "long; length", "1"],
     [
       "zhǎng",
-      "verb",
-      "lớn lên; trưởng; người đứng đầu",
-      "to grow; chief; elder",
+      "verb/noun",
+      "lớn lên; trưởng, người đứng đầu",
+      "to grow; chief, elder",
       "1"
     ]
   ],
