@@ -26748,16 +26748,23 @@
   "间": [
     [
       "jiān",
-      "noun",
-      "giữa; khoảng; gian (phòng)",
-      "space; between; among; room",
+      "preposition",
+      "giữa, ở giữa, trong khoảng",
+      "between, among",
       "1"
     ],
     [
+      "jiān",
+      "noun/classifier",
+      "khoảng cách; gian (phòng), phòng",
+      "space; room (as measure word)",
+      "2"
+    ],
+    [
       "jiàn",
-      "noun",
-      "kẽ hở; ngăn cách; gián (trong gián điệp)",
-      "gap; interval; to separate",
+      "verb/noun",
+      "ngăn cách, cách trở; kẽ hở, khoảng trống",
+      "to separate, to space out; gap, interval",
       "4"
     ]
   ],
