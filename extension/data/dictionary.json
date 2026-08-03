@@ -2155,7 +2155,15 @@
       "7-9"
     ]
   ],
-  "文": [["wén", "noun", "văn; chữ; ngôn ngữ", "language; writing", "7-9"]],
+  "文": [
+    [
+      "wén",
+      "noun",
+      "ngôn ngữ, văn hóa, chữ viết",
+      "language, culture, writing",
+      "7-9"
+    ]
+  ],
   "斜": [
     [
       "xié",
@@ -6136,7 +6144,7 @@
     [
       "tǐ",
       "noun",
-      "cơ thể, thân thể, thể loại, phong cách, hệ thống",
+      "cơ thể, hình thức, phong cách, hệ thống",
       "body, form, style, system",
       "2"
     ]
@@ -7209,8 +7217,8 @@
     [
       "zhèng",
       "noun",
-      "chính (trị); chính phủ; (họ) Chính",
-      "political; government; (surname)",
+      "chính trị, chính phủ; họ Chính",
+      "political, government; surname",
       "7-9"
     ]
   ],
