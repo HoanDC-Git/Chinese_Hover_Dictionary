@@ -5546,9 +5546,17 @@
   "将": [
     [
       "jiāng",
-      "adverb, preposition, verb",
-      "sẽ; đem; cầm",
-      "will; with; to take",
+      "verb",
+      "cầm, đem, mang, dùng",
+      "to take, to bring, to carry, to use",
+      "3"
+    ],
+    ["jiāng", "adverb", "sẽ, sắp, sắp sửa", "will, shall, about to", "3"],
+    [
+      "jiàng",
+      "noun/verb",
+      "tướng, tướng lĩnh; chỉ huy quân đội, làm tướng",
+      "general, commander; to command, to lead troops",
       "4"
     ]
   ],
@@ -23588,15 +23596,7 @@
   "站": [
     ["zhàn", "verb/noun", "đứng; trạm, bến", "to stand; station, stop", "1"]
   ],
-  "第": [
-    [
-      "dì",
-      "prefix",
-      "thứ (tiền tố biểu thị số thứ tự, ví dụ: 第二 - thứ hai)",
-      "prefix for ordinal numbers (e.g. 第二 - second)",
-      "1"
-    ]
-  ],
+  "第": [["dì", "prefix", "thứ", "prefix for ordinal numbers", "1"]],
   "等": [
     [
       "děng",
