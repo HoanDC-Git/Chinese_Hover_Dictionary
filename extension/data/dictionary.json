@@ -2291,7 +2291,7 @@
     ]
   ],
   "最": [["zuì", "adverb", "nhất", "most, -est", "1"]],
-  "月": [["yuè", "noun", "tháng; mặt trăng", "month; moon", "1"]],
+  "月": [["yuè", "noun", "tháng, mặt trăng", "month, moon", "1"]],
   "有": [["yǒu", "verb", "có", "to have, to exist", "1"]],
   "望": [["wàng", "verb", "nhìn vào, ngắm nhìn", "to look at, to gaze", "6"]],
   "期": [
@@ -4129,7 +4129,7 @@
     ["shì", "verb", "thử; thi; kiểm tra", "to test; to try; examination", "1"]
   ],
   "诗": [["shī", "noun", "thơ ca", "poetry", "7-9"]],
-  "话": [["huà", "noun", "Lời nói, ngôn từ", "speech, words, talk", "1"]],
+  "话": [["huà", "noun", "lời nói, ngôn từ", "speech, words, talk", "1"]],
   "该": [
     [
       "gāi",
@@ -5418,7 +5418,7 @@
     ]
   ],
   "合": [
-    ["hé", "verb", "đóng lại; hợp, phù hợp", "to close; to fit, to join", "3"]
+    ["hé", "verb", "đóng lại, hợp, phù hợp", "to close, to join, to fit", "3"]
   ],
   "同": [
     [
@@ -9205,13 +9205,7 @@
   "枉": [["wǎng", "adverb", "uổng, vô ích", "in vain", ""]],
   "析": [["xī", "verb", "phân tích, tách ra", "to analyze, to separate", ""]],
   "果": [
-    [
-      "guǒ",
-      "noun",
-      "quả, trái cây, kết quả, họ Quả",
-      "fruit, result, resolute, Surname Guo",
-      ""
-    ]
+    ["guǒ", "noun", "quả, kết quả, họ Quả", "fruit, result, Surname Guo", ""]
   ],
   "柄": [["bǐng", "noun", "cán, chuôi, tay cầm", "handle, hilt, shaft", ""]],
   "柱": [["zhù", "noun", "cột, trụ", "pillar, column", ""]],
