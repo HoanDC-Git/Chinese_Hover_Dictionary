@@ -448,7 +448,7 @@
     ]
   ],
   "兼": [["jiān", "verb", "kiêm; kiêm nhiệm", "hold concurrent posts", "7-9"]],
-  "内": [["nèi", "noun", "bên trong; nội bộ", "inside; within", "3"]],
+  "内": [["nèi", "noun", "bên trong, nội bộ", "inside, within", "3"]],
   "册": [
     [
       "cè",
@@ -850,8 +850,8 @@
     [
       "huí",
       "verb",
-      "về; quay lại; hồi (lượng từ)",
-      "to return; to circle; time; chapter",
+      "về, quay lại; hồi",
+      "to return; to circle; classifier for acts of a play",
       "1"
     ]
   ],
@@ -2997,7 +2997,7 @@
       "6"
     ]
   ],
-  "特": [["tè", "adverb", "đặc biệt, rất", "especially, particularly", "6"]],
+  "特": [["tè", "adverb", "đặc biệt, rất", "especially, very", "6"]],
   "犯": [
     ["fàn", "verb", "phạm (tội); vi phạm", "to commit a crime; to violate", "6"]
   ],
@@ -3984,9 +3984,9 @@
   "表": [
     [
       "biǎo",
-      "noun",
-      "biểu đồ; bảng; đồng hồ; mặt ngoài; bày tỏ",
-      "table; chart; meter; express; surface",
+      "noun/verb",
+      "bảng, đồng hồ, mặt ngoài; bày tỏ",
+      "table, watch, exterior surface; to show",
       "2"
     ]
   ],
