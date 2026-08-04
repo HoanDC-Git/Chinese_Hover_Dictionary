@@ -5962,9 +5962,9 @@
   "给": [
     [
       "gěi",
-      "preposition, verb",
-      "cho, tặng; (cho, đối với)",
-      "to give; (to, for)",
+      "preposition/verb",
+      "cho, đối với; cho, tặng",
+      "to, for; to allow, to give",
       "1"
     ]
   ],
@@ -23617,9 +23617,16 @@
   "老": [
     [
       "lǎo",
-      "adjective/adverb/prefix",
-      "già, cũ; luôn luôn; tiền tố đặt trước họ,tên chỉ người lớn tuổi hoặc gọi thân mật",
-      "old, aged; constantly; prefix for elder or intimate address",
+      "adjective/adverb",
+      "già, cũ; luôn luôn",
+      "old, aged; constantly",
+      "1"
+    ],
+    [
+      "lǎo",
+      "prefix",
+      "tiền tố đặt trước họ, tên chỉ người lớn tuổi hoặc gọi thân mật",
+      "prefix for elder or intimate address",
       "1"
     ]
   ],
