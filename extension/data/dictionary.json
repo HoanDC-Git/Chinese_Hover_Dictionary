@@ -691,7 +691,15 @@
   ],
   "去": [["qù", "verb", "đi (đến nơi nào đó)", "to go", "1"]],
   "县": [["xiàn", "noun", "huyện", "county; district", "4"]],
-  "及": [["jí", "conjunction", "và, cũng như", "and, as well as", "7-9"]],
+  "及": [
+    [
+      "jí",
+      "conjunction",
+      "và, đạt đến, kịp thời",
+      "and, to reach, in time for",
+      "7-9"
+    ]
+  ],
   "双": [
     [
       "shuāng",
@@ -5741,13 +5749,7 @@
   ],
   "掺": [["càn", "verb", "pha; trộn", "mix", "7-9"]],
   "提": [
-    [
-      "tí",
-      "verb",
-      "xách, nâng, đề cập",
-      "to carry, to lift, to mention",
-      "2"
-    ]
+    ["tí", "verb", "xách, nâng, đề cập", "to carry, to lift, to mention", "2"]
   ],
   "揣": [
     [
@@ -5818,15 +5820,7 @@
   "歪": [
     ["wāi", "adjective", "xiên, lệch, cong", "crooked, askew, tilted", "6"]
   ],
-  "比": [
-    [
-      "bǐ",
-      "verb",
-      "so với, hơn (dùng so sánh)",
-      "preposition to compare; than",
-      "1"
-    ]
-  ],
+  "比": [["bǐ", "verb", "so với, hơn (dùng so sánh)", "to compare; than", "1"]],
   "汗": [["hàn", "noun", "mồ hôi", "sweat", "4"]],
   "汤": [
     [
@@ -23414,8 +23408,8 @@
     [
       "yuán",
       "suffix/noun",
-      "viên (hậu tố chỉ người làm nghề); thành viên, nhân viên (như: 服务员)",
-      "suffix for person with a certain job; member, personnel (e.g. 服务员)",
+      "viên (hậu tố chỉ người làm nghề); thành viên, nhân viên",
+      "suffix for person with a certain job; member, personnel",
       "3"
     ]
   ],
