@@ -1622,9 +1622,7 @@
   ],
   "我": [["wǒ", "pronoun", "tôi, tớ", "I", "1"]],
   "戒": [["jiè", "verb", "cai bỏ; kiêng cữ", "to quit; to abstain from", "5"]],
-  "或": [
-    ["huò", "conjunction/adverb", "hoặc; có lẽ", "or; maybe", "2"]
-  ],
+  "或": [["huò", "conjunction/adverb", "hoặc; có lẽ", "or; maybe", "2"]],
   "截": [["jié", "verb", "ngắt; chặn", "to cut; to stop", "7-9"]],
   "戳": [
     [
@@ -4384,8 +4382,8 @@
     [
       "shēn",
       "noun/classifier",
-      "thân thể; bản thân; bộ (quần áo)",
-      "body; oneself; measure word for clothes",
+      "thân thể, bản thân; bộ (quần áo)",
+      "body, oneself; measure word for clothes",
       "4"
     ]
   ],
