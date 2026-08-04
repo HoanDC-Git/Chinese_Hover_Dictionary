@@ -587,9 +587,9 @@
   "制": [
     [
       "zhì",
-      "verb",
-      "chế tạo; hệ thống; kiềm chế",
-      "to manufacture; system; to control",
+      "verb/noun",
+      "chế tạo, kiềm chế; hệ thống",
+      "to manufacture, to control; system",
       "4"
     ]
   ],
@@ -1623,7 +1623,7 @@
   "我": [["wǒ", "pronoun", "tôi, tớ", "I", "1"]],
   "戒": [["jiè", "verb", "cai bỏ; kiêng cữ", "to quit; to abstain from", "5"]],
   "或": [
-    ["huò", "conjunction/adverb", "hoặc, hay; (có lẽ)", "or; (perhaps)", "2"]
+    ["huò", "conjunction/adverb", "hoặc; có lẽ", "or; maybe", "2"]
   ],
   "截": [["jié", "verb", "ngắt; chặn", "to cut; to stop", "7-9"]],
   "戳": [
