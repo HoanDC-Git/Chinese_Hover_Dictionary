@@ -23608,9 +23608,16 @@
   "等": [
     [
       "děng",
-      "verb/particle/classifier/noun",
-      "đợi, chờ; vân vân, v.v.; hạng, cấp bậc, loại",
-      "to wait; and so on, etc.; class, grade, rank",
+      "verb/particle",
+      "đợi, chờ; vân vân, v.v.",
+      "to wait; and so on, etc.",
+      "1"
+    ],
+    [
+      "děng",
+      "classifier/noun",
+      "hạng, cấp bậc, loại",
+      "rank, grade, class",
       "1"
     ]
   ],
@@ -26184,7 +26191,7 @@
     [
       "xiàng",
       "noun",
-      "dung mạo, tướng mạo, bộ dạng, ảnh",
+      "bộ dạng, dung mạo, ảnh",
       "appearance, portrait, photo",
       "3"
     ],
