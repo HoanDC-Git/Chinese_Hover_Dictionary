@@ -2613,8 +2613,8 @@
     [
       "qì",
       "noun/verb",
-      "khí; không khí; hơi; làm tức giận",
-      "air; gas; breath; to anger; to make angry",
+      "khí, không khí; làm tức giận",
+      "air, gas; to anger, to make angry",
       "4"
     ]
   ],
@@ -24528,13 +24528,7 @@
     ]
   ],
   "尔": [
-    [
-      "ěr",
-      "pronoun/particle",
-      "ngươi, mày, ấy, thế; vậy thôi, mà thôi",
-      "you, that, this; that is all, only",
-      "7-9"
-    ]
+    ["ěr", "pronoun", "ngươi, mày; ấy, đó", "you, your; that, those", "6"]
   ],
   "履": [
     ["lǚ", "noun", "giày, dép", "shoe, footwear", "5"],
