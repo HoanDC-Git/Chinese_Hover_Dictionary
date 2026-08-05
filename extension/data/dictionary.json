@@ -6836,7 +6836,7 @@
     ]
   ],
   "褶": [["zhě", "noun", "nếp gấp, nếp nhăn", "pleat, fold, crease", ""]],
-  "论": [["lùn", "verb", "bàn luận; thảo luận", "discuss; talk about", ""]],
+  "论": [["lùn", "verb", "bàn luận, thảo luận", "discuss, talk about", ""]],
   "诶": [["éi", "interjection", "ê; ơ", "eh", ""]],
   "轧": [
     [
@@ -25781,14 +25781,14 @@
     ["pǔ", "noun", "vùng đất bằng", "plain; flat land", ""]
   ],
   "处": [
+    ["chǔ", "verb", "ở, sống", "to live, to dwell", "3"],
     [
-      "chǔ",
-      "verb",
-      "ở; cư xử; quản lý",
-      "to dwell; to manage; to get along with",
+      "chù",
+      "noun/classifier",
+      "nơi, chỗ; lượng từ chỉ địa điểm",
+      "place, spot; classifier for places",
       "3"
-    ],
-    ["chù", "noun", "nơi; chỗ; cơ quan", "place; spot; office; department", "3"]
+    ]
   ],
   "头": [
     [
