@@ -1599,15 +1599,15 @@
   "惹": [["rě", "verb", "gây ra; chọc", "to provoke", "7-9"]],
   "愁": [["chóu", "verb", "lo lắng", "to worry", "5"]],
   "愈": [["yù", "adverb", "càng thêm", "more and more", "7-9"]],
-"感": [
-  [
-    "gǎn",
-    "verb",
-    "cảm động, lay động, cảm nhận",
-    "to be moved, to touch, to feel",
-    "4"
-  ]
-],
+  "感": [
+    [
+      "gǎn",
+      "verb",
+      "cảm động, lay động, cảm nhận",
+      "to be moved, to touch, to feel",
+      "4"
+    ]
+  ],
   "愣": [
     [
       "lèng",
@@ -2017,7 +2017,15 @@
       "7-9"
     ]
   ],
-  "接": [["jiē", "verb", "đón, nhận, kết nối", "to pick up, to receive", "2"]],
+  "接": [
+    [
+      "jiē",
+      "verb",
+      "đón, nhận, kết nối",
+      "to pick up, to receive, to connect",
+      "2"
+    ]
+  ],
   "推": [["tuī", "verb", "đẩy", "to push; to shove", "2"]],
   "掰": [
     ["bāi", "verb", "bẻ, tách ra", "to break off with hands, to split", "7-9"]
@@ -8109,15 +8117,15 @@
   ],
   "刊": [["kān", "noun", "ấn phẩm, đăng tải", "publication, publish", ""]],
   "剃": [["tì", "verb", "cạo; cạo bỏ", "shave", ""]],
-"务": [
-  [
-    "wù",
-    "noun/verb",
-    "công việc; chuyên tâm, theo đuổi, phải, cần",
-    "affair, business; to devote oneself to, must, should",
-    "5"
-  ]
-],
+  "务": [
+    [
+      "wù",
+      "noun/verb",
+      "công việc; chuyên tâm, theo đuổi, phải, cần",
+      "affair, business; to devote oneself to, must, should",
+      "5"
+    ]
+  ],
   "努": [
     [
       "nǔ",
