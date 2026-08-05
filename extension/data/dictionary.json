@@ -24528,7 +24528,7 @@
     ]
   ],
   "尔": [
-    ["ěr", "pronoun", "ngươi, mày; ấy, đó", "you, your; that, those", "6"]
+    ["ěr", "pronoun", "ngươi, mày， ấy, đó", "you, your， that, those", "6"]
   ],
   "履": [
     ["lǚ", "noun", "giày, dép", "shoe, footwear", "5"],
@@ -25550,15 +25550,9 @@
     ["huà", "verb", "phân chia; hoạch định", "to divide; to plan; to draw", "3"]
   ],
   "别": [
-    ["bié", "adverb", "đừng", "don't, not bad", "1"],
+    ["bié", "adverb", "đừng", "don't", "1"],
     ["bié", "verb", "chia tay, ly biệt", "to leave, to part ways", "1"],
-    [
-      "biè",
-      "adjective",
-      "khó xử; bướng bỉnh (trong 别扭)",
-      "awkward; contrary",
-      "4"
-    ]
+    ["bié", "verb", "ghim, cài", "to pin, to clip", "4"]
   ],
   "剥": [
     ["bāo", "verb", "bóc; lột (vỏ)", "to peel; to shell", ""],
