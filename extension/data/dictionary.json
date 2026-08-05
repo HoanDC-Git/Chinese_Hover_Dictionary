@@ -24099,7 +24099,16 @@
       "4"
     ]
   ],
-  "系": [["xì", "noun", "bộ phận, hệ thống", "department, system", "3"]],
+  "系": [
+    [
+      "xì",
+      "noun/verb",
+      "khoa, bộ môn, hệ thống; liên hệ, quan hệ",
+      "department, system; to relate, to concern",
+      "3"
+    ],
+    ["jì", "verb", "buộc, thắt, cột", "to tie, to bind, to fasten", "5"]
+  ],
   "缝": [
     ["féng", "verb", "may, khâu, vá", "to sew, to stitch, to mend", "7-9"],
     [
