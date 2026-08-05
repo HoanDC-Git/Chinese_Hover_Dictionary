@@ -5582,7 +5582,7 @@
       "4"
     ]
   ],
-  "少": [["shǎo", "adjective", "ít, thiếu", "verb few, little; to lack", "1"]],
+  "少": [["shǎo", "adjective", "ít, thiếu", "verb few, little, lack", "1"]],
   "尺": [
     [
       "chǐ",
@@ -26327,12 +26327,12 @@
   "结": [
     [
       "jié",
-      "verb",
-      "kết; thắt nút; kết thúc",
-      "to tie; knot; to conclude",
+      "noun/verb",
+      "nút thắt; buộc, kết thúc",
+      "knot; to tie, to conclude",
       "3"
     ],
-    ["jiē", "verb", "kết (quả); cứng cáp", "to bear fruit; solid", "3"]
+    ["jiē", "verb/adjective", "kết trái; cứng cáp", "to bear fruit; solid", "3"]
   ],
   "络": [
     [
