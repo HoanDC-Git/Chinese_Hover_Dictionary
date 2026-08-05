@@ -3245,7 +3245,15 @@
   "盼": [
     ["pàn", "verb", "mong, ngóng, hy vọng", "to long for, to expect", "7-9"]
   ],
-  "真": [["zhēn", "adjective, adverb", "thực sự, thật", "really; (true)", "1"]],
+  "真": [
+    [
+      "zhēn",
+      "adjective/adverb",
+      "thực tế, thật",
+      "real, true; really, truly",
+      "1"
+    ]
+  ],
   "眼": [
     [
       "yǎn",
