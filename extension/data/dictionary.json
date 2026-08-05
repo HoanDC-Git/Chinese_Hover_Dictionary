@@ -1422,7 +1422,13 @@
     ]
   ],
   "平": [
-    ["píng", "adjective", "bằng phẳng; làm phẳng", "flat, level; to level", "2"]
+    [
+      "píng",
+      "adjective/verb",
+      "bằng phẳng; san bằng, làm phẳng",
+      "flat, level; to level, to flatten",
+      "2"
+    ]
   ],
   "年": [["nián", "noun", "năm", "year", "1"]],
   "床": [["chuáng", "noun", "giường", "bed", "1"]],
