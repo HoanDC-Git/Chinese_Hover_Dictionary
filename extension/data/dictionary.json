@@ -1599,7 +1599,15 @@
   "惹": [["rě", "verb", "gây ra; chọc", "to provoke", "7-9"]],
   "愁": [["chóu", "verb", "lo lắng", "to worry", "5"]],
   "愈": [["yù", "adverb", "càng thêm", "more and more", "7-9"]],
-  "感": [["gǎn", "noun", "cảm giác; cảm", "sense; feeling", "4"]],
+"感": [
+  [
+    "gǎn",
+    "verb",
+    "cảm động, lay động, cảm nhận",
+    "to be moved, to touch, to feel",
+    "4"
+  ]
+],
   "愣": [
     [
       "lèng",
