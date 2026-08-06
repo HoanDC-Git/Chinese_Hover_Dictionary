@@ -1883,7 +1883,15 @@
   "挂": [
     ["guà", "verb", "treo; móc; gác máy", "to hang; to hang up; to worry", "3"]
   ],
-  "指": [["zhǐ", "verb", "chỉ; trỏ", "to point to; to indicate", "4"]],
+  "指": [
+    [
+      "zhǐ",
+      "noun/verb",
+      "ngón tay; chỉ, trỏ",
+      "finger; to point to, to indicate to",
+      "4"
+    ]
+  ],
   "按": [["àn", "verb", "ấn; theo", "to press; according to", "3"]],
   "挎": [
     [
@@ -10423,7 +10431,7 @@
       "zī",
       "noun/verb",
       "tiền, vốn, tài nguyên; cung cấp, hỗ trợ",
-      "money, capital, resources; to supply, to support", 
+      "money, capital, resources; to supply, to support",
       ""
     ]
   ],
