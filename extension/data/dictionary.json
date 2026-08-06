@@ -5300,20 +5300,8 @@
     ]
   ],
   "便": [
-    [
-      "biàn",
-      "adverb",
-      "thì, liền, sẽ",
-      "then, just, promptly",
-      ""
-    ],
-    [
-      "biàn",
-      "conjunction",
-      "là, cho nên",
-      "in that case, consequently",
-      ""
-    ],
+    ["biàn", "adverb", "thì, liền, sẽ", "then, just, promptly", ""],
+    ["biàn", "conjunction", "là, cho nên", "in that case, consequently", ""],
     [
       "biàn",
       "adjective",
@@ -5321,13 +5309,7 @@
       "convenient, easy, handy",
       ""
     ],
-    [
-      "biàn",
-      "noun",
-      "phân, cặn, chất thải",
-      "excrement, faeces, urine",
-      ""
-    ]
+    ["biàn", "noun", "phân, cặn, chất thải", "excrement, faeces, urine", ""]
   ],
   "俊": [["jùn", "adjective", "đẹp trai; tuấn tú", "handsome; smart", "7-9"]],
   "倔": [["jué", "adjective", "cứng đầu; ngoan cố", "stubborn; tough", "7-9"]],
@@ -13929,7 +13911,15 @@
   "寿": [["shòu", "noun", "trường thọ; tuổi thọ", "longevity", ""]],
   "尊": [["zūn", "noun", "chum; vật tôn quý", "vessel; honorable thing", ""]],
   "尤": [["yóu", "adverb", "đặc biệt; càng", "especially", ""]],
-  "展": [["zhǎn", "verb", "trưng bày; triển lãm", "display; exhibit", ""]],
+  "展": [
+    [
+      "zhǎn",
+      "verb/noun",
+      "mở ra, trưng bày; triển lãm",
+      "to open up, to exhibit; exhibition",
+      ""
+    ]
+  ],
   "岳": [
     [
       "yuè",
