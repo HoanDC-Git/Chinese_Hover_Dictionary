@@ -4051,8 +4051,8 @@
     [
       "jì",
       "verb",
-      "tính toán; kế hoạch; họ Kế",
-      "to calculate; plan; meter; surname",
+      "tính toán, lập kế hoạch; họ Kế",
+      "to calculate, to plan; surname",
       "3"
     ]
   ],
@@ -405238,5 +405238,303 @@
     ["yín", "verb", "tiến bước; đi ra ngoài", "to move on; to go out", ""]
   ],
   "冯": [["Féng", "noun", "họ Phùng", "surname Feng", ""]],
-  "袁": [["Yuán", "noun", "họ Viên", "surname Yuan", ""]]
+  "袁": [["Yuán", "noun", "họ Viên", "surname Yuan", ""]],
+  "要是": [
+    [
+      "yàoshi",
+      "conjunction",
+      "nếu, giá mà, nếu như",
+      "if, in case, suppose",
+      "3"
+    ]
+  ],
+  "如果": [["rúguǒ", "conjunction", "nếu, nếu như", "if", "2"]],
+  "假如": [["jiǎrú", "conjunction", "giả như, nếu như", "if, suppose", "5"]],
+  "假使": [
+    ["jiǎshǐ", "conjunction", "giả sử, nếu", "if, in case, provided", "6"]
+  ],
+  "但是": [
+    [
+      "dànshì",
+      "conjunction",
+      "nhưng, nhưng mà, tuy nhiên",
+      "but, however, nevertheless",
+      "2"
+    ]
+  ],
+  "可是": [
+    ["kěshì", "conjunction", "nhưng, nhưng mà, tuy vậy", "but, however", "2"]
+  ],
+  "所以": [
+    [
+      "suǒyǐ",
+      "conjunction",
+      "vì vậy, cho nên, bởi vậy",
+      "so, therefore, hence",
+      "2"
+    ]
+  ],
+  "因此": [
+    [
+      "yīncǐ",
+      "conjunction",
+      "do đó, vì thế, bởi vậy",
+      "therefore, thus, consequently",
+      "4"
+    ]
+  ],
+  "于是": [
+    [
+      "yúshì",
+      "conjunction",
+      "vì thế, rồi thì, sau đó",
+      "so, then, thereupon, hence",
+      "4"
+    ]
+  ],
+  "即使": [
+    [
+      "jíshǐ",
+      "conjunction",
+      "dù cho, ngay cả khi, cho dù",
+      "even if, even though",
+      "4"
+    ]
+  ],
+  "只要": [
+    [
+      "zhǐyào",
+      "conjunction",
+      "chỉ cần, miễn là",
+      "as long as, provided that, if only",
+      "3"
+    ]
+  ],
+  "只有": [
+    [
+      "zhǐyǒu",
+      "conjunction",
+      "chỉ có, duy nhất (điều kiện)",
+      "only if, only when",
+      "3"
+    ]
+  ],
+  "无论": [
+    [
+      "wúlùn",
+      "conjunction",
+      "bất kể, không kể, dù",
+      "no matter, regardless of",
+      "4"
+    ]
+  ],
+  "不管": [
+    [
+      "bùguǎn",
+      "conjunction",
+      "bất kể, dù, không kể",
+      "no matter, regardless of, despite",
+      "4"
+    ]
+  ],
+  "不但": [["bùdàn", "conjunction", "không những, không chỉ", "not only", "3"]],
+  "而且": [
+    [
+      "érqiě",
+      "conjunction",
+      "mà còn, hơn nữa",
+      "and also, moreover, furthermore",
+      "3"
+    ]
+  ],
+  "并且": [
+    [
+      "bìngqiě",
+      "conjunction",
+      "hơn nữa, và còn, đồng thời",
+      "and, moreover, furthermore",
+      "4"
+    ]
+  ],
+  "或者": [["huòzhě", "conjunction", "hoặc, hay", "or, either", "3"]],
+  "与其": [
+    [
+      "yǔqí",
+      "conjunction",
+      "thà...còn hơn, so với việc",
+      "rather than, instead of",
+      "5"
+    ]
+  ],
+  "甚至": [
+    [
+      "shènzhì",
+      "conjunction",
+      "thậm chí, kể cả",
+      "even, even (to the extent that)",
+      "4"
+    ]
+  ],
+  "不仅": [
+    [
+      "bùjǐn",
+      "conjunction",
+      "không những, không chỉ",
+      "not only (this one), not just",
+      "4"
+    ]
+  ],
+  "以至": [
+    [
+      "yǐzhì",
+      "conjunction",
+      "đến mức, đến nỗi",
+      "down to, up to, to such an extent as to",
+      "6"
+    ]
+  ],
+  "以及": [
+    ["yǐjí", "conjunction", "cũng như, và", "as well as, along with", "5"]
+  ],
+  "反之": [
+    ["fǎnzhī", "conjunction", "ngược lại", "on the other hand, conversely", "6"]
+  ],
+  "否则": [["fǒuzé", "conjunction", "nếu không thì", "otherwise, if not", "4"]],
+  "另外": [
+    [
+      "lìngwài",
+      "conjunction",
+      "ngoài ra, mặt khác",
+      "in addition, besides",
+      "4"
+    ]
+  ],
+  "既然": [
+    [
+      "jìrán",
+      "conjunction",
+      "đã, nếu đã",
+      "since, as, this being the case",
+      "4"
+    ]
+  ],
+  "就是": [
+    ["jiùshì", "conjunction/verb", "chính là, dù cho", "exactly, even if", "3"]
+  ],
+  "就算": [["jiùsuàn", "conjunction", "cho dù", "even if, granted that", "5"]],
+  "哪怕": [
+    ["nǎpà", "conjunction", "cho dù, dù có", "even if, even though", "5"]
+  ],
+  "然后": [
+    ["ránhòu", "conjunction", "sau đó, tiếp đó", "then, after that", "3"]
+  ],
+  "然而": [
+    ["rán'ér", "conjunction", "tuy nhiên, nhưng mà", "however, yet, but", "4"]
+  ],
+  "从而": [["cóng'ér", "conjunction", "do đó, từ đó", "thus, thereby", "5"]],
+  "除此之外": [
+    [
+      "chúcǐzhīwài",
+      "phrase",
+      "ngoài ra",
+      "apart from this, in addition to this",
+      "5"
+    ]
+  ],
+  "由于": [
+    [
+      "yóuyú",
+      "conjunction/preposition",
+      "do, bởi vì",
+      "due to, because of",
+      "4"
+    ]
+  ],
+  "况且": [
+    ["kuàngqiě", "conjunction", "hơn nữa, vả lại", "moreover, besides", "5"]
+  ],
+  "何况": [
+    [
+      "hékuàng",
+      "conjunction",
+      "huống hồ, huống chi",
+      "let alone, to say nothing of",
+      "5"
+    ]
+  ],
+  "乃至": [
+    [
+      "nǎizhì",
+      "conjunction",
+      "cho đến, thậm chí",
+      "and even, to the extent that",
+      "6"
+    ]
+  ],
+  "固然": [
+    [
+      "gùrán",
+      "conjunction",
+      "dĩ nhiên, tuy nhiên",
+      "admittedly, it is true that",
+      "6"
+    ]
+  ],
+  "不论": [
+    ["bùlùn", "conjunction", "bất kể, dù sao", "no matter, regardless of", "4"]
+  ],
+  "倘若": [["tǎngruò", "conjunction", "nếu như, giả sử", "if, supposing", "6"]],
+  "因而": [
+    ["yīn'ér", "conjunction", "do đó, vì vậy", "therefore, as a result", "5"]
+  ],
+  "以致": [
+    [
+      "yǐzhì",
+      "conjunction",
+      "dẫn đến (hậu quả xấu)",
+      "so that, with the result that",
+      "6"
+    ]
+  ],
+  "此外": [
+    ["cǐwài", "conjunction", "ngoài ra, hơn nữa", "besides, in addition", "4"]
+  ],
+  "不然": [["bùrán", "conjunction", "nếu không thì", "not so, otherwise", "4"]],
+  "正在": [
+    ["zhèngzài", "adverb", "đang", "in the process of (doing something)", "2"]
+  ],
+  "极其": [
+    ["jíqí", "adverb", "cực kỳ, vô cùng", "extremely, exceedingly", "5"]
+  ],
+  "总而言之": [
+    ["zǒng'éryánzhī", "phrase", "tóm lại", "in short, in a word", "6"]
+  ],
+  "也就是说": [
+    [
+      "yějiùshìshuō",
+      "phrase",
+      "nói cách khác",
+      "in other words, that is to say",
+      ""
+    ]
+  ],
+  "无论如何": [["wúlùnrúhé", "phrase", "dù sao đi nữa", "anyway, anyhow", "5"]],
+  "众所周知": [
+    [
+      "zhòngsuǒzhōuzhī",
+      "idiom",
+      "như mọi người đã biết",
+      "as everyone knows",
+      "6"
+    ]
+  ],
+  "不可思议": [
+    [
+      "bùkěsīyì",
+      "idiom",
+      "không thể tưởng tượng nổi",
+      "inconceivable, unbelievable",
+      "6"
+    ]
+  ]
 }
