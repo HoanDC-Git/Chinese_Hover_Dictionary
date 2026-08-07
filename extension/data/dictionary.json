@@ -377,13 +377,8 @@
   "充": [["chōng", "verb", "lấp đầy; làm đầy", "fill", "7-9"]],
   "先": [["xiān", "adverb", "trước tiên, trước", "first, before", "1"]],
   "光": [
-    [
-      "guāng",
-      "noun, adjective, verb, adverb",
-      "ánh sáng; sáng; hết; chỉ",
-      "light; bright; used up; only",
-      "4"
-    ]
+    ["guāng", "noun/adjective", "ánh sáng; sáng", "light; bright", "4"],
+    ["guāng", "verb/adverb", "hết; chỉ", "to used up; only", "4"]
   ],
   "克": [
     [
@@ -13634,9 +13629,9 @@
   "达": [
     [
       "dá",
-      "verb",
-      "đạt tới, truyền đạt, thông suốt",
-      "to reach, to attain, to express, to communicate",
+      "verb/adjective",
+      "đạt tới, truyền đạt; lỗi lạc",
+      "to reach, to communicate; eminent",
       "4"
     ]
   ],
