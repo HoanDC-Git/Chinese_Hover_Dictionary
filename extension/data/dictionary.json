@@ -682,10 +682,10 @@
   "却": [
     [
       "què",
-      "conjunction",
-      "nhưng; mà; lùi lại",
-      "but; yet; however; to retreat",
-      "2"
+      "conjunction/adverb",
+      "nhưng, nhưng mà, tuy nhiên",
+      "but, yet, however",
+      "4"
     ]
   ],
   "卵": [["luǎn", "noun", "trứng, noãn", "egg, ovum", "7-9"]],
@@ -25664,8 +25664,8 @@
     [
       "tìng",
       "verb",
-      "để cho, mặc cho; nghe theo",
-      "to allow, to let; to comply with",
+      "để cho, mặc cho, nghe theo",
+      "to allow, to let, to comply with",
       "6"
     ]
   ],
