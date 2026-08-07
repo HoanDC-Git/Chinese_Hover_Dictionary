@@ -23457,15 +23457,15 @@
     ["zhī", "verb", "đi, đến", "to go, to leave for", "4"]
   ],
   "们": [["men", "suffix", "các, những, chúng", "plural marker", "1"]],
-"则": [
-  [
-    "zé",
-    "noun/conjunction",
-    "quy tắc, phép tắc; thì, ấy, liền",
-    "rule, standard; then, thereupon",
-    "6"
-  ]
-],
+  "则": [
+    [
+      "zé",
+      "noun/conjunction",
+      "quy tắc, phép tắc; thì, ấy, liền",
+      "rule, standard; then, thereupon",
+      "6"
+    ]
+  ],
   "副": [
     [
       "fù",
@@ -25660,14 +25660,14 @@
     ["pǐ", "verb", "quở trách; mắng mỏ", "to scold; to blame", ""]
   ],
   "听": [
+    ["tīng", "verb", "nghe", "to hear, to listen", "1"],
     [
-      "tīng",
+      "tìng",
       "verb",
-      "nghe; nghe theo; (lượng từ) lon",
-      "to listen; to obey; can (measure word)",
-      "1"
-    ],
-    ["tìng", "adjective", "thong thả", "leisurely", ""]
+      "để cho, mặc cho; nghe theo",
+      "to allow, to let; to comply with",
+      "6"
+    ]
   ],
   "呐": [
     [
