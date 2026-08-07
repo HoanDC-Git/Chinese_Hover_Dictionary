@@ -4962,9 +4962,9 @@
     [
       "fēi",
       "verb/prefix",
-      "không phải, phi (tiền tố phủ định)",
-      "not, non- (prefix)",
-      "7-9"
+      "không phải; phi (tiền tố phủ định)",
+      "not; non-",
+      "3"
     ]
   ],
   "靠": [
@@ -23457,15 +23457,15 @@
     ["zhī", "verb", "đi, đến", "to go, to leave for", "4"]
   ],
   "们": [["men", "suffix", "các, những, chúng", "plural marker", "1"]],
-  "则": [
-    [
-      "zé",
-      "auxiliary/conjunction/classifier/noun",
-      "thì, thì là ; bài, điều, mục; quy tắc, tiêu chuẩn",
-      "then, in that case; item, clause; rule, regulation",
-      "6"
-    ]
-  ],
+"则": [
+  [
+    "zé",
+    "noun/conjunction",
+    "quy tắc, phép tắc; thì, ấy, liền",
+    "rule, standard; then, thereupon",
+    "6"
+  ]
+],
   "副": [
     [
       "fù",
