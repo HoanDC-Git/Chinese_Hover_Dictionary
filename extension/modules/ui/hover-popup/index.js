@@ -133,7 +133,7 @@ function renderPopup(matches, definitions, originalMatches = {}) {
                 .split("")
                 .map(
                   (char, i) =>
-                    `<span class="zh-char" data-char="${char}" data-sim-char="${word[i] || char}"${char === '仓' ? ' style="font-family: sans-serif !important;"' : ''}>${char}</span>`,
+                    `<span class="zh-char${char === "仓" ? " zh-broken-char" : ""}" data-char="${char}" data-sim-char="${word[i] || char}">${char}</span>`,
                 )
                 .join("")}</span>
               ${

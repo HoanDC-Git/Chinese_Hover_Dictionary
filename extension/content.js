@@ -12,13 +12,29 @@ window.VZ = window.VZ || {};
   let throttleTimer = null;
 
   
-  // Inject FandolKaiLocal font dynamically
-  const fontUrl = chrome.runtime.getURL("fonts/FandolKai-Regular.otf");
+  // Inject bundled fonts dynamically so the URLs also work on browsers
+  // where relative URLs inside content-script CSS resolve to the page origin.
+  const fandolUrl = chrome.runtime.getURL("fonts/FandolKai-Regular.otf");
+  const hanziExtUrl = chrome.runtime.getURL("fonts/VZHanziExt-Regular.woff2");
+  const hanziRareUrl = chrome.runtime.getURL("fonts/VZHanziRare-Regular.woff2");
   const fontStyle = document.createElement("style");
   fontStyle.textContent = `
     @font-face {
       font-family: "FandolKaiLocal";
-      src: url("${fontUrl}") format("opentype");
+      src: url("${fandolUrl}") format("opentype");
+      font-display: swap;
+    }
+    /* Fallback faces for rare CJK characters. FandolKai only covers the
+       BMP, so Ext-A/B and uncommon components need these bundled subsets. */
+    @font-face {
+      font-family: "VZ Hanzi Ext";
+      src: url("${hanziExtUrl}") format("woff2");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "VZ Hanzi Rare";
+      src: url("${hanziRareUrl}") format("woff2");
+      font-display: swap;
     }
   `;
   document.head.appendChild(fontStyle);

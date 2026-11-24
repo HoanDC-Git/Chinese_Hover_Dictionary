@@ -55,12 +55,12 @@ function createSentenceModal() {
   sentenceModalOverlay = document.createElement("div");
   sentenceModalOverlay.className = "zh-report-overlay zh-theme-" + (true ? getCfg().theme : 'light');
   sentenceModalOverlay.innerHTML = `
-    <div class="zh-report-modal" style="max-width: 900px; width: 95%; max-height: 85vh; display: flex; flex-direction: column;">
+    <div class="zh-report-modal zh-sentence-report-modal" style="display: flex; flex-direction: column;">
       <div class="zh-report-header">
         Dịch đoạn văn
         <button class="zh-report-close-btn" id="zh-sentence-modal-close">&times;</button>
       </div>
-      <div class="zh-report-body" style="overflow-y: hidden; flex: 1; padding: 20px; display: flex; flex-direction: column;">
+      <div class="zh-report-body" style="overflow-y: hidden; flex: 1; display: flex; flex-direction: column;">
         <div id="zh-sentence-modal-content" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">Đang dịch...</div>
       </div>
     </div>
@@ -146,8 +146,10 @@ async function openSentencePopup() {
     sentencePopup.innerHTML = `<div class="zh-sentence-loading">Đang dịch...</div>`;
     const rect = currentRange.getBoundingClientRect();
     let leftPos = rect.left + window.scrollX;
-    if (leftPos + 350 > window.innerWidth) leftPos = window.innerWidth - 360;
-    sentencePopup.style.left = `${Math.max(10, leftPos)}px`;
+    const viewportLeft = window.scrollX + 10;
+    const viewportRight = window.scrollX + window.innerWidth - 10;
+    if (leftPos + 420 > viewportRight) leftPos = viewportRight - 420;
+    sentencePopup.style.left = `${Math.max(viewportLeft, leftPos)}px`;
     sentencePopup.style.top = `${rect.bottom + window.scrollY + 10}px`;
     sentencePopup.classList.add("zh-visible");
   }
@@ -206,9 +208,9 @@ async function openSentencePopup() {
     
     const actualFont = typeof getCfg().fontFamily !== 'undefined' ? getCfg().fontFamily : 'system';
     const fontStyles = {
-      "system": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      "fandolkailocal": "'FandolKai', 'FandolKai-Regular', 'Kaiti', serif",
-      "serif": "'Noto Serif SC', 'Noto Serif TC', 'Songti SC', 'SimSun', serif"
+      "system": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'VZ Hanzi Ext', 'VZ Hanzi Rare', Arial, sans-serif",
+      "fandolkailocal": "'FandolKaiLocal', 'VZ Hanzi Ext', 'VZ Hanzi Rare', 'FandolKai', 'Kaiti', serif",
+      "serif": "'VZ Hanzi Ext', 'VZ Hanzi Rare', 'Noto Serif SC', 'Noto Serif TC', 'Songti SC', 'SimSun', serif"
     };
     const fontFamilyStyle = `font-family: ${fontStyles[actualFont] || fontStyles['system']};`;
 
@@ -553,8 +555,20 @@ async function openSentencePopup() {
       requestAnimationFrame(() => {
         const popupRect = sentencePopup.getBoundingClientRect();
         const selectionRect = currentRange.getBoundingClientRect();
+        const viewportTop = window.scrollY + 10;
+        const viewportBottom = window.scrollY + window.innerHeight - 10;
+        const viewportLeft = window.scrollX + 10;
+        const viewportRight = window.scrollX + window.innerWidth - 10;
+
         if (selectionRect.bottom + popupRect.height + 10 > window.innerHeight) {
-          sentencePopup.style.top = `${selectionRect.top + window.scrollY - popupRect.height - 10}px`;
+          const above = selectionRect.top + window.scrollY - popupRect.height - 10;
+          sentencePopup.style.top = `${Math.max(viewportTop, above)}px`;
+        }
+        if (parseFloat(sentencePopup.style.top) + popupRect.height > viewportBottom) {
+          sentencePopup.style.top = `${Math.max(viewportTop, viewportBottom - popupRect.height)}px`;
+        }
+        if (parseFloat(sentencePopup.style.left) + popupRect.width > viewportRight) {
+          sentencePopup.style.left = `${Math.max(viewportLeft, viewportRight - popupRect.width)}px`;
         }
       });
       

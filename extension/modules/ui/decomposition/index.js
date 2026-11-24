@@ -8,6 +8,8 @@ window.VZ.ui.decompPopup = (function () {
   let panelEl = null;
   let isClickListenerBound = false;
   let svgResizeObserver = null;
+  let lastLayoutWidth = 0;
+  let resizeTimer = null;
 
   function createPanel() {
     if (panelEl) return panelEl;
@@ -79,6 +81,33 @@ window.VZ.ui.decompPopup = (function () {
   let treeNodesHtml = "";
   let maxDepth = 0;
   let nodeIdCounter = 0;
+
+  // Components that look broken in the calligraphic face, plus every
+  // supplementary-plane character (Ext-B and above). They use a clean sans
+  // stack that ends with the bundled rare-glyph fonts.
+  const BROKEN_CHARS = new Set(["仓", "𠂉", "𢦏", "乀", "𡗗", "龹", "刅"]);
+
+  function isBrokenChar(char) {
+    if (!char) return false;
+    return BROKEN_CHARS.has(char) || char.codePointAt(0) > 0xffff;
+  }
+
+  function readPxToken(styles, name, fallback) {
+    const value = parseFloat(styles.getPropertyValue(name));
+    return Number.isFinite(value) && value > 0 ? value : fallback;
+  }
+
+  // Read the layout values from CSS so responsive breakpoints and the
+  // small/medium/large setting stay in sync with the rendered node boxes.
+  function getDecompMetrics() {
+    const styles = getComputedStyle(panelEl);
+    return {
+      nodeWidth: readPxToken(styles, "--zh-decomp-node-w", 90),
+      nodeHeight: readPxToken(styles, "--zh-decomp-node-h", 115),
+      xGap: readPxToken(styles, "--zh-decomp-x-gap", 24),
+      levelHeight: readPxToken(styles, "--zh-decomp-level-h", 150),
+    };
+  }
 
   function computeLayoutSymmetric(
     node,
@@ -172,17 +201,15 @@ window.VZ.ui.decompPopup = (function () {
       ? `<div class="node-meaning">${node.meaning}</div>`
       : "";
 
-    const nodeId = "node-" + node.layout.id;
+    const nodeId = "zh-decomp-node-" + node.layout.id;
     const parentAttr = node.layout.parentId
       ? `data-parent-id="${node.layout.parentId}"`
       : "";
-
-    const BROKEN_CHARS = ["仓", "𠂉", "𢦏", "乀", "𡗗", "龹", "刅"];
-    const isRare = BROKEN_CHARS.includes(node.char);
+    const brokenClass = isBrokenChar(node.char) ? " zh-broken-char" : "";
 
     treeNodesHtml += `
       <div id="${nodeId}" class="tree-node ${interactiveClass} ${radicalClass}" data-char="${node.char}" data-path="${node.layout.path.join(",")}" ${parentAttr} style="position: absolute; left: ${x}px; top: ${y}px; transform: translateX(-50%);">
-        <div class="node-char"${isRare ? " style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;\"" : ""}>${node.char}</div>
+        <div class="node-char${brokenClass}">${node.char}</div>
         <div class="node-pinyin">${node.pinyin || ""}</div>
         ${meaningHtml}
         ${labelHtml}
@@ -209,7 +236,7 @@ window.VZ.ui.decompPopup = (function () {
     nodes.forEach((childNode) => {
       const parentId = childNode.dataset.parentId;
       if (!parentId) return;
-      const parentNode = document.getElementById(parentId);
+      const parentNode = container.querySelector(`[id="${parentId}"]`);
       if (!parentNode) return;
 
       const pRect = parentNode.getBoundingClientRect();
@@ -261,10 +288,11 @@ window.VZ.ui.decompPopup = (function () {
 
     let breadcrumbHtml = historyStack
       .map((c, index) => {
+        const brokenClass = isBrokenChar(c) ? " zh-broken-char" : "";
         if (index === historyStack.length - 1) {
-          return `<span class="zh-breadcrumb-item active"${c === "仓" ? ' style="font-family: sans-serif !important;"' : ""}>${c}</span>`;
+          return `<span class="zh-breadcrumb-item active${brokenClass}">${c}</span>`;
         }
-        return `<span class="zh-breadcrumb-item" data-index="${index}"${c === "仓" ? ' style="font-family: sans-serif !important;"' : ""}>${c}</span><span class="zh-breadcrumb-separator">›</span>`;
+        return `<span class="zh-breadcrumb-item${brokenClass}" data-index="${index}">${c}</span><span class="zh-breadcrumb-separator">›</span>`;
       })
       .join("");
 
@@ -276,8 +304,8 @@ window.VZ.ui.decompPopup = (function () {
 
     panelEl.innerHTML = `
       <div class="zh-decomp-header">
-        <span class="zh-title">Chiết tự: <div style="display:flex; align-items:center; gap:4px; margin-left:4px;">${breadcrumbHtml}</div>${meaningTextHtml}</span>
-        <div style="display:flex; align-items:center; gap:12px;">
+        <div class="zh-title">Chiết tự: <div class="zh-decomp-breadcrumb">${breadcrumbHtml}</div>${meaningTextHtml}</div>
+        <div class="zh-decomp-header-actions">
           <div class="zh-decomp-stroke-switch-wrapper" id="zhDecompStrokeToggle" title="Bật/tắt nét bút">
             <span class="zh-toggle-text">Nét bút</span>
             <div class="zh-switch ${getCfg().showDecompStroke ? "active" : ""}">
@@ -341,25 +369,24 @@ window.VZ.ui.decompPopup = (function () {
     maxDepth = 0;
     nodeIdCounter = 0;
 
-    const isLarge = panelEl.classList.contains("zh-decomp-size-large");
-    const isSmall = panelEl.classList.contains("zh-decomp-size-small");
-    const NODE_WIDTH = isLarge ? 100 : isSmall ? 80 : 90;
-    const X_GAP = isLarge ? 30 : 20;
-    const LEVEL_HEIGHT = isLarge ? 170 : isSmall ? 130 : 150;
+    const { nodeWidth, nodeHeight, xGap, levelHeight } =
+      getDecompMetrics();
 
-    computeLayoutSymmetric(treeData, 0, NODE_WIDTH, X_GAP, []);
+    computeLayoutSymmetric(treeData, 0, nodeWidth, xGap, []);
 
     const treeW = treeData.layout.right - treeData.layout.left;
-    const totalH = (maxDepth + 1) * LEVEL_HEIGHT;
+    const totalH = 20 + maxDepth * levelHeight + nodeHeight + 20;
 
-    const panelWidth = panelEl.clientWidth > 0 ? panelEl.clientWidth - 32 : 400;
-    const containerW = Math.max(treeW + 40, panelWidth); // 20px padding
+    const measuredWidth = panelEl.getBoundingClientRect().width;
+    const panelWidth =
+      measuredWidth > 0 ? Math.max(measuredWidth - 32, 240) : 400;
+    const containerW = Math.max(treeW + 40, panelWidth); // 20px padding per side
 
     const rootX =
       containerW / 2 - (treeData.layout.right + treeData.layout.left) / 2;
     assignAbsoluteX(treeData, rootX);
 
-    buildTreeHtml(treeData, LEVEL_HEIGHT);
+    buildTreeHtml(treeData, levelHeight);
 
     const treeHtml = `
       <div class="zh-tree-container">
@@ -373,6 +400,39 @@ window.VZ.ui.decompPopup = (function () {
     const bodyEl = panelEl.querySelector(".zh-decomp-body");
     bodyEl.classList.remove("zh-loading-state");
     bodyEl.innerHTML = treeHtml + etymologyHtml;
+
+    const treeContentEl = bodyEl.querySelector(".tree-content");
+    // Wide trees are horizontally scrollable. Start with the root visible
+    // instead of showing the far-left (or far-right) edge of the tree.
+    const treeScrollerEl = bodyEl.querySelector(".zh-tree-container");
+    if (treeScrollerEl && treeContentEl) {
+      const rootEl = Array.from(
+        treeContentEl.querySelectorAll(".tree-node"),
+      ).find((node) => !node.dataset.parentId);
+      if (rootEl) {
+        const contentRect = treeContentEl.getBoundingClientRect();
+        const rootRect = rootEl.getBoundingClientRect();
+        const rootCenter =
+          rootRect.left - contentRect.left + rootRect.width / 2;
+        const maxScroll =
+          treeScrollerEl.scrollWidth - treeScrollerEl.clientWidth;
+        const targetScroll = rootCenter - treeScrollerEl.clientWidth / 2;
+        treeScrollerEl.scrollLeft = Math.max(
+          0,
+          Math.min(maxScroll, targetScroll),
+        );
+      }
+    }
+    if (svgResizeObserver) {
+      svgResizeObserver.disconnect();
+    }
+    if (treeContentEl && typeof ResizeObserver !== "undefined") {
+      // Fonts can finish loading after the first paint; redraw the connector
+      // lines once the node boxes settle at their final size.
+      svgResizeObserver = new ResizeObserver(() => drawTreeLines());
+      svgResizeObserver.observe(treeContentEl);
+    }
+    lastLayoutWidth = panelEl.getBoundingClientRect().width;
 
     bodyEl
       .querySelectorAll(".tree-node.zh-interactive-node")
@@ -454,11 +514,21 @@ window.VZ.ui.decompPopup = (function () {
     }
   });
 
-  // Handle window resize to redraw lines
+  // Handle window resize: re-run the layout when a responsive breakpoint
+  // changes the panel width, otherwise just redraw the connector lines.
   window.addEventListener("resize", () => {
-    if (panelEl && panelEl.style.display !== "none") {
-      drawTreeLines();
-    }
+    if (!panelEl || panelEl.style.display === "none") return;
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resizeTimer = null;
+      if (!panelEl || panelEl.style.display === "none") return;
+      const width = panelEl.getBoundingClientRect().width;
+      if (Math.abs(width - lastLayoutWidth) > 24) {
+        renderPanelContent();
+      } else {
+        drawTreeLines();
+      }
+    }, 150);
   });
 
   return {

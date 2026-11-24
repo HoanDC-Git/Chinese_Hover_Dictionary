@@ -21,10 +21,12 @@
 .zh-report-modal {
   background: #ffffff;
   border-radius: 12px;
-  width: 700px;
-  height: 800px;
+  width: min(700px, 95vw);
+  height: min(800px, 95vh);
+  height: min(800px, 95dvh);
   max-width: 95vw;
   max-height: 95vh;
+  max-height: 95dvh;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
@@ -36,6 +38,14 @@
 }
 
 .zh-report-overlay.zh-visible .zh-report-modal { transform: scale(1); }
+
+/* The paragraph-translation modal is wider than the report form. */
+.zh-report-modal.zh-sentence-report-modal {
+  max-width: 900px;
+  width: min(900px, 95vw);
+  height: min(800px, 85dvh);
+  max-height: 85dvh;
+}
 
 #zh-report-form-view { display: flex; flex-direction: column; height: 100%; }
 
@@ -53,7 +63,7 @@
 .zh-report-close-btn { background: none; border: none; font-size: 20px; line-height: 1; cursor: pointer; color: #64748b; padding: 0 4px; }
 .zh-report-close-btn:hover { color: #f43f5e; }
 
-.zh-report-body { padding: 20px; font-size: 14px; color: #334155; flex: 1; min-height: 0; overflow-y: auto; }
+.zh-report-body { padding: clamp(14px, 4vw, 20px); font-size: 14px; color: #334155; flex: 1; min-height: 0; overflow-y: auto; }
 .zh-report-overlay.zh-theme-dark .zh-report-body { color: #cbd5e1; }
 .zh-report-body p { margin: 0 0 16px 0; line-height: 1.5; }
 
@@ -94,3 +104,22 @@
 .zh-report-status { margin-top: 16px; font-size: 13px; font-weight: 500; }
 .zh-status-success { color: #10b981; }
 .zh-status-error { color: #ef4444; }
+
+@media (max-width: 600px) {
+  .zh-report-modal,
+  .zh-report-modal.zh-sentence-report-modal {
+    width: calc(100vw - 16px);
+    height: calc(100vh - 16px);
+    height: calc(100dvh - 16px);
+    max-width: none;
+    max-height: none;
+  }
+
+  .zh-report-header {
+    padding: 12px 16px;
+  }
+
+  .zh-report-footer {
+    padding: 12px 16px;
+  }
+}

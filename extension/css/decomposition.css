@@ -1,11 +1,26 @@
 .zh-decomposition-panel {
+  /* Responsive layout tokens. The JS tree layout reads these values so the
+     SVG connector lines stay aligned when the viewport or font size changes. */
+  --zh-decomp-node-w: 90px;
+  --zh-decomp-node-h: 115px;
+  --zh-decomp-node-char: 32px;
+  --zh-decomp-node-pinyin: 16px;
+  --zh-decomp-node-label: 11px;
+  --zh-decomp-node-label-pad-y: 2px;
+  --zh-decomp-node-label-pad-x: 6px;
+  --zh-decomp-x-gap: 24px;
+  --zh-decomp-level-h: 150px;
+  --zh-decomp-etymology-title: 16px;
+  --zh-decomp-etymology-text: 16px;
+
   position: fixed;
   top: 0;
   right: 0;
-  width: 45vw;
+  width: min(100vw, clamp(360px, 45vw, 650px));
   max-width: 650px;
-  min-width: 450px;
+  min-width: 0;
   height: 100vh;
+  height: 100dvh;
   background: rgba(248, 250, 252, 0.95);
   backdrop-filter: blur(12px);
   box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
@@ -39,8 +54,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 20px 0 0 0;
+}
+.zh-decomp-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.zh-decomp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 .zh-theme-dark .zh-decomp-header {
   border-bottom: 1px solid rgba(51, 65, 85, 0.8);
@@ -54,6 +86,7 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .zh-breadcrumb-item {
@@ -67,7 +100,7 @@
 }
 .zh-breadcrumb-item.active {
   font-size: 32px;
-  font-family: "FandolKaiLocal", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--zh-hanzi-font, "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
   font-weight: normal;
   text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor;
   color: #0f172a;
@@ -175,7 +208,7 @@
 /* SVG Tree Layout */
 .zh-tree-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   overflow-x: auto;
   padding-bottom: 20px;
@@ -184,6 +217,11 @@
   /* Firefox Scrollbar */
   scrollbar-width: thin;
   scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+}
+.tree-content {
+  /* Never let the flex container squeeze the absolutely-positioned tree. */
+  flex: 0 0 auto;
+  margin: 0 auto;
 }
 .zh-theme-dark .zh-tree-container {
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
@@ -243,8 +281,8 @@
   position: relative;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: all 0.2s ease;
-  width: 90px;
-  height: 115px;
+  width: var(--zh-decomp-node-w);
+  height: var(--zh-decomp-node-h);
   box-sizing: border-box;
   z-index: 2;
 }
@@ -321,8 +359,8 @@
   display: inline-block;
   background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
-  font-size: 11px;
-  padding: 2px 6px;
+  font-size: var(--zh-decomp-node-label);
+  padding: var(--zh-decomp-node-label-pad-y) var(--zh-decomp-node-label-pad-x);
   border-radius: 4px;
   white-space: nowrap;
   font-weight: 600;
@@ -337,8 +375,8 @@
 }
 
 .node-char {
-  font-size: 32px;
-  font-family: "FandolKaiLocal", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--zh-decomp-node-char);
+  font-family: var(--zh-hanzi-font, "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
   font-weight: normal;
   text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor;
   color: #0f172a;
@@ -349,7 +387,7 @@
 }
 
 .node-pinyin {
-  font-size: 16px;
+  font-size: var(--zh-decomp-node-pinyin);
   font-weight: 600;
   color: #f43f5e;
   letter-spacing: 0.2px;
@@ -361,8 +399,8 @@
 
 /* Nghĩa và Nguồn gốc */
 .zh-etymology {
-  padding: 16px 20px;
-  margin: 16px 24px 24px 24px;
+  padding: clamp(12px, 3vw, 16px) clamp(14px, 4vw, 20px);
+  margin: clamp(12px, 3vw, 16px) clamp(12px, 4vw, 24px) clamp(16px, 4vw, 24px);
   background: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   border-left: 4px solid #f59e0b;
@@ -373,7 +411,7 @@
 }
 
 .etymology-title {
-  font-size: 16px;
+  font-size: var(--zh-decomp-etymology-title);
   font-weight: 600;
   color: #1e293b;
   margin-bottom: 12px;
@@ -394,7 +432,7 @@
 }
 
 .etymology-content {
-  font-size: 16px;
+  font-size: var(--zh-decomp-etymology-text);
   line-height: 1.6;
   color: #475569;
 }
@@ -402,20 +440,34 @@
   color: #cbd5e1;
 }
 
-/* Responsive Sizing Overrides */
-.zh-decomposition-panel.zh-decomp-size-small .tree-node { width: 80px; height: 105px; }
-.zh-decomposition-panel.zh-decomp-size-small .node-char { font-size: 30px; }
-.zh-decomposition-panel.zh-decomp-size-small .node-pinyin { font-size: 13px; }
-.zh-decomposition-panel.zh-decomp-size-small .node-label { font-size: 10px; padding: 2px 4px; }
-.zh-decomposition-panel.zh-decomp-size-small .etymology-title { font-size: 14px; }
-.zh-decomposition-panel.zh-decomp-size-small .etymology-content { font-size: 14px; }
+/* Responsive Sizing Overrides (consume the same tokens as the tree layout) */
+.zh-decomposition-panel.zh-decomp-size-small {
+  --zh-decomp-node-w: 80px;
+  --zh-decomp-node-h: 105px;
+  --zh-decomp-node-char: 30px;
+  --zh-decomp-node-pinyin: 13px;
+  --zh-decomp-node-label: 10px;
+  --zh-decomp-node-label-pad-y: 2px;
+  --zh-decomp-node-label-pad-x: 4px;
+  --zh-decomp-x-gap: 18px;
+  --zh-decomp-level-h: 130px;
+  --zh-decomp-etymology-title: 14px;
+  --zh-decomp-etymology-text: 14px;
+}
 
-.zh-decomposition-panel.zh-decomp-size-large .tree-node { width: 100px; height: 130px; }
-.zh-decomposition-panel.zh-decomp-size-large .node-char { font-size: 46px; }
-.zh-decomposition-panel.zh-decomp-size-large .node-pinyin { font-size: 16px; }
-.zh-decomposition-panel.zh-decomp-size-large .node-label { font-size: 12px; }
-.zh-decomposition-panel.zh-decomp-size-large .etymology-title { font-size: 17px; }
-.zh-decomposition-panel.zh-decomp-size-large .etymology-content { font-size: 18px; }
+.zh-decomposition-panel.zh-decomp-size-large {
+  --zh-decomp-node-w: 100px;
+  --zh-decomp-node-h: 130px;
+  --zh-decomp-node-char: 46px;
+  --zh-decomp-node-pinyin: 16px;
+  --zh-decomp-node-label: 12px;
+  --zh-decomp-node-label-pad-y: 2px;
+  --zh-decomp-node-label-pad-x: 6px;
+  --zh-decomp-x-gap: 30px;
+  --zh-decomp-level-h: 170px;
+  --zh-decomp-etymology-title: 17px;
+  --zh-decomp-etymology-text: 18px;
+}
 
 /* Stroke Toggle Switch */
 .zh-decomp-stroke-switch-wrapper {
@@ -504,4 +556,75 @@
   color: #94a3b8;
   text-align: center;
   padding: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Narrow viewports (small browser windows, split-screen, mobile)
+   -------------------------------------------------------------------------- */
+@media (max-width: 560px) {
+  .zh-decomposition-panel,
+  .zh-decomposition-panel.zh-decomp-size-small,
+  .zh-decomposition-panel.zh-decomp-size-medium,
+  .zh-decomposition-panel.zh-decomp-size-large {
+    width: 100vw;
+    max-width: none;
+
+    --zh-decomp-node-w: 76px;
+    --zh-decomp-node-h: 100px;
+    --zh-decomp-node-char: 28px;
+    --zh-decomp-node-pinyin: 13px;
+    --zh-decomp-node-label: 10px;
+    --zh-decomp-node-label-pad-y: 2px;
+    --zh-decomp-node-label-pad-x: 4px;
+    --zh-decomp-x-gap: 14px;
+    --zh-decomp-level-h: 124px;
+    --zh-decomp-etymology-title: 14px;
+    --zh-decomp-etymology-text: 15px;
+  }
+
+  .zh-decomp-header {
+    padding: 8px 12px;
+  }
+
+  .zh-title {
+    font-size: 18px;
+    gap: 4px;
+  }
+
+  .zh-breadcrumb-item.active {
+    font-size: 28px;
+  }
+
+  .zh-header-meaning {
+    font-size: 15px;
+  }
+
+  .zh-decomp-header-actions {
+    gap: 8px;
+  }
+
+  /* Move the stroke preview out of the header area on phones. */
+  .zh-decomp-stroke-container {
+    top: auto;
+    bottom: 12px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .zh-toggle-text {
+    display: none;
+  }
+
+  .zh-title {
+    font-size: 16px;
+  }
+
+  .zh-header-meaning {
+    font-size: 14px;
+  }
+
+  .zh-breadcrumb-item.active {
+    font-size: 26px;
+  }
 }

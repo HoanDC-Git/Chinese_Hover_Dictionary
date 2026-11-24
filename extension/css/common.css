@@ -1,10 +1,41 @@
 /* Custom Font Families Configuration */
-.zh-font-system .zh-hover-word { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; }
-.zh-font-fandolkailocal .zh-hover-word { font-family: "FandolKaiLocal", "KaiTi", KaiTi, "STKaiti", "Kaiti SC", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; font-weight: normal !important; text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor !important; }
-.zh-font-serif .zh-hover-word { font-family: "SimSun", "Songti SC", "Songti TC", serif !important; font-weight: normal !important; }
+/* Shared CJK stack: the bundled FandolKai first, then two small subsets that
+   cover the rare Ext-A/B and component glyphs FandolKai does not include. */
+.zh-hover-popup,
+.zh-decomposition-panel,
+.zh-sentence-popup,
+.zh-stroke-popup,
+.zh-guide-panel,
+.zh-report-overlay {
+  --zh-hanzi-font: "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.zh-font-system {
+  --zh-hanzi-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "VZ Hanzi Ext", "VZ Hanzi Rare", Arial, sans-serif;
+}
+.zh-font-fandolkailocal {
+  --zh-hanzi-font: "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.zh-font-serif {
+  --zh-hanzi-font: "VZ Hanzi Ext", "VZ Hanzi Rare", "SimSun", "Songti SC", "Songti TC", serif;
+}
+
+.zh-font-system .zh-hover-word,
+.zh-font-fandolkailocal .zh-hover-word,
+.zh-font-serif .zh-hover-word {
+  font-family: var(--zh-hanzi-font) !important;
+}
+.zh-font-fandolkailocal .zh-hover-word { font-weight: normal !important; text-shadow: 0.3px 0 0 currentColor, -0.3px 0 0 currentColor, 0 0.3px 0 currentColor, 0 -0.3px 0 currentColor !important; }
+
+/* Some component glyphs have a broken or missing design in the calligraphic
+   face. Keep using a clean sans face for them, but always try the bundled CJK
+   subsets first so Brave/Chromium never shows tofu boxes. */
+.zh-broken-char {
+  font-family: "VZ Hanzi Ext", "VZ Hanzi Rare", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
 
 /* Font Size Classes */
-.zh-size-small { width: 300px !important; max-width: 320px !important; max-height: 280px !important; }
+.zh-size-small { width: min(300px, calc(100vw - 20px)) !important; max-width: min(320px, calc(100vw - 20px)) !important; max-height: min(280px, calc(100vh - 20px)) !important; max-height: min(280px, calc(100dvh - 20px)) !important; }
 .zh-size-small .zh-hover-word { font-size: 24px !important; }
 .zh-size-small .zh-hover-pinyin { font-size: 13px !important; }
 .zh-size-small .zh-hover-pos { font-size: 10px !important; padding: 1px 5px !important; }
@@ -15,7 +46,7 @@
 .zh-size-small .zh-hover-meanings { font-size: 13px !important; gap: 3px !important; }
 .zh-size-small .zh-hover-lang-label { font-size: 9px !important; padding: 1px 3px !important; min-width: 14px !important; line-height: 1 !important; }
 
-.zh-size-medium { width: 350px !important; max-width: 380px !important; max-height: 320px !important; }
+.zh-size-medium { width: min(350px, calc(100vw - 20px)) !important; max-width: min(380px, calc(100vw - 20px)) !important; max-height: min(320px, calc(100vh - 20px)) !important; max-height: min(320px, calc(100dvh - 20px)) !important; }
 .zh-size-medium .zh-hover-word { font-size: 28px !important; }
 .zh-size-medium .zh-hover-pinyin { font-size: 16px !important; }
 .zh-size-medium .zh-hover-pos { font-size: 16px !important; padding: 2px 6px !important; }
@@ -26,7 +57,7 @@
 .zh-size-medium .zh-hover-meanings { font-size: 16px !important; gap: 4px !important; }
 .zh-size-medium .zh-hover-lang-label { font-size: 16px !important; padding: 2px 5px !important; min-width: 24px !important; line-height: 1.2 !important; }
 
-.zh-size-large { width: 400px !important; max-width: 420px !important; max-height: 360px !important; }
+.zh-size-large { width: min(400px, calc(100vw - 20px)) !important; max-width: min(420px, calc(100vw - 20px)) !important; max-height: min(360px, calc(100vh - 20px)) !important; max-height: min(360px, calc(100dvh - 20px)) !important; }
 .zh-size-large .zh-hover-word { font-size: 32px !important; }
 .zh-size-large .zh-hover-pinyin { font-size: 19px !important; }
 .zh-size-large .zh-hover-pos { font-size: 19px !important; padding: 3px 8px !important; }

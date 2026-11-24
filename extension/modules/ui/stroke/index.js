@@ -40,12 +40,13 @@ function show(char, anchorEl) {
   document.getElementById("zh-stroke-target").innerHTML = "";
 
   const rect = anchorEl.getBoundingClientRect();
-  const top = rect.bottom + window.scrollY + 8;
+  let top = rect.bottom + window.scrollY + 8;
   let left = rect.left + window.scrollX - 60 + rect.width / 2;
 
-  // Keep stroke popup within viewport
-  const popupWidth = 140;
-  const popupHeight = 140;
+  // Keep stroke popup within viewport (use the rendered size so CSS
+  // breakpoints or user zoom can change it without breaking positioning).
+  const popupWidth = strokePopupElement.offsetWidth || 140;
+  const popupHeight = strokePopupElement.offsetHeight || 140;
   if (left + popupWidth > window.innerWidth + window.scrollX) {
     left = window.innerWidth + window.scrollX - popupWidth - 10;
   }
@@ -55,11 +56,13 @@ function show(char, anchorEl) {
 
   // Check bottom overflow
   if (top + popupHeight > window.innerHeight + window.scrollY) {
-    strokePopupElement.style.top = `${rect.top + window.scrollY - popupHeight - 8}px`;
-  } else {
-    strokePopupElement.style.top = `${top}px`;
+    top = rect.top + window.scrollY - popupHeight - 8;
+  }
+  if (top < window.scrollY + 10) {
+    top = window.scrollY + 10;
   }
 
+  strokePopupElement.style.top = `${top}px`;
   strokePopupElement.style.left = `${left}px`;
   strokePopupElement.classList.add("zh-visible");
 

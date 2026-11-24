@@ -5,7 +5,10 @@
   position: fixed;
   left: 20px;
   top: 100px;
-  width: 320px;
+  width: min(320px, calc(100vw - 40px));
+  max-height: calc(100vh - 120px);
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
   background: rgba(36, 39, 40, 0.96); /* Dark premium slate */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -85,4 +88,15 @@
 .zh-theme-dark .zh-guide-hint {
   border-top-color: rgba(255, 255, 255, 0.1);
   color: #94a3b8;
+}
+
+@media (max-width: 600px), (max-height: 600px) {
+  .zh-guide-panel {
+    left: 12px;
+    top: 12px;
+    width: min(320px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 14px 16px;
+  }
 }

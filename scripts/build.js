@@ -14,7 +14,7 @@ const outputDir = path.join(__dirname, '../versions');
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
-const ZIP_NAME = `VietZhong_v${version}.zip`;
+const ZIP_NAME = `VietZhong-v${version}.zip`;
 const outputZip = path.join(outputDir, ZIP_NAME);
 
 console.log(`Building version ${version}...`);
@@ -33,6 +33,7 @@ const jsonFilesToMinify = [
   'data/dictionary.json',
   'data/decompostion/details.json',
   'data/decompostion/radicals.json',
+  'data/decompostion/specials.json',
   'data/t2s.json'
 ];
 

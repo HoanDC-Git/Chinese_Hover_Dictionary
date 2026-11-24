@@ -217,18 +217,19 @@ async function registerDNRRule() {
         {
           header: "Origin",
           operation: "set",
-          value: "chrome-extension://jdiccldimpdaamigaceacjbojkocclih"
+          value: "chrome-extension://jdiccldimpdaibmpdkjnbmckianbfold"
         },
         {
           header: "User-Agent",
           operation: "set",
-          value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0"
+          value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
         }
       ]
     },
     condition: {
       urlFilter: "*",
-      requestDomains: ["speech.platform.bing.com"]
+      requestDomains: ["speech.platform.bing.com"],
+      resourceTypes: ["websocket"]
     }
   };
 
@@ -579,11 +580,76 @@ let ff_preloadedAudioBlobUrl = null;
 let ff_preloadedText = null;
 let ff_currentAudioResolve = null;
 
-async function ff_sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+const FF_TRUSTED_CLIENT_TOKEN = "6A5AA1D4EAFF4E9FB37E23D68491D6F4";
+const FF_GEC_VERSION = "2-143.0.3650.75";
+const FF_EDGE_COPYRIGHT = "Copyright (C) Microsoft Corporation. All rights reserved.";
+const FF_SWAP_FIRST_WORD = { swappedWord: 0xEF0569FB, swappedSum: 0x76F50F34, swappedProduct: 0xC3EFEA97 };
+const FF_SWAP_SECOND_WORD = { swappedWord: 0xC31713DB, swappedSum: 0x1881CE3C, swappedProduct: 0x35BD1EC9 };
+const FF_MIX_FIRST_WORD = [0xCF98B111, 0x87085B9F, 0x12CEB96D, 0x257E1D83];
+const FF_MIX_SECOND_WORD = [0xA27416F5, 0xD38396FF, 0x7C932B89, 0xBFA49F69];
+
+function ff_swapHalves(value) {
+  return ((value << 16) | (value >>> 16)) >>> 0;
+}
+
+function ff_swapTerm(word, key, multipliers) {
+  const sum = Math.imul(word, key) + Math.imul(ff_swapHalves(word), multipliers.swappedWord);
+  const product = Math.imul(ff_swapHalves(sum), multipliers.swappedSum) >>> 0;
+  return (Math.imul(ff_swapHalves(product), multipliers.swappedProduct) + product) >>> 0;
+}
+
+function ff_swapAndMultiply(value, multipliers) {
+  for (const multiplier of multipliers) {
+    value = Math.imul(ff_swapHalves(value), multiplier) >>> 0;
+  }
+  return value;
+}
+
+function ff_cs64(message, digest) {
+  const digestView = new DataView(digest.buffer, digest.byteOffset, digest.byteLength);
+  const firstKey = (digestView.getUint32(0, true) | 1) >>> 0;
+  const secondKey = (digestView.getUint32(4, true) | 1) >>> 0;
+  const padded = new Uint8Array(Math.ceil(message.length / 8) * 8);
+  padded.set(message);
+  const words = new DataView(padded.buffer);
+
+  let swapSum = 0;
+  let lastSwap = 0;
+  let mix = 0;
+  let mixSum = 0;
+
+  for (let offset = 0; offset < padded.length; offset += 8) {
+    const firstWord = words.getUint32(offset, true);
+    const secondWord = words.getUint32(offset + 4, true);
+
+    const firstSwap = ff_swapTerm(firstWord, firstKey, FF_SWAP_FIRST_WORD);
+    lastSwap = ff_swapTerm(secondWord, secondKey, FF_SWAP_SECOND_WORD);
+    swapSum = (swapSum + firstSwap + lastSwap) >>> 0;
+
+    mix = ff_swapAndMultiply(Math.imul(mix + firstWord, firstKey), FF_MIX_FIRST_WORD);
+    mixSum = (mixSum + mix) >>> 0;
+    mix = ff_swapAndMultiply(Math.imul(mix + secondWord, secondKey), FF_MIX_SECOND_WORD);
+    mixSum = (mixSum + mix) >>> 0;
+  }
+
+  const checksum = new Uint8Array(8);
+  const checksumView = new DataView(checksum.buffer);
+  checksumView.setUint32(0, lastSwap ^ mix, true);
+  checksumView.setUint32(4, swapSum ^ mixSum, true);
+  return checksum;
+}
+
+function ff_toUpperHex(bytes) {
+  return Array.from(bytes, b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+
+async function ff_generateSecMsGec() {
+  const unixTime = BigInt(Math.floor(Date.now() / 1000));
+  const ticks = (unixTime + 11644473600n) * 10000000n;
+  const roundedTicks = ticks - (ticks % 3000000000n);
+  const message = new TextEncoder().encode(`${FF_EDGE_COPYRIGHT}${roundedTicks}${FF_TRUSTED_CLIENT_TOKEN}`);
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", message));
+  return `${ff_toUpperHex(ff_cs64(message, digest))}-${ff_toUpperHex(digest)}`;
 }
 
 function ff_generateHexId() {
@@ -593,14 +659,10 @@ function ff_generateHexId() {
 }
 
 async function ff_connectAndSpeak(text) {
-  const unixTime = BigInt(Math.floor(Date.now() / 1000));
-  const ticks = (unixTime + 11644473600n) * 10000000n;
-  const roundedTicks = ticks - (ticks % 3000000000n);
-  const gecInput = `${roundedTicks}6A5AA1D4EAFF4E9FB37E23D68491D6F4`;
-  const gec = await ff_sha256(gecInput);
+  const gec = await ff_generateSecMsGec();
   const connId = ff_generateHexId();
   
-  const wsUrl = `wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=${connId}&Sec-MS-GEC=${gec}&Sec-MS-GEC-Version=1-133.0.3065.51`;
+  const wsUrl = `wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1?TrustedClientToken=${FF_TRUSTED_CLIENT_TOKEN}&ConnectionId=${connId}&Sec-MS-GEC=${gec}&Sec-MS-GEC-Version=${FF_GEC_VERSION}`;
   
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(wsUrl);

@@ -50,6 +50,7 @@ body {
 .container {
   width: 100%;
   max-width: 580px;
+  box-sizing: border-box;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -102,6 +103,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   padding: 12px 0;
   border-bottom: 1px solid var(--border-color);
 }
@@ -114,6 +117,8 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1 1 180px;
+  min-width: 0;
 }
 
 .key-label {
@@ -228,6 +233,7 @@ h1 {
   transition: all 0.2s ease;
   cursor: pointer;
   width: 220px;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -371,6 +377,7 @@ input:checked + .slider:before {
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  box-sizing: border-box;
 }
 .theme-card:hover {
   border-color: #94a3b8;
@@ -444,13 +451,27 @@ input:checked + .slider:before {
   color: inherit;
 }
 .mockup-header.kaiti { font-family: "KaiTi", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", serif; }
-.mockup-header.fandolkailocal { font-family: "FandolKaiLocal", "FandolKai", FandolKai, "KaiTi", KaiTi, "STKaiti", "Kaiti SC", serif; }
-.mockup-header.serif { font-family: "SimSun", "Songti SC", "Songti TC", serif; }
+.mockup-header.fandolkailocal { font-family: "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", "FandolKai", FandolKai, "KaiTi", KaiTi, "STKaiti", "Kaiti SC", serif; }
+.mockup-header.serif { font-family: "VZ Hanzi Ext", "VZ Hanzi Rare", "SimSun", "Songti SC", "Songti TC", serif; }
 .mockup-header.sans { font-family: "SimHei", "Heiti SC", "Heiti TC", sans-serif; }
-.mockup-header.system { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+.mockup-header.system { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "VZ Hanzi Ext", "VZ Hanzi Rare", Arial, sans-serif; }
 @font-face {
   font-family: "FandolKaiLocal";
   src: url("fonts/FandolKai-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "VZ Hanzi Ext";
+  src: url("fonts/VZHanziExt-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "VZ Hanzi Rare";
+  src: url("fonts/VZHanziRare-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -523,6 +544,7 @@ input:checked + .slider:before {
   align-items: center;
   text-align: center;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 .support-card:hover {
   border-color: #94a3b8;
@@ -648,6 +670,45 @@ input:checked + .slider:before {
 @media (prefers-color-scheme: dark) {
   .inline-qr-img {
     border-color: rgba(245, 158, 11, 0.15);
+  }
+}
+
+/* Small windows / mobile widths */
+@media (max-width: 600px) {
+  body {
+    padding: 16px 12px;
+  }
+
+  .container {
+    padding: 20px 16px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .key-row {
+    align-items: flex-start;
+  }
+
+  .key-input-container {
+    flex-wrap: wrap;
+    flex: 1 1 100%;
+  }
+
+  .select-input {
+    width: 100%;
+  }
+
+  .theme-picker-container,
+  .support-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .theme-card,
+  .support-card {
+    width: 100%;
   }
 }
 
