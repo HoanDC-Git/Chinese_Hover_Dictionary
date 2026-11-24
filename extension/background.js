@@ -2,6 +2,22 @@ let dictionary = null;
 let t2sMap = null;
 let offscreenCreating = null;
 
+// Database seeding state. The word dictionary and the decomposition data are
+// seeded independently so a large dictionary write never blocks the
+// decomposition panel (and vice versa).
+let wordSeedDict = null;
+let wordSeedPromise = null;
+let wordDbReady = false;
+let wordDbChecked = false;
+let wordDbSeeding = false;
+let wordDbCheckPromise = null;
+let wordDbCheckResolve = null;
+let wordDbInitPromise = null;
+let decompDbReady = false;
+let decompDbInitPromise = null;
+let decompMemory = null;
+let decompDataPromise = null;
+
 async function loadT2S() {
   if (t2sMap) return t2sMap;
   try {
@@ -39,20 +55,60 @@ function updateUI(active) {
   chrome.action.setBadgeText({ text: "" });
 }
 
-// Load dictionary from extension resources in background (CSP safe)
+function fetchExtensionJson(path) {
+  return fetch(chrome.runtime.getURL(path)).then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${path}: ${response.status}`);
+    }
+    return response.json();
+  });
+}
+
+// Load the dictionary into RAM. In "db" mode this is also used as a temporary
+// in-memory fallback while the word store is being seeded for the first time.
+async function ensureWordSeed() {
+  if (wordSeedDict) return wordSeedDict;
+  if (!wordSeedPromise) {
+    wordSeedPromise = fetchExtensionJson("data/dictionary.json")
+      .then((parsed) => {
+        wordSeedDict = parsed;
+        return parsed;
+      })
+      .catch((err) => {
+        wordSeedPromise = null;
+        throw err;
+      });
+  }
+  return wordSeedPromise;
+}
+
 async function loadDictionary() {
   if (dictionary) return dictionary;
-  const url = chrome.runtime.getURL("data/dictionary.json");
   try {
-    const response = await fetch(url);
-    dictionary = await response.json();
-
+    dictionary = await ensureWordSeed();
     console.log("Dictionary loaded and cached in background service worker.");
     return dictionary;
   } catch (err) {
     console.error("Failed to load dictionary in background worker:", err);
     throw err;
   }
+}
+
+function findDictionaryMatches(dict, text, originalText) {
+  const matches = [];
+  const results = {};
+  const originalMatches = {};
+
+  for (let len = text.length; len >= 1; len--) {
+    const candidate = text.substring(0, len);
+    if (dict[candidate]) {
+      matches.push(candidate);
+      results[candidate] = dict[candidate];
+      originalMatches[candidate] = originalText.substring(0, len);
+    }
+  }
+
+  return { matches, definitions: results, originalMatches };
 }
 
 // IndexedDB Database logic for "db" memoryMode
@@ -73,12 +129,27 @@ const STORE_NAME = "words";
 const STORE_RADICALS = "radicals";
 const STORE_SPECIALS = "specials";
 const STORE_DECOMPOSITION = "decomposition";
+// Chunked word seeding is not atomic. This sentinel is written only after the
+// final chunk, so an interrupted seed is detected and restarted next time.
+const WORD_SEED_SENTINEL = "__vietzhong_word_seed_complete__";
+
+let dbPromise = null;
 
 function openDB() {
-  return new Promise((resolve, reject) => {
+  if (dbPromise) return dbPromise;
+
+  dbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
+    request.onblocked = () => reject(new Error("IndexedDB upgrade is blocked by another connection."));
+    request.onsuccess = () => {
+      const db = request.result;
+      db.onversionchange = () => {
+        db.close();
+        dbPromise = null;
+      };
+      resolve(db);
+    };
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -103,97 +174,277 @@ function openDB() {
       }
     };
   });
+
+  dbPromise.catch(() => {
+    dbPromise = null;
+  });
+  return dbPromise;
 }
 
-let dbInitPromise = null;
-async function initIndexedDB() {
-  if (!dbInitPromise) {
-    dbInitPromise = (async () => {
-      try {
-        const db = await openDB();
-        const count = await new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, "readonly");
-          const store = tx.objectStore(STORE_NAME);
-          const countReq = store.count();
-          countReq.onsuccess = () => resolve(countReq.result);
-          countReq.onerror = () => reject(countReq.error);
-        });
+function countStore(db, storeName) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readonly");
+    const countReq = tx.objectStore(storeName).count();
+    countReq.onsuccess = () => resolve(countReq.result);
+    countReq.onerror = () => reject(countReq.error);
+  });
+}
 
-        if (count === 0) {
-          console.log("IndexedDB is empty (or just upgraded). Populating words and decomposition data...");
-          
-          const fetchWords = fetch(chrome.runtime.getURL("data/dictionary.json")).then(r => r.json());
-          const fetchRadicals = fetch(chrome.runtime.getURL("data/decompostion/radicals.json")).then(r => r.json());
-          const fetchSpecials = fetch(chrome.runtime.getURL("data/decompostion/specials.json")).then(r => r.json());
-          const fetchDetails = fetch(chrome.runtime.getURL("data/decompostion/details.json")).then(r => r.json());
+function getStoreValue(db, storeName, key) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(storeName, "readonly");
+    const getReq = tx.objectStore(storeName).get(key);
+    getReq.onsuccess = () => resolve(getReq.result);
+    getReq.onerror = () => reject(getReq.error);
+  });
+}
 
-          const [parsedDict, radicals, specials, details] = await Promise.all([fetchWords, fetchRadicals, fetchSpecials, fetchDetails]);
-          
-          const tx = db.transaction([STORE_NAME, STORE_RADICALS, STORE_SPECIALS, STORE_DECOMPOSITION], "readwrite");
-          
-          const storeWords = tx.objectStore(STORE_NAME);
-          storeWords.clear();
-          for (const [word, defs] of Object.entries(parsedDict)) {
-            storeWords.put({ word, defs });
-          }
+function markWordSeedComplete(db) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put({ word: WORD_SEED_SENTINEL, defs: [] });
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error || new Error("Could not write word seed sentinel."));
+    tx.onabort = () => reject(tx.error || new Error("Word seed sentinel transaction aborted."));
+  });
+}
 
-          const storeRadicals = tx.objectStore(STORE_RADICALS);
-          storeRadicals.clear();
-          for (const rad of radicals) {
-            storeRadicals.put(rad);
-            if (rad.variants) {
-              let variants = [];
-              if (Array.isArray(rad.variants)) {
-                variants = rad.variants;
-              } else if (typeof rad.variants === 'string') {
-                variants = rad.variants.split(',').map(v => v.trim()).filter(v => v);
-              }
-              for (const v of variants) {
-                if (v !== rad.character) {
-                  storeRadicals.put({ ...rad, character: v, is_variant: true, original_character: rad.character });
-                }
-              }
-            }
-            if (rad.simplified && typeof rad.simplified === 'string') {
-              const simplified = rad.simplified.trim();
-              if (simplified && simplified !== rad.character) {
-                storeRadicals.put({ ...rad, character: simplified, is_simplified: true, original_character: rad.character });
-              }
-            }
-          }
+async function seedWordsInChunks(db, parsedDict) {
+  const entries = Object.entries(parsedDict);
+  const CHUNK_SIZE = 5000;
 
-          const storeSpecials = tx.objectStore(STORE_SPECIALS);
-          storeSpecials.clear();
-          for (const sp of specials) {
-            storeSpecials.put(sp);
-          }
+  for (let start = 0; start < entries.length; start += CHUNK_SIZE) {
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+      if (start === 0) store.clear();
 
-          const storeDetails = tx.objectStore(STORE_DECOMPOSITION);
-          storeDetails.clear();
-          for (const detail of details) {
-            storeDetails.put(detail);
-          }
-
-          await new Promise((resolve, reject) => {
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-          });
-          console.log("IndexedDB populated successfully.");
-        } else {
-          console.log(`IndexedDB ready (${count} words).`);
-        }
-      } catch (err) {
-        console.error("Failed to init IndexedDB:", err);
+      const end = Math.min(start + CHUNK_SIZE, entries.length);
+      for (let i = start; i < end; i++) {
+        const [word, defs] = entries[i];
+        store.put({ word, defs });
       }
-    })();
+
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error || new Error("Word seed transaction failed."));
+      tx.onabort = () => reject(tx.error || new Error("Word seed transaction aborted."));
+    });
   }
-  return dbInitPromise;
+}
+
+function buildDecompMemory(radicals, specials, details) {
+  const detailsMap = new Map();
+  for (const detail of details) {
+    detailsMap.set(detail.character, detail);
+  }
+
+  const radicalsMap = new Map();
+  for (const rad of radicals) {
+    radicalsMap.set(rad.character, rad);
+
+    if (rad.variants) {
+      let variants = [];
+      if (Array.isArray(rad.variants)) {
+        variants = rad.variants;
+      } else if (typeof rad.variants === "string") {
+        variants = rad.variants.split(",").map((v) => v.trim()).filter((v) => v);
+      }
+      for (const v of variants) {
+        if (v !== rad.character) {
+          radicalsMap.set(v, {
+            ...rad,
+            character: v,
+            is_variant: true,
+            original_character: rad.character,
+          });
+        }
+      }
+    }
+
+    if (rad.simplified && typeof rad.simplified === "string") {
+      const simplified = rad.simplified.trim();
+      if (simplified && simplified !== rad.character) {
+        radicalsMap.set(simplified, {
+          ...rad,
+          character: simplified,
+          is_simplified: true,
+          original_character: rad.character,
+        });
+      }
+    }
+  }
+
+  const specialsMap = new Map();
+  for (const sp of specials) {
+    specialsMap.set(sp.character, sp);
+  }
+
+  return { detailsMap, radicalsMap, specialsMap };
+}
+
+async function ensureDecompData() {
+  if (decompMemory) return decompMemory;
+  if (!decompDataPromise) {
+    decompDataPromise = Promise.all([
+      fetchExtensionJson("data/decompostion/radicals.json"),
+      fetchExtensionJson("data/decompostion/specials.json"),
+      fetchExtensionJson("data/decompostion/details.json"),
+    ])
+      .then(([radicals, specials, details]) => {
+        decompMemory = buildDecompMemory(radicals, specials, details);
+        return decompMemory;
+      })
+      .catch((err) => {
+        decompDataPromise = null;
+        throw err;
+      });
+  }
+  return decompDataPromise;
+}
+
+async function seedDecompStores(db, memory) {
+  await new Promise((resolve, reject) => {
+    const tx = db.transaction(
+      [STORE_RADICALS, STORE_SPECIALS, STORE_DECOMPOSITION],
+      "readwrite",
+    );
+
+    const storeRadicals = tx.objectStore(STORE_RADICALS);
+    storeRadicals.clear();
+    for (const rad of memory.radicalsMap.values()) {
+      storeRadicals.put(rad);
+    }
+
+    const storeSpecials = tx.objectStore(STORE_SPECIALS);
+    storeSpecials.clear();
+    for (const sp of memory.specialsMap.values()) {
+      storeSpecials.put(sp);
+    }
+
+    const storeDetails = tx.objectStore(STORE_DECOMPOSITION);
+    storeDetails.clear();
+    for (const detail of memory.detailsMap.values()) {
+      storeDetails.put(detail);
+    }
+
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error || new Error("Decomposition seed transaction failed."));
+    tx.onabort = () => reject(tx.error || new Error("Decomposition seed transaction aborted."));
+  });
+}
+
+function markWordDbChecked() {
+  wordDbChecked = true;
+  if (wordDbCheckResolve) {
+    wordDbCheckResolve();
+    wordDbCheckResolve = null;
+  }
+}
+
+const WORD_DB_CHECK_TIMEOUT_MS = 1000;
+
+function waitForWordDbCheck() {
+  if (wordDbChecked || wordDbReady || wordDbSeeding) return Promise.resolve();
+  if (!wordDbCheckPromise) {
+    wordDbCheckPromise = new Promise((resolve) => {
+      wordDbCheckResolve = resolve;
+    });
+  }
+  // Never let a slow/blocked IndexedDB open stall the hover popup.
+  return Promise.race([
+    wordDbCheckPromise,
+    new Promise((resolve) => setTimeout(resolve, WORD_DB_CHECK_TIMEOUT_MS)),
+  ]);
+}
+
+function initWordDB() {
+  if (wordDbReady) return Promise.resolve();
+  if (wordDbInitPromise) return wordDbInitPromise;
+
+  wordDbInitPromise = (async () => {
+    try {
+      const db = await openDB();
+      const sentinel = await getStoreValue(db, STORE_NAME, WORD_SEED_SENTINEL);
+      markWordDbChecked();
+
+      if (sentinel) {
+        wordDbReady = true;
+        wordSeedDict = null;
+        wordSeedPromise = null;
+        console.log("Word database ready (seed sentinel found).");
+        return;
+      }
+
+      console.log("Word database is empty, incomplete, or just upgraded. Seeding...");
+      wordDbSeeding = true;
+
+      // Make sure decomposition loading has started too, but do not wait for
+      // its IndexedDB seed. Hover lookups use the in-memory word seed while
+      // both stores are being populated.
+      if (!decompDbInitPromise && !decompDbReady) {
+        initDecompDB().catch(() => {});
+      }
+
+      const parsedDict = await ensureWordSeed();
+      await seedWordsInChunks(db, parsedDict);
+      await markWordSeedComplete(db);
+
+      wordDbReady = true;
+      // Free the in-memory copy; lookups now use IndexedDB.
+      wordSeedDict = null;
+      wordSeedPromise = null;
+      console.log("Word database seeded successfully.");
+    } finally {
+      wordDbSeeding = false;
+      markWordDbChecked();
+    }
+  })().catch((err) => {
+    console.error("Failed to init word database:", err);
+    wordDbInitPromise = null;
+    throw err;
+  });
+
+  return wordDbInitPromise;
+}
+
+function initDecompDB() {
+  if (decompDbReady) return Promise.resolve();
+  if (decompDbInitPromise) return decompDbInitPromise;
+
+  decompDbInitPromise = (async () => {
+    const db = await openDB();
+    const [detailCount, radicalCount, specialCount] = await Promise.all([
+      countStore(db, STORE_DECOMPOSITION),
+      countStore(db, STORE_RADICALS),
+      countStore(db, STORE_SPECIALS),
+    ]);
+
+    if (detailCount > 0 && radicalCount > 0 && specialCount > 0) {
+      decompDbReady = true;
+      console.log(
+        `Decomposition database ready (${detailCount} details, ${radicalCount} radicals, ${specialCount} specials).`,
+      );
+      return;
+    }
+
+    console.log("Decomposition database is empty (or just upgraded). Seeding...");
+    const memory = await ensureDecompData();
+    await seedDecompStores(db, memory);
+    decompDbReady = true;
+    console.log("Decomposition database seeded successfully.");
+  })().catch((err) => {
+    console.error("Failed to init decomposition database:", err);
+    decompDbInitPromise = null;
+    throw err;
+  });
+
+  return decompDbInitPromise;
 }
 
 function getFromDB(word) {
   return new Promise(async (resolve, reject) => {
     try {
-      await initIndexedDB();
+      await initWordDB();
       const db = await openDB();
       const tx = db.transaction(STORE_NAME, "readonly");
       const store = tx.objectStore(STORE_NAME);
@@ -251,7 +502,11 @@ chrome.storage.local.get("memoryMode", (data) => {
   if (mode === "ram") {
     loadDictionary().catch(() => {});
   } else {
-    initIndexedDB().catch(() => {});
+    // Seed the decomposition stores first so the side panel is usable as
+    // soon as possible. Word lookups fall back to the in-memory seed until
+    // their (much larger) write finishes.
+    initDecompDB().catch(() => {});
+    initWordDB().catch(() => {});
   }
 });
 registerDNRRule().catch(() => {});
@@ -322,7 +577,8 @@ chrome.storage.onChanged.addListener((changes) => {
     const mode = changes.memoryMode.newValue;
     if (mode === "db") {
       dictionary = null; // Clear RAM
-      initIndexedDB();
+      initDecompDB().catch(() => {});
+      initWordDB().catch(() => {});
     } else if (mode === "ram") {
       loadDictionary();
     }
@@ -482,39 +738,49 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       const t2s = await loadT2S();
       const text = convertToSimplified(originalText, t2s);
       
-      const matches = [];
-      const results = {};
-      const originalMatches = {};
-      
       try {
         if (mode === "ram") {
           const dict = await loadDictionary();
-          for (let len = text.length; len >= 1; len--) {
-            const candidate = text.substring(0, len);
-            if (dict[candidate]) {
-              matches.push(candidate);
-              results[candidate] = dict[candidate];
-              originalMatches[candidate] = originalText.substring(0, len);
-            }
+          sendResponse(findDictionaryMatches(dict, text, originalText));
+          return;
+        }
+
+        // DB Mode. On first install/update the word store can take a few
+        // seconds to seed. Keep hover usable by answering from the in-memory
+        // seed dictionary until the write transaction has finished. On a
+        // normal cold start the DB check is fast, so we wait for it before
+        // deciding whether the 13 MB in-memory fallback is really needed.
+        if (!wordDbReady) {
+          if (!wordDbInitPromise && !wordDbSeeding) {
+            initWordDB().catch(() => {});
           }
-        } else {
-          // DB Mode
-          const candidateLookups = [];
-          for (let len = text.length; len >= 1; len--) {
-            candidateLookups.push({
-              simp: text.substring(0, len),
-              trad: originalText.substring(0, len)
-            });
+          await waitForWordDbCheck();
+
+          if (!wordDbReady) {
+            const seedDict = wordSeedDict || (await ensureWordSeed());
+            sendResponse(findDictionaryMatches(seedDict, text, originalText));
+            return;
           }
-          const dbResults = await Promise.all(candidateLookups.map(c => getFromDB(c.simp)));
-          candidateLookups.forEach((c, idx) => {
-            if (dbResults[idx]) {
-              matches.push(c.simp);
-              results[c.simp] = dbResults[idx];
-              originalMatches[c.simp] = c.trad;
-            }
+        }
+
+        const candidateLookups = [];
+        for (let len = text.length; len >= 1; len--) {
+          candidateLookups.push({
+            simp: text.substring(0, len),
+            trad: originalText.substring(0, len)
           });
         }
+        const matches = [];
+        const results = {};
+        const originalMatches = {};
+        const dbResults = await Promise.all(candidateLookups.map(c => getFromDB(c.simp)));
+        candidateLookups.forEach((c, idx) => {
+          if (dbResults[idx]) {
+            matches.push(c.simp);
+            results[c.simp] = dbResults[idx];
+            originalMatches[c.simp] = c.trad;
+          }
+        });
         sendResponse({ matches, definitions: results, originalMatches });
       } catch (err) {
         console.error("Lookup failed:", err);
@@ -531,7 +797,27 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const t2s = await loadT2S();
         if (t2s[char]) char = t2s[char];
 
-        await initIndexedDB();
+        if (!decompDbInitPromise && !decompDbReady) {
+          initDecompDB().catch(() => {});
+        }
+
+        // The decomposition dataset is small (about 2 MB). Serving it from
+        // memory makes the panel available immediately after the JSON loads,
+        // even while its IndexedDB stores are still being seeded.
+        try {
+          const memory = await ensureDecompData();
+          sendResponse({
+            ok: true,
+            details: memory.detailsMap.get(char) || null,
+            radical: memory.radicalsMap.get(char) || null,
+            special: memory.specialsMap.get(char) || null,
+          });
+          return;
+        } catch (memoryErr) {
+          console.warn("Decomposition memory fallback failed, trying IndexedDB:", memoryErr);
+        }
+
+        await initDecompDB();
         const db = await openDB();
         const tx = db.transaction([STORE_DECOMPOSITION, STORE_RADICALS, STORE_SPECIALS], "readonly");
         const getReq = (storeName, key) => new Promise((res) => {
@@ -545,10 +831,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           getReq(STORE_RADICALS, char),
           getReq(STORE_SPECIALS, char)
         ]);
-        sendResponse({ details, radical, special });
+        sendResponse({ ok: true, details, radical, special });
       } catch (err) {
         console.error("Failed to get decomposition:", err);
-        sendResponse(null);
+        sendResponse({ ok: false, error: err && err.message ? err.message : String(err) });
       }
     })();
     return true;

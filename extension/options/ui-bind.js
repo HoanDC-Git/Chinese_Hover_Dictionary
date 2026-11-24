@@ -283,14 +283,25 @@ function bindEvents() {
   if (fontSelect) fontSelect.addEventListener("change", updateMockups);
   if (sizeSelect) sizeSelect.addEventListener("change", updateMockups);
 
-  document.querySelectorAll(".theme-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      document
-        .querySelectorAll(".theme-card")
-        .forEach((c) => c.classList.remove("selected"));
-      card.classList.add("selected");
-      const selectedTheme = card.getAttribute("data-theme");
-      chrome.storage.local.set({ theme: selectedTheme }, showToast);
+  const themeCards = document.querySelectorAll(".theme-card");
+  const selectThemeCard = (card) => {
+    themeCards.forEach((c) => {
+      c.classList.remove("selected");
+      c.setAttribute("aria-pressed", "false");
+    });
+    card.classList.add("selected");
+    card.setAttribute("aria-pressed", "true");
+    const selectedTheme = card.getAttribute("data-theme");
+    chrome.storage.local.set({ theme: selectedTheme }, showToast);
+  };
+
+  themeCards.forEach((card) => {
+    card.addEventListener("click", () => selectThemeCard(card));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        selectThemeCard(card);
+      }
     });
   });
 

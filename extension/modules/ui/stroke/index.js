@@ -8,13 +8,49 @@ window.VZ.ui.stroke = (function() {
   let hanziWriterInstance = null;
   let strokeHideTimer = null;
   let strokeHoverTimer = null;
+  let strokeStateTimer = null;
+  let strokeShowSeq = 0;
+
+  function setStrokeState(state, char = "") {
+    if (!strokePopupElement) return;
+    const stateEl = strokePopupElement.querySelector("#zh-stroke-state");
+    if (!stateEl) return;
+
+    if (state === "ready" || state === "idle") {
+      stateEl.hidden = true;
+      stateEl.innerHTML = "";
+      return;
+    }
+
+    stateEl.hidden = false;
+    if (state === "loading") {
+      stateEl.innerHTML = `
+        <div class="zh-decomp-spinner"></div>
+        <div class="zh-stroke-state-text">Đang tải nét bút…</div>
+      `;
+      return;
+    }
+
+    stateEl.innerHTML = `
+      <div class="zh-no-stroke">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8h.01M11.5 11.5H12V16h.5"></path>
+        </svg>
+        <span>Không có dữ liệu nét bút${char ? ` cho ${char}` : ""}</span>
+      </div>
+    `;
+  }
 
 // Create and show stroke order popup
 function show(char, anchorEl) {
   if (!strokePopupElement) {
     strokePopupElement = document.createElement("div");
     strokePopupElement.className = `zh-stroke-popup zh-theme-${getCfg().theme}`;
-    strokePopupElement.innerHTML = `<div class="zh-stroke-target" id="zh-stroke-target"></div>`;
+    strokePopupElement.innerHTML = `
+      <div class="zh-stroke-target" id="zh-stroke-target"></div>
+      <div class="zh-stroke-state" id="zh-stroke-state" hidden></div>
+    `;
     document.body.appendChild(strokePopupElement);
 
     strokePopupElement.addEventListener("mouseenter", () => {
@@ -32,12 +68,31 @@ function show(char, anchorEl) {
 
   strokePopupElement.className = `zh-stroke-popup zh-theme-${getCfg().theme}`;
 
+  if (strokeStateTimer) {
+    clearTimeout(strokeStateTimer);
+    strokeStateTimer = null;
+  }
+
+  const strokeTarget = strokePopupElement.querySelector("#zh-stroke-target");
+  const seq = ++strokeShowSeq;
+  const failStroke = () => {
+    if (seq !== strokeShowSeq) return;
+    if (strokeStateTimer) {
+      clearTimeout(strokeStateTimer);
+      strokeStateTimer = null;
+    }
+    setStrokeState("error", char);
+  };
+
+  setStrokeState("loading", char);
+
   if (typeof HanziWriter === "undefined") {
     console.error("HanziWriter library is not loaded.");
+    failStroke();
     return;
   }
 
-  document.getElementById("zh-stroke-target").innerHTML = "";
+  strokeTarget.innerHTML = "";
 
   const rect = anchorEl.getBoundingClientRect();
   let top = rect.bottom + window.scrollY + 8;
@@ -69,23 +124,43 @@ function show(char, anchorEl) {
   const strokeColor = getCfg().theme === "dark" ? "#38bdf8" : "#000000";
   const outlineColor = "#DDDDDD";
 
-  hanziWriterInstance = HanziWriter.create("zh-stroke-target", char, {
-    width: 120,
-    height: 120,
-    padding: 5,
-    strokeColor: strokeColor,
-    radicalColor: strokeColor,
-    outlineColor: outlineColor,
-    strokeAnimationSpeed: parseFloat(getCfg().strokeSpeed) || 1,
-    delayBetweenStrokes: 150,
-    delayBetweenLoops: 500,
-    showOutline: true,
-  });
+  try {
+    strokeStateTimer = setTimeout(failStroke, 8000);
+    hanziWriterInstance = HanziWriter.create(strokeTarget, char, {
+      width: 120,
+      height: 120,
+      padding: 5,
+      strokeColor: strokeColor,
+      radicalColor: strokeColor,
+      outlineColor: outlineColor,
+      strokeAnimationSpeed: parseFloat(getCfg().strokeSpeed) || 1,
+      delayBetweenStrokes: 150,
+      delayBetweenLoops: 500,
+      showOutline: true,
+      onLoadCharDataSuccess: () => {
+        if (seq !== strokeShowSeq) return;
+        if (strokeStateTimer) {
+          clearTimeout(strokeStateTimer);
+          strokeStateTimer = null;
+        }
+        setStrokeState("ready");
+      },
+      onLoadCharDataError: failStroke,
+    });
 
-  hanziWriterInstance.loopCharacterAnimation();
+    hanziWriterInstance.loopCharacterAnimation();
+  } catch (err) {
+    console.log("Could not load HanziWriter for character:", char);
+    failStroke();
+  }
 }
 
 function hide() {
+  strokeShowSeq++;
+  if (strokeStateTimer) {
+    clearTimeout(strokeStateTimer);
+    strokeStateTimer = null;
+  }
   if (strokePopupElement) {
     strokePopupElement.classList.remove("zh-visible");
   }

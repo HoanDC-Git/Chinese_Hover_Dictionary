@@ -62,10 +62,12 @@ async function loadSettings() {
   const themeValue = data.theme || DEFAULT_SETTINGS.theme;
   const activeThemeCard = document.getElementById(`theme-${themeValue}`);
   if (activeThemeCard) {
-    document
-      .querySelectorAll(".theme-card")
-      .forEach((c) => c.classList.remove("selected"));
+    document.querySelectorAll(".theme-card").forEach((c) => {
+      c.classList.remove("selected");
+      c.setAttribute("aria-pressed", "false");
+    });
     activeThemeCard.classList.add("selected");
+    activeThemeCard.setAttribute("aria-pressed", "true");
   }
 
   // Call update once to sync preview with loaded font/size

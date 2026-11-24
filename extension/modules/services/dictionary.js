@@ -9,10 +9,62 @@ window.VZ.services.dictionary = (function () {
     '⿾': 1, '⿿': 1
   };
 
-  async function fetchNodeData(char) {
-    return new Promise(resolve => {
-      chrome.runtime.sendMessage({ action: "getDecomposition", character: char }, resolve);
+  const REQUEST_TIMEOUT_MS = 3000;
+  const MAX_ATTEMPTS = 2;
+
+  function requestNodeData(char) {
+    return new Promise((resolve) => {
+      let settled = false;
+      let timer = null;
+
+      const finish = (value) => {
+        if (settled) return;
+        settled = true;
+        if (timer) clearTimeout(timer);
+        resolve(value);
+      };
+
+      timer = setTimeout(() => {
+        console.warn(`Decomposition request timed out for "${char}".`);
+        finish({ __error: true });
+      }, REQUEST_TIMEOUT_MS);
+
+      try {
+        chrome.runtime.sendMessage(
+          { action: "getDecomposition", character: char },
+          (response) => {
+            // Read lastError even after a timeout so Chrome does not log an
+            // unchecked runtime error when the worker is restarting.
+            const runtimeError = chrome.runtime.lastError;
+            if (runtimeError) {
+              console.warn(
+                `Decomposition request failed for "${char}":`,
+                runtimeError.message,
+              );
+              finish({ __error: true });
+              return;
+            }
+            finish(response || { __error: true });
+          },
+        );
+      } catch (err) {
+        console.warn(`Could not send decomposition request for "${char}":`, err);
+        finish({ __error: true });
+      }
     });
+  }
+
+  async function fetchNodeData(char) {
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      const data = await requestNodeData(char);
+      if (data && data.ok !== false && !data.__error) {
+        return data;
+      }
+      if (attempt < MAX_ATTEMPTS - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+      }
+    }
+    return { __error: true };
   }
 
   const MAX_DEPTH = 10;
@@ -23,8 +75,11 @@ window.VZ.services.dictionary = (function () {
     }
 
     const data = await fetchNodeData(char);
-    if (!data || (!data.details && !data.radical && !data.special)) {
-      return { char, isLeaf: true };
+    if (!data || data.__error) {
+      return { char, isLeaf: true, missing: true, loadFailed: true };
+    }
+    if (!data.details && !data.radical && !data.special) {
+      return { char, isLeaf: true, missing: true };
     }
     
     const isSpecial = !!data.special;

@@ -168,7 +168,10 @@ function onMouseMoveThrottled() {
   const isTextSelected = selection && selection.toString().trim().length > 0;
   const isDragging = lastEvent && lastEvent.buttons > 0;
   const isSentenceModalOpen = document.querySelector(".zh-report-overlay.zh-visible") !== null;
-  const isDecompPanelOpen = document.querySelector(".zh-decomposition-panel") !== null;
+  // Only an open/visible panel blocks hover. A panel that is fading out (or
+  // was just closed) should not suppress the hover popup for its 300ms exit.
+  const isDecompPanelOpen =
+    document.querySelector(".zh-decomposition-panel.show") !== null;
   
   // Hover, popup của hover và highlight sẽ không hoạt động khi đang bôi đen (kéo chuột), có text được chọn, cửa sổ modal đang mở, hoặc panel chiết tự đang mở
   if (isDragging || isTextSelected || isSentenceModalOpen || isDecompPanelOpen) {

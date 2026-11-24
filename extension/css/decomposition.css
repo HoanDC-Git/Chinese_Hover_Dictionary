@@ -49,30 +49,44 @@
 }
 
 .zh-decomp-header {
-  padding: 8px 16px;
+  position: relative;
+  z-index: 101;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: 8px clamp(10px, 2.4vw, 16px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 20px 0 0 0;
 }
 .zh-decomp-header-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(6px, 1.2vw, 12px);
   flex-shrink: 0;
   margin-left: auto;
 }
 .zh-decomp-breadcrumb {
   display: flex;
+  flex: 0 1 auto;
   align-items: center;
-  gap: 4px;
-  margin-left: 4px;
+  gap: 2px;
   min-width: 0;
-  flex-wrap: wrap;
+  max-width: 45%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.zh-decomp-breadcrumb::-webkit-scrollbar {
+  display: none;
 }
 .zh-theme-dark .zh-decomp-header {
   border-bottom: 1px solid rgba(51, 65, 85, 0.8);
@@ -80,25 +94,35 @@
 }
 
 .zh-title {
-  font-size: 20px;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: clamp(16px, 1.6vw, 20px);
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  min-width: 0;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.zh-title-label {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .zh-breadcrumb-item {
+  flex: 0 0 auto;
   cursor: pointer;
-  padding: 2px 6px;
+  padding: 2px 5px;
   border-radius: 4px;
+  line-height: 1.15;
   transition: background 0.2s ease;
 }
 .zh-breadcrumb-item:hover {
   background: rgba(59, 130, 246, 0.1);
 }
 .zh-breadcrumb-item.active {
+  padding: 0 4px;
   font-size: 32px;
   font-family: var(--zh-hanzi-font, "FandolKaiLocal", "VZ Hanzi Ext", "VZ Hanzi Rare", KaiTi, "STKaiti", "Kaiti SC", "AR PL UKai CN", "SimSun-ExtB", "MingLiU-ExtB", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
   font-weight: normal;
@@ -111,6 +135,7 @@
   color: #f8fafc;
 }
 .zh-breadcrumb-separator {
+  flex: 0 0 auto;
   color: #94a3b8;
   font-size: 14px;
   display: flex;
@@ -118,16 +143,22 @@
 }
 
 .zh-header-meaning {
-  font-size: 18px;
+  flex: 1 1 auto;
+  min-width: 2.25em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(13px, 1.4vw, 18px);
   font-weight: 400;
   color: #64748b;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 .zh-theme-dark .zh-header-meaning {
   color: #94a3b8;
 }
 
 .zh-decomp-close, .zh-decomp-report-btn {
+  flex: 0 0 auto;
   background: none;
   border: none;
   color: #64748b;
@@ -203,6 +234,106 @@
   justify-content: center;
   padding: 40px;
   color: #94a3b8;
+}
+
+.zh-decomp-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+  margin: auto;
+  text-align: center;
+}
+
+.zh-decomp-spinner {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 4px;
+  border: 3px solid rgba(148, 163, 184, 0.25);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: zh-decomp-spin 0.8s linear infinite;
+}
+
+.zh-theme-dark .zh-decomp-spinner {
+  border-color: rgba(255, 255, 255, 0.16);
+  border-top-color: #38bdf8;
+}
+
+@keyframes zh-decomp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.zh-decomp-loading-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.zh-theme-dark .zh-decomp-loading-text {
+  color: #94a3b8;
+}
+
+.zh-decomp-state-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #334155;
+}
+
+.zh-theme-dark .zh-decomp-state-title {
+  color: #e2e8f0;
+}
+
+.zh-decomp-state-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.zh-theme-dark .zh-decomp-state-desc {
+  color: #94a3b8;
+}
+
+.zh-decomp-retry {
+  margin-top: 6px;
+  padding: 8px 20px;
+  background: #2563eb;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.zh-decomp-retry:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.zh-decomp-retry:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.zh-theme-dark .zh-decomp-retry {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  color: #0f172a;
+}
+
+.zh-theme-dark .zh-decomp-retry:hover {
+  background: #7dd3fc;
+  border-color: #7dd3fc;
 }
 
 /* SVG Tree Layout */
@@ -522,10 +653,10 @@
 /* Stroke Container */
 .zh-decomp-stroke-container {
   position: absolute;
-  top: 60px;
-  right: 20px;
-  width: 130px;
-  height: 130px;
+  top: calc(var(--zh-decomp-header-h, 56px) + 12px);
+  right: clamp(12px, 2vw, 20px);
+  width: clamp(112px, 12vw, 130px);
+  height: clamp(112px, 12vw, 130px);
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(226, 232, 240, 0.8);
@@ -539,6 +670,7 @@
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   pointer-events: none;
+  overflow: hidden;
 }
 .zh-decomp-stroke-container.visible {
   opacity: 1;
@@ -551,11 +683,66 @@
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5) !important;
 }
 
+#zh-decomp-stroke-target {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#zh-decomp-stroke-target svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.zh-decomp-stroke-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  color: #94a3b8;
+  background: inherit;
+  backdrop-filter: inherit;
+}
+.zh-decomp-stroke-state[hidden] {
+  display: none;
+}
+.zh-decomp-stroke-state .zh-decomp-spinner {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border-width: 2.5px;
+}
+.zh-decomp-stroke-state-text {
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
 .zh-no-stroke {
-  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  line-height: 1.45;
   color: #94a3b8;
   text-align: center;
-  padding: 10px;
+  padding: 8px;
+}
+.zh-no-stroke svg {
+  width: 24px;
+  height: 24px;
+  opacity: 0.65;
+}
+.zh-theme-dark .zh-no-stroke {
+  color: #64748b;
 }
 
 /* --------------------------------------------------------------------------
@@ -583,12 +770,17 @@
   }
 
   .zh-decomp-header {
-    padding: 8px 12px;
+    padding: 8px clamp(10px, 3vw, 14px);
+    min-height: 54px;
   }
 
   .zh-title {
     font-size: 18px;
-    gap: 4px;
+    gap: 3px;
+  }
+
+  .zh-decomp-breadcrumb {
+    max-width: 42%;
   }
 
   .zh-breadcrumb-item.active {
@@ -611,20 +803,72 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .zh-toggle-text {
     display: none;
   }
+}
 
+@media (max-width: 400px) {
   .zh-title {
     font-size: 16px;
   }
-
+  .zh-decomp-breadcrumb {
+    max-width: 38%;
+  }
   .zh-header-meaning {
     font-size: 14px;
   }
-
   .zh-breadcrumb-item.active {
     font-size: 26px;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Panel-width compaction.
+   The panel is a sidebar, so at 1024px/800px viewports it can be only
+   360-460px wide even though the window itself is wide. Media queries on
+   the viewport would therefore keep desktop-sized controls in a narrow
+   header, pushing the active character and breadcrumb out of view.
+   -------------------------------------------------------------------------- */
+.zh-decomposition-panel.zh-decomp-compact .zh-decomp-header {
+  padding: 8px clamp(10px, 2.4vw, 14px);
+  min-height: 54px;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-title {
+  font-size: 18px;
+  gap: 3px;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-decomp-breadcrumb {
+  max-width: 42%;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-header-meaning {
+  font-size: 15px;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-breadcrumb-item.active {
+  font-size: 28px;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-decomp-header-actions {
+  gap: 8px;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-toggle-text {
+  display: none;
+}
+.zh-decomposition-panel.zh-decomp-compact .zh-decomp-stroke-container {
+  top: auto;
+  bottom: 12px;
+  right: 12px;
+}
+
+.zh-decomposition-panel.zh-decomp-ultra .zh-title {
+  font-size: 16px;
+}
+.zh-decomposition-panel.zh-decomp-ultra .zh-decomp-breadcrumb {
+  max-width: 38%;
+}
+.zh-decomposition-panel.zh-decomp-ultra .zh-header-meaning {
+  font-size: 14px;
+}
+.zh-decomposition-panel.zh-decomp-ultra .zh-breadcrumb-item.active {
+  font-size: 26px;
 }

@@ -33,9 +33,42 @@
   align-items: center;
 }
 
+.zh-stroke-state {
+  position: absolute;
+  inset: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  text-align: center;
+  color: #94a3b8;
+  background: inherit;
+}
+.zh-stroke-state[hidden] {
+  display: none;
+}
+.zh-stroke-state .zh-decomp-spinner {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border-width: 2.5px;
+}
+.zh-stroke-state-text {
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
 .zh-stroke-popup.zh-theme-dark {
   background: #1b1b1d;
   border-color: #333333;
   color: #f1f5f9;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5) !important;
+}
+.zh-theme-dark .zh-stroke-state {
+  color: #64748b;
 }

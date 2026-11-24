@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS = {
   keySpeak3: "3",
   keySpeak4: "4",
   keyToggleActive: "q",
-  fontFamily: "kaiti",
+  fontFamily: "system",
   fontSize: "medium",
   theme: "light",
   toggleActiveModifier: "alt",

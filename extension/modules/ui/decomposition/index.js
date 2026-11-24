@@ -10,6 +10,21 @@ window.VZ.ui.decompPopup = (function () {
   let svgResizeObserver = null;
   let lastLayoutWidth = 0;
   let resizeTimer = null;
+  let renderSeq = 0;
+  let strokeStateTimer = null;
+  const COMPACT_PANEL_WIDTH = 520;
+  const ULTRA_PANEL_WIDTH = 400;
+
+  function updatePanelWidthClasses() {
+    if (!panelEl) return;
+    const width = panelEl.getBoundingClientRect().width;
+    if (!width) return;
+    panelEl.classList.toggle(
+      "zh-decomp-compact",
+      width < COMPACT_PANEL_WIDTH,
+    );
+    panelEl.classList.toggle("zh-decomp-ultra", width < ULTRA_PANEL_WIDTH);
+  }
 
   function createPanel() {
     if (panelEl) return panelEl;
@@ -38,8 +53,18 @@ window.VZ.ui.decompPopup = (function () {
   }
 
   function hidePanel() {
-    if (!panelEl) return;
-    panelEl.classList.remove("show");
+    // Invalidate any in-flight render so it cannot write into a closed panel.
+    renderSeq++;
+    if (strokeStateTimer) {
+      clearTimeout(strokeStateTimer);
+      strokeStateTimer = null;
+    }
+
+    const closingEl = panelEl;
+    panelEl = null;
+    if (!closingEl) return;
+
+    closingEl.classList.remove("show");
     if (svgResizeObserver) {
       svgResizeObserver.disconnect();
     }
@@ -49,12 +74,11 @@ window.VZ.ui.decompPopup = (function () {
     ) {
       window.decompHanziWriter.cancelAnimation();
     }
-    // Wait for transition to finish
+    // Wait for the slide-out transition, but stop blocking hover immediately.
     setTimeout(() => {
-      if (panelEl && panelEl.parentNode) {
-        panelEl.parentNode.removeChild(panelEl);
+      if (closingEl.parentNode) {
+        closingEl.parentNode.removeChild(closingEl);
       }
-      panelEl = null;
     }, 300);
   }
 
@@ -256,6 +280,184 @@ window.VZ.ui.decompPopup = (function () {
 
   let historyStack = [];
 
+  function getBreadcrumbHtml() {
+    // The active character is rendered separately so it can never be clipped
+    // by the scrollable history trail. Only ancestors go in this container.
+    return historyStack
+      .map((c, index) => {
+        if (index === historyStack.length - 1) return "";
+        const brokenClass = isBrokenChar(c) ? " zh-broken-char" : "";
+        return `<span class="zh-breadcrumb-item${brokenClass}" data-index="${index}">${escapeHtml(c)}</span><span class="zh-breadcrumb-separator">›</span>`;
+      })
+      .join("");
+  }
+
+  function updateStrokeContainerTop() {
+    if (!panelEl) return;
+    const headerEl = panelEl.querySelector(".zh-decomp-header");
+    if (!headerEl) return;
+    panelEl.style.setProperty(
+      "--zh-decomp-header-h",
+      `${Math.ceil(headerEl.getBoundingClientRect().height)}px`,
+    );
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(
+      /[&<>"']/g,
+      (ch) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[ch],
+    );
+  }
+
+  function setStrokeState(state, char = "") {
+    if (!panelEl) return;
+    const stateEl = panelEl.querySelector("#zh-decomp-stroke-state");
+    if (!stateEl) return;
+
+    if (state === "ready" || state === "idle") {
+      stateEl.hidden = true;
+      stateEl.innerHTML = "";
+      return;
+    }
+
+    stateEl.hidden = false;
+    if (state === "loading") {
+      stateEl.innerHTML = `
+        <div class="zh-decomp-spinner"></div>
+        <div class="zh-decomp-stroke-state-text">Đang tải nét bút…</div>
+      `;
+      return;
+    }
+
+    stateEl.innerHTML = `
+      <div class="zh-no-stroke">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 8h.01M11.5 11.5H12V16h.5"></path>
+        </svg>
+        <span>Không có dữ liệu nét bút${char ? ` cho ${escapeHtml(char)}` : ""}</span>
+      </div>
+    `;
+  }
+
+  function renderPanelFrame({
+    meaning = "",
+    bodyHtml = "",
+    bodyClass = "",
+    busy = false,
+    showStroke = true,
+  } = {}) {
+    if (!panelEl) return null;
+
+    const currentChar = historyStack[historyStack.length - 1];
+    const breadcrumbHtml = getBreadcrumbHtml();
+    const activeBrokenClass = isBrokenChar(currentChar)
+      ? " zh-broken-char"
+      : "";
+    const activeCharHtml = `<span class="zh-breadcrumb-item active${activeBrokenClass}">${escapeHtml(currentChar)}</span>`;
+    const meaningTextHtml = meaning
+      ? `<span class="zh-header-meaning" title="${escapeHtml(meaning)}"> - ${escapeHtml(meaning)}</span>`
+      : "";
+
+    panelEl.innerHTML = `
+      <div class="zh-decomp-header">
+        <div class="zh-title">
+          <span class="zh-title-label">Chiết tự:</span>
+          ${breadcrumbHtml ? `<div class="zh-decomp-breadcrumb">${breadcrumbHtml}</div>` : ""}
+          ${activeCharHtml}${meaningTextHtml}
+        </div>
+        <div class="zh-decomp-header-actions">
+          ${
+            showStroke
+              ? `<div class="zh-decomp-stroke-switch-wrapper" id="zhDecompStrokeToggle" title="Bật/tắt nét bút">
+            <span class="zh-toggle-text">Nét bút</span>
+            <div class="zh-switch ${getCfg().showDecompStroke ? "active" : ""}">
+              <div class="zh-switch-thumb"></div>
+            </div>
+          </div>
+          <button class="zh-decomp-report-btn" title="Báo lỗi từ này">
+            <img class="zh-icon" src="${chrome.runtime.getURL("icons/report.svg")}" width="18" height="18" alt="Báo lỗi">
+          </button>`
+              : ""
+          }
+          <button class="zh-decomp-close">✕</button>
+        </div>
+      </div>
+      ${
+        showStroke
+          ? `<div class="zh-decomp-stroke-container ${getCfg().showDecompStroke ? "visible" : ""}" id="zhDecompStrokeContainer">
+        <div id="zh-decomp-stroke-target"></div>
+        <div class="zh-decomp-stroke-state" id="zh-decomp-stroke-state" hidden></div>
+      </div>`
+          : ""
+      }
+      <div class="zh-decomp-body zh-custom-scrollbar ${bodyClass}"${busy ? ' aria-busy="true"' : ""} aria-live="polite">
+        ${bodyHtml}
+      </div>
+    `;
+
+    const closeBtn = panelEl.querySelector(".zh-decomp-close");
+    if (closeBtn) closeBtn.addEventListener("click", hidePanel);
+
+    const reportBtn = panelEl.querySelector(".zh-decomp-report-btn");
+    if (reportBtn) {
+      reportBtn.addEventListener("click", () => {
+        if (window.VZ?.ui?.report) {
+          hidePanel();
+          window.VZ.ui.report.show(currentChar);
+        }
+      });
+    }
+
+    const strokeToggle = panelEl.querySelector("#zhDecompStrokeToggle");
+    if (strokeToggle) {
+      strokeToggle.addEventListener("click", () => {
+        const current = getCfg().showDecompStroke;
+        chrome.storage.local.set({ showDecompStroke: !current });
+      });
+    }
+    panelEl
+      .querySelectorAll(".zh-breadcrumb-item[data-index]")
+      .forEach((item) => {
+        item.addEventListener("click", (e) => {
+          const idx = parseInt(e.target.dataset.index);
+          historyStack = historyStack.slice(0, idx + 1);
+          renderPanelContent();
+        });
+      });
+
+    // The stroke preview is absolutely positioned. Measure the header after
+    // layout so the preview always starts below it, even if fonts load late.
+    updateStrokeContainerTop();
+    requestAnimationFrame(() => {
+      if (!panelEl) return;
+      const breadcrumb = panelEl.querySelector(".zh-decomp-breadcrumb");
+      if (breadcrumb) {
+        breadcrumb.scrollLeft = breadcrumb.scrollWidth;
+      }
+      updateStrokeContainerTop();
+    });
+
+    return panelEl.querySelector(".zh-decomp-body");
+  }
+
+  function renderStateMessage(title, description) {
+    return `
+      <div class="zh-decomp-state">
+        <div class="zh-decomp-state-title">${title}</div>
+        <p class="zh-decomp-state-desc">${description}</p>
+        <button type="button" class="zh-decomp-retry">Thử lại</button>
+      </div>
+    `;
+  }
+
   async function showPanel(char, referenceElement) {
     createPanel();
 
@@ -274,9 +476,13 @@ window.VZ.ui.decompPopup = (function () {
     panelEl.className = `zh-decomposition-panel ${themeClass || ""} ${fontClass || ""} ${decompSizeClass}`;
 
     panelEl.style.display = "flex";
+    updatePanelWidthClasses();
 
+    const openingEl = panelEl;
     setTimeout(() => {
-      panelEl.classList.add("show");
+      if (openingEl === panelEl) {
+        openingEl.classList.add("show");
+      }
     }, 10);
 
     historyStack = [char];
@@ -284,74 +490,59 @@ window.VZ.ui.decompPopup = (function () {
   }
 
   async function renderPanelContent() {
+    if (!panelEl) return;
+
+    if (strokeStateTimer) {
+      clearTimeout(strokeStateTimer);
+      strokeStateTimer = null;
+    }
+
+    const seq = ++renderSeq;
     const currentChar = historyStack[historyStack.length - 1];
 
-    let breadcrumbHtml = historyStack
-      .map((c, index) => {
-        const brokenClass = isBrokenChar(c) ? " zh-broken-char" : "";
-        if (index === historyStack.length - 1) {
-          return `<span class="zh-breadcrumb-item active${brokenClass}">${c}</span>`;
-        }
-        return `<span class="zh-breadcrumb-item${brokenClass}" data-index="${index}">${c}</span><span class="zh-breadcrumb-separator">›</span>`;
-      })
-      .join("");
-
-    const treeData = await window.VZ.services.dictionary.buildTree(currentChar);
-
-    let meaningTextHtml = treeData.meaning
-      ? `<span class="zh-header-meaning"> - ${treeData.meaning}</span>`
-      : "";
-
-    panelEl.innerHTML = `
-      <div class="zh-decomp-header">
-        <div class="zh-title">Chiết tự: <div class="zh-decomp-breadcrumb">${breadcrumbHtml}</div>${meaningTextHtml}</div>
-        <div class="zh-decomp-header-actions">
-          <div class="zh-decomp-stroke-switch-wrapper" id="zhDecompStrokeToggle" title="Bật/tắt nét bút">
-            <span class="zh-toggle-text">Nét bút</span>
-            <div class="zh-switch ${getCfg().showDecompStroke ? "active" : ""}">
-              <div class="zh-switch-thumb"></div>
-            </div>
-          </div>
-          <button class="zh-decomp-report-btn" title="Báo lỗi từ này">
-            <img class="zh-icon" src="${chrome.runtime.getURL("icons/report.svg")}" width="18" height="18" alt="Báo lỗi">
-          </button>
-          <button class="zh-decomp-close">✕</button>
+    // Open with a visible frame and loading state immediately. Previously the
+    // panel stayed empty until the background had seeded the whole database.
+    renderPanelFrame({
+      bodyClass: "zh-loading-state",
+      busy: true,
+      showStroke: false,
+      bodyHtml: `
+        <div class="zh-decomp-state">
+          <div class="zh-decomp-spinner"></div>
+          <div class="zh-decomp-loading-text">Đang tải dữ liệu chiết tự…</div>
         </div>
-      </div>
-      <div class="zh-decomp-stroke-container ${getCfg().showDecompStroke ? "visible" : ""}" id="zhDecompStrokeContainer">
-        <div id="zh-decomp-stroke-target"></div>
-      </div>
-      <div class="zh-decomp-body zh-custom-scrollbar zh-loading-state">
-        <div class="zh-spinner">Đang phân tích...</div>
-      </div>
-    `;
+      `,
+    });
 
-    panelEl
-      .querySelector(".zh-decomp-close")
-      .addEventListener("click", hidePanel);
-    panelEl
-      .querySelector(".zh-decomp-report-btn")
-      .addEventListener("click", () => {
-        if (window.VZ?.ui?.report) {
-          hidePanel();
-          window.VZ.ui.report.show(currentChar);
-        }
+    let treeData;
+    try {
+      treeData = await window.VZ.services.dictionary.buildTree(currentChar);
+    } catch (err) {
+      console.error("Failed to build decomposition tree:", err);
+      treeData = { missing: true, loadFailed: true };
+    }
+
+    // The panel was closed or another character was selected while loading.
+    if (seq !== renderSeq || !panelEl) return;
+
+    if (treeData.loadFailed || treeData.missing) {
+      const bodyEl = renderPanelFrame({
+        bodyClass: "zh-loading-state",
+        showStroke: false,
+        bodyHtml: renderStateMessage(
+          treeData.loadFailed
+            ? "Không tải được dữ liệu chiết tự"
+            : "Chưa có dữ liệu chiết tự",
+          treeData.loadFailed
+            ? "Dữ liệu có thể đang được khởi tạo. Bạn thử lại sau vài giây nhé."
+            : `Chưa có dữ liệu chiết tự cho “${currentChar}”.`,
+        ),
       });
-    panelEl
-      .querySelector("#zhDecompStrokeToggle")
-      .addEventListener("click", () => {
-        const current = getCfg().showDecompStroke;
-        chrome.storage.local.set({ showDecompStroke: !current });
-      });
-    panelEl
-      .querySelectorAll(".zh-breadcrumb-item[data-index]")
-      .forEach((item) => {
-        item.addEventListener("click", (e) => {
-          const idx = parseInt(e.target.dataset.index);
-          historyStack = historyStack.slice(0, idx + 1);
-          renderPanelContent();
-        });
-      });
+      bodyEl
+        ?.querySelector(".zh-decomp-retry")
+        ?.addEventListener("click", () => renderPanelContent());
+      return;
+    }
 
     let etymologyHtml = "";
     if (treeData.etymology) {
@@ -397,9 +588,11 @@ window.VZ.ui.decompPopup = (function () {
       </div>
     `;
 
-    const bodyEl = panelEl.querySelector(".zh-decomp-body");
-    bodyEl.classList.remove("zh-loading-state");
-    bodyEl.innerHTML = treeHtml + etymologyHtml;
+    const bodyEl = renderPanelFrame({
+      meaning: treeData.meaning,
+      bodyHtml: treeHtml + etymologyHtml,
+    });
+    if (!bodyEl) return;
 
     const treeContentEl = bodyEl.querySelector(".tree-content");
     // Wide trees are horizontally scrollable. Start with the root visible
@@ -455,20 +648,34 @@ window.VZ.ui.decompPopup = (function () {
       });
 
     if (typeof HanziWriter !== "undefined") {
-      try {
-        if (
-          window.decompHanziWriter &&
-          typeof window.decompHanziWriter.cancelAnimation === "function"
-        ) {
-          window.decompHanziWriter.cancelAnimation();
-        }
-        document.getElementById("zh-decomp-stroke-target").innerHTML = "";
-        const strokeColor = getCfg().theme === "dark" ? "#38bdf8" : "#000000";
-        const outlineColor = "#DDDDDD";
-        window.decompHanziWriter = HanziWriter.create(
-          "zh-decomp-stroke-target",
-          currentChar,
-          {
+      const strokeTarget = panelEl.querySelector("#zh-decomp-stroke-target");
+      if (strokeTarget) {
+        setStrokeState("loading", currentChar);
+        const failStroke = () => {
+          if (seq !== renderSeq || !panelEl) return;
+          if (strokeStateTimer) {
+            clearTimeout(strokeStateTimer);
+            strokeStateTimer = null;
+          }
+          setStrokeState("error", currentChar);
+        };
+
+        try {
+          if (
+            window.decompHanziWriter &&
+            typeof window.decompHanziWriter.cancelAnimation === "function"
+          ) {
+            window.decompHanziWriter.cancelAnimation();
+          }
+          strokeTarget.innerHTML = "";
+          const strokeColor = getCfg().theme === "dark" ? "#38bdf8" : "#000000";
+          const outlineColor = "#DDDDDD";
+          // HanziWriter has no request timeout. If the CDN is unreachable the
+          // preview would stay blank, so replace it with a clear message.
+          strokeStateTimer = setTimeout(failStroke, 8000);
+          // Pass the element, not its id: a closing panel can still be in the
+          // DOM for 300 ms and duplicate ids would target the wrong preview.
+          window.decompHanziWriter = HanziWriter.create(strokeTarget, currentChar, {
             width: 120,
             height: 120,
             padding: 5,
@@ -479,19 +686,34 @@ window.VZ.ui.decompPopup = (function () {
             delayBetweenStrokes: 150,
             delayBetweenLoops: 500,
             showOutline: true,
-          },
-        );
-        window.decompHanziWriter.loopCharacterAnimation();
-      } catch (e) {
-        console.log("Could not load HanziWriter for character:", currentChar);
-        document.getElementById("zh-decomp-stroke-target").innerHTML =
-          "<div class='zh-no-stroke'>Không có dữ liệu nét bút</div>";
+            onLoadCharDataSuccess: () => {
+              if (seq !== renderSeq) return;
+              if (strokeStateTimer) {
+                clearTimeout(strokeStateTimer);
+                strokeStateTimer = null;
+              }
+              setStrokeState("ready");
+            },
+            onLoadCharDataError: failStroke,
+          });
+
+          window.decompHanziWriter.loopCharacterAnimation();
+        } catch (e) {
+          console.log("Could not load HanziWriter for character:", currentChar);
+          failStroke();
+        }
       }
+    } else {
+      setStrokeState("error", currentChar);
     }
 
     requestAnimationFrame(() => {
+      updateStrokeContainerTop();
       drawTreeLines();
-      setTimeout(drawTreeLines, 100);
+      setTimeout(() => {
+        updateStrokeContainerTop();
+        drawTreeLines();
+      }, 100);
     });
   }
 
@@ -523,9 +745,11 @@ window.VZ.ui.decompPopup = (function () {
       resizeTimer = null;
       if (!panelEl || panelEl.style.display === "none") return;
       const width = panelEl.getBoundingClientRect().width;
+      updatePanelWidthClasses();
       if (Math.abs(width - lastLayoutWidth) > 24) {
         renderPanelContent();
       } else {
+        updateStrokeContainerTop();
         drawTreeLines();
       }
     }, 150);
